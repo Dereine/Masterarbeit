@@ -15,9 +15,9 @@ void printIntervalOfVariable(
 				tframe,
 				isat3_node_get_variable_name(is3, variable),
 				isat3_is_lower_bound_strict(is3, variable, tframe) ? "(" : "[",
-						isat3_get_lower_bound(is3, variable, tframe),
-						isat3_get_upper_bound(is3, variable, tframe),
-						isat3_is_upper_bound_strict(is3, variable, tframe) ? ")" : "]");
+				isat3_get_lower_bound(is3, variable, tframe),
+				isat3_get_upper_bound(is3, variable, tframe),
+				isat3_is_upper_bound_strict(is3, variable, tframe) ? ")" : "]");
 	}
 }
 
@@ -72,11 +72,14 @@ void setUpVariablesAndConstants() {
 
 	t = isat3_node_create_variable_float(isatInstance, "t", 0, 1000000); // TODO: find a meaningful value here.
 
-
+	/*
 	targetUpper = isat3_node_create_constant_integer(isatInstance, TARGET + DEVIATION);
 	targetUpperDefine = isat3_node_create_define(isatInstance, "targetUpper", targetUpper);
 	targetLower = isat3_node_create_constant_integer(isatInstance, TARGET - DEVIATION);
 	targetLowerDefine = isat3_node_create_define(isatInstance, "targetLower", targetLower);
+*/
+	targetUpper = isat3_node_create_variable_integer(isatInstance, "targetUpper", TARGET + DEVIATION, TARGET + DEVIATION);
+	targetLower = isat3_node_create_variable_integer(isatInstance, "targetLower", TARGET - DEVIATION, TARGET - DEVIATION);
 
 	//constantZero = isat3_node_create_constant_integer(isatInstance, 0);
 	//constantZeroDefine = isat3_node_create_define(isatInstance, "0", constantZero);
@@ -93,10 +96,9 @@ void setUpVariablesAndConstants() {
 
 struct isat3_node* addFlow(int gearFront, int gearRear, struct isat3 *isatInstance) {
 	char*  transition[1000];
-	sprintf(transition, "!jumpUp and !jumpDown and\n"
-			"gearFront = %d and \n"
-			"gearRear = %d			-> omegaCrank' = omegaWheel * (rR%d * rF%d) and\n"
-			"						   omegaWheelDot' = (c1 * (rR%d * rF%d) - c2);\n",
+	sprintf(transition, "gearFront = %d and \n"
+						"gearRear = %d			    -> omegaCrank = omegaWheel * (rR%d * rF%d) and\n"
+						"						   	   omegaWheelDot = (c1 * (rR%d * rF%d) - c2);\n",
 			gearFront,
 			gearRear, gearRear, gearFront,
 			gearRear, gearFront);
@@ -120,28 +122,34 @@ struct isat3_node* buildFlows() {
 						ISAT3_NODE_BOP_AND, flow, addFlow(iFront, iRear, isatInstance));
 		}
 	}
+	return flow;
 }
-
 // TODO: Reminder bigJump or Not could also be solved with ITE
 // 0 for Up, 1 for down
 struct isat3_node* addTransition(int gearFrontSource, int gearRearSource, int gearFrontDest, int gearRearDest, int bigJumpPrem, int bigJumpConc, int upOrDown, struct isat3 *isatInstance) {
 	char*  transition[2000];
 	if (!bigJumpPrem && !bigJumpConc) {
 		if (upOrDown == UP) {
-			sprintf(transition, "jumpUp and gearRear = %d and !bigJump -> gearRear' = %d and bigJump' = false and\n"
-								"jumpUp and gearFront = %d and !bigJump -> gearFront' = %d and bigJump' = false;\n",
-					gearRearSource, gearRearDest,
-					gearFrontSource, gearFrontDest);
+			/*
+			sprintf(transition, "jumpUp and gearRear = %d and !bigJump -> gearRear' = %d and bigJump' = bigJump and\n"
+								"jumpUp and gearFront = %d and !bigJump -> gearFront' = %d and bigJump' = bigJump;\n",
+								gearRearSource, gearRearDest,
+								gearFrontSource, gearFrontDest);
+			*/
+			sprintf(transition, "jumpUp and gearRear = %d  <-> gearRear' = %d and\n"
+								"jumpUp and gearFront = %d <-> gearFront' = %d;\n",
+								gearRearSource, gearRearDest,
+								gearFrontSource, gearFrontDest);
 		} else if (upOrDown == DOWN) {
-			sprintf(transition, "jumpDown and gearRear  = %d and !bigJump -> gearRear' = %d and bigJump' = false and\n"
-								"jumpDown and gearFront = %d and !bigJump -> gearFront' = %d and bigJump' = false;\n",
+			sprintf(transition, "jumpDown and gearRear  = %d and !bigJump -> gearRear' = %d and bigJump' = bigJump and\n"
+								"jumpDown and gearFront = %d and !bigJump -> gearFront' = %d and bigJump' = bigJump;\n",
 					gearRearSource, gearRearDest,
 					gearFrontSource, gearFrontDest);
 		}
 	} else if (bigJumpPrem && !bigJumpConc) {
 		if (upOrDown == UP) {
-			sprintf(transition, "jumpUp and gearRear  = %d and bigJump	-> gearRear' = %d and bigJump = false and\n"
-								"jumpUp and gearFront = %d and bigJump	-> gearFront' = %d and bigJump = false;\n",
+			sprintf(transition, "jumpUp and gearRear  = %d and bigJump	-> gearRear' = %d and bigJump' = !bigJump and\n"
+								"jumpUp and gearFront = %d and bigJump	-> gearFront' = %d and bigJump' = !bigJump;\n",
 					gearRearSource, gearRearDest,
 					gearFrontSource, gearFrontDest);
 		} else if (upOrDown == DOWN) {
@@ -152,25 +160,25 @@ struct isat3_node* addTransition(int gearFrontSource, int gearRearSource, int ge
 		}
 	} else if (!bigJumpPrem && bigJumpConc) {
 		if (upOrDown == UP) {
-			sprintf(transition, "jumpUp and gearRear  = %d and !bigJump	-> gearRear' = %d and bigJump = true and\n"
-								"jumpUp and gearFront = %d and !bigJump	-> gearFront' = %d and bigJump = true;\n",
+			sprintf(transition, "jumpUp and gearRear  = %d and !bigJump	-> gearRear' = %d and bigJump' = !bigJump and\n"
+								"jumpUp and gearFront = %d and !bigJump	-> gearFront' = %d and bigJump' = !bigJump;\n",
 					gearRearSource, gearRearDest,
 					gearFrontSource, gearFrontDest);
 		} else if (upOrDown == DOWN) {
-			sprintf(transition, "jumpDown and gearRear  = %d and !bigJump -> gearRear' = %d and bigJump = true and\n"
-								"jumpDown and gearFront = %d and !bigJump -> gearFront' = %d and bigJump = true;\n",
+			sprintf(transition, "jumpDown and gearRear  = %d and !bigJump -> gearRear' = %d and bigJump' = !bigJump and\n"
+								"jumpDown and gearFront = %d and !bigJump -> gearFront' = %d and bigJump' = !bigJump;\n",
 					gearRearSource, gearRearDest,
 					gearFrontSource, gearFrontDest);
 		}
 	} else if (bigJumpPrem && bigJumpConc) {
 		if (upOrDown == UP) {
-			sprintf(transition, "jumpUp and gearRear  = %d and bigJump	-> gearRear' = %d and bigJump = true and\n"
-								"jumpUp and gearFront = %d and bigJump	-> gearFront' = %d and bigJump = true;\n",
+			sprintf(transition, "jumpUp and gearRear  = %d and bigJump	-> gearRear' = %d and bigJump' = bigJump and\n"
+								"jumpUp and gearFront = %d and bigJump	-> gearFront' = %d and bigJump' = bigJump;\n",
 					gearRearSource, gearRearDest,
 					gearFrontSource, gearFrontDest);
 		} else if (upOrDown == DOWN) {
-			sprintf(transition, "jumpDown and gearRear  = %d and bigJump -> gearRear' = %d and bigJump = true and\n"
-								"jumpDown and gearFront = %d and bigJump -> gearFront' = %d and bigJump = true;\n",
+			sprintf(transition, "jumpDown and gearRear  = %d and bigJump -> gearRear' = %d and bigJump' = bigJump and\n"
+								"jumpDown and gearFront = %d and bigJump -> gearFront' = %d and bigJump' = bigJump;\n",
 					gearRearSource, gearRearDest,
 					gearFrontSource, gearFrontDest);
 		}
@@ -181,7 +189,6 @@ struct isat3_node* addTransition(int gearFrontSource, int gearRearSource, int ge
 	struct isat3_node* node = isat3_node_create_from_string(isatInstance, transition);
 	return node;
 }
-
 struct isat3_node* buildTransition() {
 	int iFront = 0;
 	int iRear = 0;
@@ -265,52 +272,61 @@ int main(void) {
 	isat3_setup();
 	isatInstance = isat3_init(NULL);
 	setUpVariablesAndConstants();
+
 	// Init condition
 	init = isat3_node_create_from_string(isatInstance, "omegaWheel = 0;\n"
-			"omegaWheelDot = (c1 * (rR1 * rF1)) - c2;\n"
-			"omegaCrank = 0;\n"
-			"gearRear = 1;\n"
-			"gearFront = 1;\n"
-			"t = 0;\n");
-
+													   "omegaWheelDot = (c1 * (rR1 * rF1)) - c2;\n"
+													   "omegaCrank = 0;\n"
+													   "gearRear = 1;\n"
+													   "gearFront = 1;\n"
+													   "t = 0;\n"
+													   "!jumpUp;\n"
+													   "!jumpDown;\n");
 	// Basic edge labels
-	trans = isat3_node_create_from_string(isatInstance, "!jumpUp and !jumpDown	-> (omegaWheel' = omegaWheel + omegaWheelDot * tS and\n"
-			"		   					t' = t + tS);\n"
-			"jumpUp 				<-> omegaCrank > targetUpper;\n"
-			"jumpDown				<-> omegaCrank < targetLower;\n");
+	trans = isat3_node_create_from_string(isatInstance, "!jumpUp and !jumpDown	<-> (omegaWheel' = omegaWheel + omegaWheelDot * tS and\n"
+														"							 t' = t + tS) and \n"
+														"							 gearRear' = gearRear and gearFront' = gearFront;\n"
+														"jumpUp or jumpDown		 -> omegaWheel' = omegaWheel and t' = t;\n"														"							"
+														"jumpUp 				<-> omegaCrank > targetUpper and !(gearRear = 10 and gearFront = 2);\n"
+														"jumpDown				<-> omegaCrank < targetLower and !(gearRear = 1 and gearFront = 1);\n");
 
 	/**
 	 * Transitions
 	 */
 	printf("******************************************************************\n"
 		   "		Building transitions				  \n");
-	//trans = isat3_node_create_binary_operation(isatInstance,
-							//ISAT3_NODE_BOP_AND, trans, buildTransition());
+
+	//trans = isat3_node_create_binary_operation(isatInstance, ISAT3_NODE_BOP_AND, trans, buildTransition());
 	trans = isat3_node_create_binary_operation(isatInstance, ISAT3_NODE_BOP_AND, trans, addTransition(1, 1, 1, 2, NOBIGJUMP, NOBIGJUMP, UP, isatInstance));
 
 	/*
 	 * Build the flows.
 	 */
-	//buildFlows();
+	//trans = isat3_node_create_binary_operation(isatInstance, ISAT3_NODE_BOP_AND, trans, buildFlows());
+	trans = isat3_node_create_binary_operation(isatInstance, ISAT3_NODE_BOP_AND, trans, addFlow(1, 1, isatInstance));
+	//trans = isat3_node_create_binary_operation(isatInstance, ISAT3_NODE_BOP_AND, trans, addFlow(1, 2, isatInstance));
 
 	/**
 	 * The target
 	 */
 	target = isat3_node_create_from_string(isatInstance, "omegaWheel = 20;");
 
-	trans = isat3_node_create_from_string(isatInstance, "jumpUp and gearRear = 1 and !bigJump -> gearRear' = 2 and\n"// !bigJump' and\n"
-														"jumpUp and gearFront = 1 and !bigJump -> gearFront' = 1;");// and bigJump' = false;");
-
-	//i3_type_t result = isat3_solve_bmc(isatInstance, init, trans, target, TIMEFRAMES, TIMEFRAMES, 3140000);
-	i3_type_t result = isat3_solve_bmc(isatInstance, init, trans, target, TIMEFRAMES, TIMEFRAMES, 3140000);
+	i3_type_t result = isat3_solve_bmc(isatInstance, init, trans, target, 0, TIMEFRAMES, 3140000);
 	int i = 0;
 	for (i = 0; i < TIMEFRAMES; i++) {
+		if(isat3_get_lower_bound(isatInstance, omegaCrank, i) > 15)
+			printf("Stop!");
 		printIntervalOfVariable(isatInstance, t, i);
 		printTruthValueOfVariable(isatInstance, jumpUp, i);
+		printTruthValueOfVariable(isatInstance, jumpDown, i);
 		printIntervalOfVariable(isatInstance, omegaWheel, i);
 		printIntervalOfVariable(isatInstance, omegaWheelDot, i);
 		printIntervalOfVariable(isatInstance, omegaCrank, i);
-		printIntervalOfVariable(isatInstance, mode, i);
+		printIntervalOfVariable(isatInstance, targetUpper, i);
+		printIntervalOfVariable(isatInstance, targetLower, i);
+		printIntervalOfVariable(isatInstance, gearRear, i);
+		printIntervalOfVariable(isatInstance, gearFront, i);
+		//printIntervalOfVariable(isatInstance, bigJump, i);
 		printf("-------------------------------------------------------------------------\n");
 	}
 	i3_type_t tframe = isat3_get_tframe(isatInstance);

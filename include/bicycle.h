@@ -111,8 +111,8 @@ struct isat3_node *state;
 #define G (float)9.81
 #define TS (float) 1.0
 #define CINV (float)0.8
-#define TARGET 30
-#define DEVIATION 10
+#define TARGET 10
+#define DEVIATION 5
 #define TIMEFRAMES 200
 
 enum upOrDown {UP = 1, DOWN = 0};
