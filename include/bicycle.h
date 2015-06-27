@@ -109,7 +109,7 @@ struct isat3_node *state;
 #define RWHEEL (float)0.622
 #define M (float)70
 #define G (float)9.81
-#define TS (float) 1.0
+#define TS (float) 1
 #define CINV (float)0.8
 #define TARGET 10
 #define DEVIATION 5
