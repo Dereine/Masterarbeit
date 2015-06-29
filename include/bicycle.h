@@ -51,7 +51,8 @@ struct isat3_node *rR10Define;
 // Variables
 struct isat3_node *gearFront;
 struct isat3_node *gearRear;
-struct isat3_node* bigJump;
+struct isat3_node* bigJumpUp;
+struct isat3_node* bigJumpDown;
 
 
 struct isat3_node *c1;
@@ -109,17 +110,18 @@ struct isat3_node *state;
 #define RWHEEL (float)0.622
 #define M (float)70
 #define G (float)9.81
-#define TS (float) 1
+#define TS (float) 1.0
 #define CINV (float)0.8
 #define TARGET 10
 #define DEVIATION 5
 #define TIMEFRAMES 200
 
-enum upOrDown {UP = 1, DOWN = 0};
-enum bigOrNot {BIGJUMP = 1, NOBIGJUMP = 0};
+enum jump {NOCLAUSE, NOJUMP, JUMPUP, JUMPDOWN, BIGJUMPUP, BIGJUMPDOWN};
+enum upDown {UP, DOWN};
 
 void setUpVariablesAndConstants();
-struct isat3_node* addTransition(int gearFrontSource, int gearRearSource, int gearFrontDest, int gearRearDest, int bigJumpPrem, int bigJumpConc, int upOrDown, struct isat3 *isatInstance);
-
+struct isat3_node* addTransition(int gearFrontSource, int gearRearSource,
+								 int gearFrontDest, int gearRearDest,
+								 int jumpPrem, int jumpConc);
 
 #endif /* BICYCLE_H_ */
