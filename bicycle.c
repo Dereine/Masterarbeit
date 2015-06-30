@@ -476,9 +476,7 @@ int main(void) {
 	trans = isat3_node_create_binary_operation(isatInstance, ISAT3_NODE_BOP_AND, trans, buildTransition());
 	//trans = isat3_node_create_binary_operation(isatInstance, ISAT3_NODE_BOP_AND, trans, addTransition(1, 1,1, 2, JUMPUP, NOCLAUSE));
 
-	/*
-	 * Build the flows.
-	 */
+
 
 	trans = isat3_node_create_binary_operation(isatInstance, ISAT3_NODE_BOP_AND, trans, buildFlows());
 //	trans = isat3_node_create_binary_operation(isatInstance, ISAT3_NODE_BOP_AND, trans, addFlow(1, 1, 1, 2, JUMPUP));
