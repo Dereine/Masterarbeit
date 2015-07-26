@@ -1,0 +1,101 @@
+/*
+ * LinearPredicate.cpp
+ *
+ *  Created on: 20.07.2015
+ *      Author: johannes
+ */
+
+#include "LinearPredicate.h"
+
+LinearPredicate::LinearPredicate() {
+	// TODO Auto-generated constructor stub
+}
+
+//LinearPredicate::LinearPredicate(const std::vector<Inequality>& ineqs) {
+//	_ineqs = ineqs;
+//}
+
+LinearPredicate::LinearPredicate(const std::vector<LinearTerm>& linTerms,
+		LinearPredicate::Relation relation, Constant constant) {
+	_linTerms = linTerms;
+	_relation = relation;
+	_constant = constant;
+}
+
+LinearPredicate::~LinearPredicate() {
+	// TODO Auto-generated destructor stub
+}
+
+//const std::vector<Inequality>& LinearPredicate::getIneqs() const {
+//	return _ineqs;
+//}
+//
+//
+//void LinearPredicate::setIneqs(const std::vector<Inequality>& ineqs) {
+//	_ineqs = ineqs;
+//}
+
+const std::vector<LinearTerm>& LinearPredicate::getLinTerms() const {
+	return _linTerms;
+}
+
+void LinearPredicate::setLinTerms(const std::vector<LinearTerm>& linTerms) {
+	_linTerms = linTerms;
+}
+
+const std::string LinearPredicate::toString(bool prime) const {
+	std::string returnString = "";
+	LinearTerm term;
+	term = _linTerms[0];
+	returnString += term.getConstant().getValueString() + " * " +
+			term.getVariable().getName();
+	if (prime)
+		returnString += "'";
+	for (int i = 1; i < _linTerms.size(); i++) {
+		term = _linTerms[i];
+		returnString += " + " + term.getConstant().getValueString() + " * " +
+				term.getVariable().getName();
+		if (prime)
+			returnString += "'";
+	}
+	returnString += " " + relationToString(_relation) + " " + _constant.getValueString();
+	return returnString;
+}
+
+LinearPredicate::Relation LinearPredicate::getRelation() const {
+	return _relation;
+}
+
+void LinearPredicate::setRelation(Relation relation) {
+	_relation = relation;
+}
+
+const std::string LinearPredicate::relationToString(const Relation relation) const {
+	std::string returnString;
+	switch(relation) {
+	case (LESS):
+			returnString = "<";
+			break;
+	case (GREATER):
+			returnString = ">";
+			break;
+	case (LEQ):
+			returnString = "<=";
+			break;
+	case (GEQ):
+			returnString = ">=";
+			break;
+	case (EQUAL):
+			returnString = "=";
+			break;
+	}
+	return returnString;
+}
+
+const Constant& LinearPredicate::getConstant() const {
+return _constant;
+}
+
+void LinearPredicate::setConstant(const Constant& constant) {
+_constant = constant;
+}
