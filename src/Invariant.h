@@ -9,21 +9,23 @@
 #define INVARIANT_H_
 
 #include "Variable.h"
-#include "LinearPredicate.h"
+//#include "LinearPredicate.h"
+#include "LinearPredicateConjunct.h"
 
-class Invariant {
+class Invariant : public LinearPredicateConjunct{
 public:
 	Invariant();
-	Invariant(std::vector <LinearPredicate> linearPredicate);
+	Invariant(std::vector <LinearPredicate> linPreds);
 	virtual ~Invariant();
 
-	std::vector<LinearPredicate> getLinPreds();
-	void setLinPreds(std::vector<LinearPredicate> linearPredicate);
-
-	std::string toStringISat(bool prime);
-
-private:
-	std::vector <LinearPredicate> _linPreds;
+//	std::vector<LinearPredicate> getLinPreds();
+//	void setLinPreds(std::vector<LinearPredicate> linearPredicate);
+//	void addLinPred(LinearPredicate linPred);
+//
+//	std::string toStringISat(bool prime);
+//
+//private:
+//	std::vector <LinearPredicate> _linPreds;
 };
 
 #endif /* INVARIANT_H_ */

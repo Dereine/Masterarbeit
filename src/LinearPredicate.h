@@ -21,9 +21,6 @@ public:
 			LinearPredicate::Relation relation, Constant constant);
 	virtual ~LinearPredicate();
 
-//	const std::vector<Inequality>& getIneqs() const;
-//	void setIneqs(const std::vector<Inequality>& ineqs);
-
 	const std::vector<LinearTerm>& getLinTerms() const;
 	void setLinTerms(const std::vector<LinearTerm>& linTerms);
 
@@ -39,7 +36,6 @@ public:
 
 
 private:
-	//std::vector<Inequality> _ineqs;
 	std::vector<LinearTerm> _linTerms;
 	Relation 				_relation;
 	Constant 				_constant;

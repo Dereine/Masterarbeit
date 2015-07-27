@@ -9,6 +9,8 @@
 #define EDGE_H_
 
 #include "Location.h"
+#include "Guard.h"
+#include "Assignment.h"
 #include "LinearPredicate.h"
 #include <string>
 
@@ -17,8 +19,8 @@ using namespace std;
 class Edge {
 public:
 	Edge();
-	Edge(Location source, Location destination, LinearPredicate guard,
-			LinearPredicate assignment, string name);
+	Edge(Location source, Location destination, Guard guard,
+			Assignment assignment, string name);
 	virtual ~Edge();
 
 	void setSource(Location source);
@@ -27,11 +29,11 @@ public:
 	void setDestination(Location destination);
 	Location getDestination();
 
-	void setGuard(LinearPredicate guard);
-	LinearPredicate getGuard();
+	void setGuard(Guard guard);
+	Guard getGuard();
 
-	void setAssignment(LinearPredicate assignment);
-	LinearPredicate getAssignment();
+	void setAssignment(Assignment assignment);
+	Assignment getAssignment();
 
 	const string& getName() const;
 	void setName(const string& name);
@@ -40,8 +42,8 @@ private:
 	string _name;
 	Location _source;
 	Location _destination;
-	LinearPredicate _guard;
-	LinearPredicate _assignment;
+	Guard _guard;
+	Assignment _assignment;
 
 };
 

@@ -12,8 +12,8 @@ Edge::Edge() {
 }
 
 
-Edge::Edge(Location source, Location destination, LinearPredicate guard,
-		LinearPredicate assignment, string name) {
+Edge::Edge(Location source, Location destination, Guard guard,
+		Assignment assignment, string name) {
 	_source = source;
 	_destination = destination;
 	_guard = guard;
@@ -39,17 +39,17 @@ Location Edge::getDestination() {
 	return _destination;
 }
 
-void Edge::setGuard(LinearPredicate guard) {
+void Edge::setGuard(Guard guard) {
 	_guard = guard;
 }
-LinearPredicate Edge::getGuard() {
+Guard Edge::getGuard() {
 	return _guard;
 }
 
-void Edge::setAssignment(LinearPredicate assignment) {
+void Edge::setAssignment(Assignment assignment) {
 	_assignment = assignment;
 }
-LinearPredicate Edge::getAssignment() {
+Assignment Edge::getAssignment() {
 	return _assignment;
 }
 
