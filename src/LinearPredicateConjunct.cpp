@@ -39,7 +39,7 @@ std::string LinearPredicateConjunct::toStringISat(bool prime) {
 	LinearPredicate linPred;
 	linPred = _linPreds[0];
 	returnString += linPred.toString(prime);
-	for (int i = 0; i < _linPreds.size(); i++) {
+	for (int i = 1; i < _linPreds.size(); i++) {
 		linPred = _linPreds[i];
 		returnString += " and " + linPred.toString(prime);
 	}

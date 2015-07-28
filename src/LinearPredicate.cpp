@@ -47,14 +47,23 @@ const std::string LinearPredicate::toString(bool prime) const {
 	std::string returnString = "";
 	LinearTerm term;
 	term = _linTerms[0];
-	returnString += term.getConstant().getValueString() + " * " +
-			term.getVariable().getName();
+	if (term.getConstant().getValue() != 1.0f) {
+		returnString += term.getConstant().getValueString() + " * " +
+				term.getVariable().getName();
+	} else {
+		returnString += term.getVariable().getName();
+	}
 	if (prime)
 		returnString += "'";
 	for (int i = 1; i < _linTerms.size(); i++) {
 		term = _linTerms[i];
-		returnString += " + " + term.getConstant().getValueString() + " * " +
-				term.getVariable().getName();
+		if (term.getConstant().getValue() != 1.0f) {
+			returnString += " + " + term.getConstant().getValueString() + " * " +
+					term.getVariable().getName();
+		} else {
+			returnString += " + " + term.getVariable().getName();
+		}
+
 		if (prime)
 			returnString += "'";
 	}

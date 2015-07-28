@@ -8,7 +8,10 @@
 #ifndef LINEARHYBRIDAUTOMATON_H_
 #define LINEARHYBRIDAUTOMATON_H_
 
+#define TIMEFRAMES 150
+
 #include <vector>
+#include <map>
 #include "Location.h"
 #include "Edge.h"
 #include "Variable.h"
@@ -48,12 +51,15 @@ public:
 	void setUpInitial();
 	void setTarget(LinearPredicate target);
 	const LinearPredicate& getInitialPredicate() const;
+	void solveBMCIsat();
+	string printBMCResultIsat(unsigned int numberOfTimeframes);
 
 private:
-	std::vector<Location> _locations;
-	std::vector<Edge> _edges;
-	std::vector<Variable> _variables;
-	std::vector<Constant> _constants;
+	std::vector<Location>	_locations;
+	std::vector<Edge>		_edges;
+	std::vector<Variable>	_variables;
+	std::vector<Constant>	_constants;
+
 
 	/*
 	 * iSat3 Stuff
@@ -64,6 +70,10 @@ private:
 	std::vector<struct isat3_node*> _isatConstants;
 	std::vector<struct isat3_node*> _isatConstantsDefines;
 	std::vector<struct isat3_node*> _isatVariables;
+	std::map<string, struct isat3_node*> _variableNodeMap;
+	std::map<string, struct isat3_node*> _locatioNodeMap;
+	std::map<string, struct isat3_node*> _edgeNodeMap;
+	i3_type_t _result;
 
 	struct isat3_node* _init;
 	struct isat3_node* _bmcFormula;
@@ -71,12 +81,16 @@ private:
 
 	struct isat3_node* exactlyOneState();
 	struct isat3_node* exactlyOneTransition();
+	struct isat3_node* asMostOneTransition();
 	struct isat3_node* continuousStateComponents();
 	struct isat3_node* invariantHoldsEntry();
 	struct isat3_node* invariantHoldsExit() ;
 	struct isat3_node* transitionStateChange();
 	struct isat3_node* transitionGuard();
 	struct isat3_node* transitionAssignment();
+	struct isat3_node* stayInLocation();
+	string printIntervalOfVariableISat(
+			string variableName, unsigned int tframe);
 };
 
 #endif /* LINEARHYBRIDAUTOMATON_H_ */
