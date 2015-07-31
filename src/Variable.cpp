@@ -11,13 +11,14 @@ Variable::Variable() {
 }
 
 Variable::Variable(Variable::type variableType, std::string name,
-		double lowerBound, double upperBound, double initialValue) {
+		double lowerBound, double upperBound, double initialValue,
+		bool flowVariable) {
 	_initialValue = initialValue;
 	_variableType = variableType;
 	_name = name;
 	_lowerBound = lowerBound;
 	_upperBound = upperBound;
-
+	_flowVariable = flowVariable;
 }
 
 Variable::~Variable() {
@@ -69,4 +70,12 @@ std::string Variable::getInitialValueAsString() const {
 
 void Variable::setInitialValue(double initialValue) {
 	_initialValue = initialValue;
+}
+
+bool Variable::isFlowVariable() const {
+	return _flowVariable;
+}
+
+void Variable::setFlowVariable(bool flowVariable) {
+	_flowVariable = flowVariable;
 }

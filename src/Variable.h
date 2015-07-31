@@ -17,7 +17,8 @@ public:
 	enum type {DUMMY, BOOL, REAL, INTEGER};
 	Variable();
 	Variable(Variable::type variableType, std::string name,
-			double lowerBound, double upperBound, double initialValue) ;
+			double lowerBound, double upperBound, double initialValue,
+			bool flowVariable) ;
 	virtual ~Variable();
 
 	type getType();
@@ -37,8 +38,8 @@ public:
 	std::string getInitialValueAsString() const;
 
 	void setInitialValue(double initialValue);
-
-
+	bool isFlowVariable() const;
+	void setFlowVariable(bool flowVariable);
 
 private:
 	type 		_variableType;
@@ -46,6 +47,7 @@ private:
 	double		_lowerBound;
 	double		_upperBound;
 	double		_initialValue;
+	bool		_flowVariable;
 };
 
 #endif /* VARIABLE_H_ */

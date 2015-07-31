@@ -79,6 +79,9 @@ private:
 	struct isat3_node* _bmcFormula;
 	struct isat3_node* _target;
 
+	/*
+	 * Fränzle encoding 1 paper
+	 */
 	struct isat3_node* exactlyOneState();
 	struct isat3_node* exactlyOneTransition();
 	struct isat3_node* asMostOneTransition();
@@ -89,8 +92,18 @@ private:
 	struct isat3_node* transitionGuard();
 	struct isat3_node* transitionAssignment();
 	struct isat3_node* stayInLocation();
+	struct isat3_node* notFlowVariablesStayConstant();
+
+	/*
+	 * Fränzle encoding presentation
+	 */
+	struct isat3_node* jumps();
+	struct isat3_node* flows();
 	string printIntervalOfVariableISat(
 			string variableName, unsigned int tframe);
+	void modifiedFraenzle();
+	void setUpLocationVariables();
+
 };
 
 #endif /* LINEARHYBRIDAUTOMATON_H_ */

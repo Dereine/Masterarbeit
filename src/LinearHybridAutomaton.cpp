@@ -248,55 +248,145 @@ struct isat3_node* LinearHybridAutomaton::continuousStateComponents() {
 	vector <Bound> bounds;
 	Bound bound;
 	size_t numberOfBounds;
+	Edge edge;
+	Constant lower, upper;
+	Variable variable;
 	for (size_t i = 0; i < _locations.size(); i++) {
 		location = _locations[i];
 		constraint += "(";
-		constraint += location.getName() + " = 1" + " -> (";
+		constraint += location.getName() + " = 1 -> (";
 		bounds = location.getBounds();
 		numberOfBounds = bounds.size();
 		for (size_t i = 0; i < numberOfBounds; i++) {
-			bound = bounds[i];
-			variableName = bound.getVariable().getName();
-			relation = bound.getLowerOrUpper() == Bound::LOW ? ">=" : "<=";
-			slope = bound.getConstant().getValueString();
-			constraint += variableName + "'"; 						// Variable prime
-			constraint += relation;
-			constraint += variableName + "+ (";
-			constraint += slope + " * " + delta + "))";
-			if (i < numberOfBounds - 1)
-				constraint += " and (";
-			else
-				constraint += ");\n";
+			bound = location.getBounds()[i];
+			variable = bound.getVariable();
+			variableName = variable.getName();
+			upper = bound.getConstantUp();
+			lower = bound.getConstantLow();
+			constraint += variableName + "' >= " + variableName + " + " +
+					lower.getValueString() + " * " + delta + " and " +
+					variableName + "' <= " + variableName + " + " +
+					upper.getValueString() + " * " + delta +
+					(i < numberOfBounds - 1 ? " and " : "));\n");
 		}
 	}
 	cout << "Continuous State Components:" << endl;
-	cout << constraint << endl;
+	cout << constraint;
 	cout << "----------------------------------------" << endl;
 	struct isat3_node* node = isat3_node_create_from_string(_isatInstance,
 			constraint.c_str());
 	return node;
 }
 
-void LinearHybridAutomaton::toIsat3BMC() {
+void LinearHybridAutomaton::modifiedFraenzle() {
 	_bmcFormula = exactlyOneState();
+//		_bmcFormula = isat3_node_create_binary_operation(_isatInstance,
+//				ISAT3_NODE_BOP_AND, _bmcFormula, exactlyOneTransition());
+	_bmcFormula = isat3_node_create_binary_operation(_isatInstance,
+	ISAT3_NODE_BOP_AND, _bmcFormula, asMostOneTransition());
+	_bmcFormula = isat3_node_create_binary_operation(_isatInstance,
+	ISAT3_NODE_BOP_AND, _bmcFormula, continuousStateComponents());
+		_bmcFormula = isat3_node_create_binary_operation(_isatInstance,
+				ISAT3_NODE_BOP_AND, _bmcFormula, invariantHoldsEntry());
+		_bmcFormula = isat3_node_create_binary_operation(_isatInstance,
+				ISAT3_NODE_BOP_AND, _bmcFormula, invariantHoldsExit());
+	_bmcFormula = isat3_node_create_binary_operation(_isatInstance,
+	ISAT3_NODE_BOP_AND, _bmcFormula, transitionStateChange());
+	_bmcFormula = isat3_node_create_binary_operation(_isatInstance,
+	ISAT3_NODE_BOP_AND, _bmcFormula, stayInLocation());
+	_bmcFormula = isat3_node_create_binary_operation(_isatInstance,
+	ISAT3_NODE_BOP_AND, _bmcFormula, transitionGuard());
+	_bmcFormula = isat3_node_create_binary_operation(_isatInstance,
+	ISAT3_NODE_BOP_AND, _bmcFormula, transitionAssignment());
 //	_bmcFormula = isat3_node_create_binary_operation(_isatInstance,
-//			ISAT3_NODE_BOP_AND, _bmcFormula, exactlyOneTransition());
-	_bmcFormula = isat3_node_create_binary_operation(_isatInstance,
-			ISAT3_NODE_BOP_AND, _bmcFormula, asMostOneTransition());
-	_bmcFormula = isat3_node_create_binary_operation(_isatInstance,
-			ISAT3_NODE_BOP_AND, _bmcFormula, continuousStateComponents());
-	_bmcFormula = isat3_node_create_binary_operation(_isatInstance,
-			ISAT3_NODE_BOP_AND, _bmcFormula, invariantHoldsEntry());
-	_bmcFormula = isat3_node_create_binary_operation(_isatInstance,
-			ISAT3_NODE_BOP_AND, _bmcFormula, invariantHoldsExit());
-	_bmcFormula = isat3_node_create_binary_operation(_isatInstance,
-			ISAT3_NODE_BOP_AND, _bmcFormula, transitionStateChange());
-	_bmcFormula = isat3_node_create_binary_operation(_isatInstance,
-				ISAT3_NODE_BOP_AND, _bmcFormula, stayInLocation());
-	_bmcFormula = isat3_node_create_binary_operation(_isatInstance,
-			ISAT3_NODE_BOP_AND, _bmcFormula, transitionGuard());
-	_bmcFormula = isat3_node_create_binary_operation(_isatInstance,
-			ISAT3_NODE_BOP_AND, _bmcFormula, transitionAssignment());
+//	ISAT3_NODE_BOP_AND, _bmcFormula, notFlowVariablesStayConstant());
+}
+
+void LinearHybridAutomaton::toIsat3BMC() {
+	modifiedFraenzle();
+//	setUpLocationVariables();
+//	_bmcFormula = jumps();
+//	_bmcFormula = isat3_node_create_binary_operation(_isatInstance,
+//			ISAT3_NODE_BOP_AND, _bmcFormula, flows());
+}
+
+void LinearHybridAutomaton::setUpLocationVariables() {
+	Location location;
+	for (size_t i = 0; i < _locations.size(); i++) {
+		location = _locations[i];
+		struct isat3_node* node = isat3_node_create_variable_integer(_isatInstance,
+				location.getName().c_str(), 0, 1);
+		// Write the node in the list.
+//		_isatVariables.push_back(node);
+//		_variableNodeMap[variable.getName()] = node;
+	}
+}
+struct isat3_node* LinearHybridAutomaton::jumps() {
+	string constraint = "";
+	Edge edge;
+	Location source;
+	Location destination;
+	Guard guard;
+	Assignment assignment;
+	for (size_t i = 0; i < _edges.size(); i++) {
+		edge = _edges[i];
+		source = edge.getSource();
+		destination = edge.getDestination();
+		guard = edge.getGuard();
+		assignment = edge.getAssignment();
+		constraint += "(" + source.getName() + " = 1 and " + destination.getName() +
+				"' = 1 -> " + guard.toStringISat(false) + " and " +
+				assignment.toStringISat(true) + ");\n";
+	}
+	cout << "Jumps : " << endl;
+	cout << constraint;
+	cout << "--------------------------------------------------------" << endl;
+	struct isat3_node* node = isat3_node_create_from_string(_isatInstance, constraint.c_str());
+	return node;
+}
+struct isat3_node* LinearHybridAutomaton::flows() {
+	string constraint = "";
+	Location location;
+	Invariant invariant;
+	Bound bound;
+	Variable variable;
+	Constant upper;
+	Constant lower;
+	LinearPredicate linPred;
+	LinearPredicateConjunct linPreds;
+	string locationName;
+	string variableName;
+	for (size_t i = 0; i < _locations.size(); i++) {
+		location = _locations[i];
+		locationName = location.getName();
+		constraint += "( "+ locationName + " = 1 and " + locationName + "' = 1"
+				+ " -> ";
+		// Upper and lower bounds.
+		for (size_t k = 0; k < location.getBounds().size(); k++) {
+			bound = location.getBounds()[k];
+			variable = bound.getVariable();
+			variableName = variable.getName();
+			upper = bound.getConstantUp();
+			lower = bound.getConstantLow();
+			constraint += variableName + "' >= " + variableName + " + " +
+					lower.getValueString() + " * " + delta + " and " +
+					variableName + "' <= " + variableName + " + " +
+					upper.getValueString() + " * " + delta + " and ";
+		}
+		invariant = location.getInvariant();
+		linPreds = invariant.getLinPreds();
+		// Invariants
+		for (size_t k = 0; k < linPreds.getLinPreds().size(); k++) {
+			linPred = linPreds.getLinPreds()[k];
+			constraint += linPred.toString(true) +
+					(k < linPreds.getLinPreds().size() - 1 ? " and " : ");\n");
+		}
+	}
+	cout << "Flows : " << endl;
+	cout << constraint;
+	cout << "--------------------------------------------------------" << endl;
+	struct isat3_node* node = isat3_node_create_from_string(_isatInstance, constraint.c_str());
+	return node;
 }
 
 struct isat3_node* LinearHybridAutomaton::invariantHoldsEntry() {
@@ -374,21 +464,24 @@ struct isat3_node* LinearHybridAutomaton::transitionGuard() {
 	isat3_node* node;
 	string constraint = "";
 	string transitionName;
+	string sourceName;
 	string guard;
 	Edge edge;
 	edge = _edges[0];
 	transitionName = edge.getName();
-	//guard = edge.getGuard().toStringISat(true);
-	guard = edge.getGuard().toStringISat(false);
-	constraint = transitionName + "' = 1 <-> (" + guard + ");\n";
+	sourceName = edge.getSource().getName();
+	guard = edge.getGuard().toStringISat(true);
+	constraint += transitionName + "' = 1 <-> (" + guard + " and " +
+			sourceName + "' = 1);\n";
 	for (size_t i = 1; i < _edges.size(); i++) {
 		edge = _edges[i];
 		transitionName = edge.getName();
-		//guard = edge.getGuard().toStringISat(true);
-		guard = edge.getGuard().toStringISat(false);
-		constraint += transitionName + "' = 1 -> (" + guard + ");\n";
+		sourceName = edge.getSource().getName();
+		guard = edge.getGuard().toStringISat(true);
+		constraint += transitionName + "' = 1 <-> (" + guard + " and " +
+				sourceName + "' = 1);\n";
 	}
-	cout << "Transition -> Guard Holds" << endl;
+	cout << "Transition Enabled <-> Guard Holds" << endl;
 	cout << constraint;
 	cout << "----------------------------------------" << endl;
 	// Create the node in the isatinstance
@@ -412,10 +505,33 @@ struct isat3_node* LinearHybridAutomaton::transitionAssignment() {
 		assignment = edge.getGuard().toStringISat(true);
 		constraint += transitionName + "= 1 -> (" + assignment + ");\n";
 	}
-	cout << "Transition -> Guard Holds" << endl;
+	cout << "Transition -> Assignment" << endl;
 	cout << constraint;
 	cout << "----------------------------------------" << endl;
 	// Create the node in the isatinstance
+	node = isat3_node_create_from_string(_isatInstance, constraint.c_str());
+	return node;
+}
+
+struct isat3_node* LinearHybridAutomaton::notFlowVariablesStayConstant() {
+	struct isat3_node* node;
+	string constraint = "";
+	string variableName;
+	Variable variable;
+	Edge edge;
+	for (size_t i = 0; i < _edges.size(); i++) {
+		edge = _edges[i];
+		variable = edge.getAssignment().getLinPreds()[i].getLinTerms()[0].
+				getVariable();
+		if (!variable.isFlowVariable()) {
+			variableName = variable.getName();
+			constraint += "(" + edge.getName() + " = 0 -> (" + variableName +
+					"' = " + variableName + "));";
+		}
+	}
+	cout << "Not - flow - variables stay constant in locations :" << endl;
+	cout << constraint;
+	cout << "----------------------------------------" << endl;
 	node = isat3_node_create_from_string(_isatInstance, constraint.c_str());
 	return node;
 }
@@ -428,10 +544,10 @@ void LinearHybridAutomaton::setUpInitial() {
 		initCondition += variable.getName() + " = " + variable.getInitialValueAsString() + ";\n";
 	}
 	Edge edge;
-	for (size_t i = 0; i < _edges.size(); i++) {
-		edge = _edges[i];
-		initCondition += edge.getName() + " = 0;\n";
-	}
+//	for (size_t i = 0; i < _edges.size(); i++) {
+//		edge = _edges[i];
+//		initCondition += edge.getName() + " = 0;\n";
+//	}
 	Location location;
 	for (size_t i = 0; i < _locations.size(); i++) {
 		location = _locations[i];

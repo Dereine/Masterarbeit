@@ -13,35 +13,49 @@ Bound::Bound() {
 }
 
 
-Bound::Bound(Constant constant, Variable variable, LowOrUp lowerOrUpper) {
-	_constant = constant;
-	_variable = variable;
-	_lowerOrUpper = lowerOrUpper;
-}
+//Bound::Bound(Constant constant, Variable variable, LowOrUp lowerOrUpper) {
+//	_constant = constant;
+//	_variable = variable;
+//	_lowerOrUpper = lowerOrUpper;
+//}
 
 Bound::~Bound() {
 	// TODO Auto-generated destructor stub
 }
 
-const Constant& Bound::getConstant() const {
-	return _constant;
+const Constant& Bound::getConstantUp() const {
+	return _constantUp;
 }
 
-void Bound::setConstant(const Constant& constant) {
-	_constant = constant;
+const Constant& Bound::getConstantLow() const {
+	return _constantLow;
 }
 
-Bound::LowOrUp Bound::getLowerOrUpper() const {
-	return _lowerOrUpper;
+void Bound::setConstantUp(const Constant& constant) {
+	_constantUp = constant;
 }
 
-void Bound::setLowerOrUpper(LowOrUp lowerOrUpper) {
-	_lowerOrUpper = lowerOrUpper;
+void Bound::setConstantLow(const Constant& constant) {
+	_constantLow = constant;
 }
+
+//Bound::LowOrUp Bound::getLowerOrUpper() const {
+//	return _lowerOrUpper;
+//}
+//
+//void Bound::setLowerOrUpper(LowOrUp lowerOrUpper) {
+//	_lowerOrUpper = lowerOrUpper;
+//}
 
 const Variable Bound::getVariable() const {
 //Variable Bound::getVariable() const {
 	return _variable;
+}
+
+Bound::Bound(Variable variable, Constant constantUp, Constant constantLow) {
+	_variable = variable;
+	_constantLow = constantLow;
+	_constantUp = constantUp;
 }
 
 void Bound::setVariable(const Variable& variable) {
