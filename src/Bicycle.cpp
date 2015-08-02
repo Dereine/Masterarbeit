@@ -151,6 +151,8 @@ int main() {
 	bicycle.addConstant(ratioOneTwo);
 	Constant ratioOneThree("ratio_one_three", (-1 * TEETHR3 / TEETHF1));
 	bicycle.addConstant(ratioOneThree);
+	Constant ratioOneFour("ratio_one_four", (-1 * TEETHR4 / TEETHF1));
+	bicycle.addConstant(ratioOneThree);
 
 	/*
 	 * ************************************************************************
@@ -172,9 +174,13 @@ int main() {
 	 * For Invariants, Guards, Assignments
 	 * ************************************************************************
 	 */
-	LinearTerm oneTimesOmegaWheel(one, omegaWheel);
+	//LinearTerm oneTimesOmegaWheel(one, omegaWheel);
+	LinearTerm oneTimesOmegaCrank(one, omegaCrank);
 	vector<LinearTerm> linTermsInv;
-	linTermsInv.push_back(oneTimesOmegaWheel);
+	//linTermsInv.push_back(oneTimesOmegaWheel);
+	linTermsInv.push_back(oneTimesOmegaCrank);
+
+
 
 	LinearTerm oneTimesBigJump(one, bigJump);
 	vector<LinearTerm> linTermsBigJump;
@@ -184,9 +190,13 @@ int main() {
 	LinearPredicate upLinPredLeq(linTermsInv, LinearPredicate::LEQ, targetPlus);
 	// omegaWheel >= target - deviation
 	LinearPredicate downLinPredGeq(linTermsInv, LinearPredicate::GEQ, targetMinus);
-	// omegaWheel >= target + deviation
+
+	// omegaWheel >= target + deviation / 2
 	LinearPredicate upLinPredGeq(linTermsInv, LinearPredicate::GEQ, targetPlusGuard);
-	// omegaWheel <= target - deviation
+	// omegaWheel >= target + deviation
+	LinearPredicate upLinPredGeq2(linTermsInv, LinearPredicate::GEQ, targetPlus);
+
+	// omegaWheel <= target - deviation / 2
 	LinearPredicate downLinPredLeq(linTermsInv, LinearPredicate::LEQ, targetMinusGuard);
 
 	vector<LinearTerm> linTermsAssign;
@@ -197,14 +207,14 @@ int main() {
 			zero);
 
 	vector<LinearTerm> linTermsTarget;
-	linTermsTarget.push_back(oneTimesOmegaWheel);
+	//linTermsTarget.push_back(oneTimesOmegaWheel);
+	linTermsTarget.push_back(oneTimesOmegaCrank);
 	LinearPredicate target(linTermsTarget, LinearPredicate::GEQ, twenty);
 
-
-	LinearTerm oneTimesOmegaCrank(one,omegaCrank);
 	LinearTerm ratio11TimesOmegaWheel(ratioOneOne, omegaWheel),
 			ratio12TimesOmegaWheel(ratioOneTwo, omegaWheel),
-			ratio13TimesOmegaWheel(ratioOneThree, omegaWheel);
+			ratio13TimesOmegaWheel(ratioOneThree, omegaWheel),
+			ratio14TimesOmegaWheel(ratioOneFour, omegaWheel);
 
 	vector<LinearTerm> linTermsRatio11;
 	linTermsRatio11.push_back(oneTimesOmegaCrank);
@@ -218,9 +228,14 @@ int main() {
 	linTermsRatio13.push_back(oneTimesOmegaCrank);
 	linTermsRatio13.push_back(ratio13TimesOmegaWheel);
 
+	vector<LinearTerm> linTermsRatio14;
+	linTermsRatio14.push_back(oneTimesOmegaCrank);
+	linTermsRatio14.push_back(ratio14TimesOmegaWheel);
+
 	LinearPredicate linPredRatio11(linTermsRatio11, LinearPredicate::EQUAL, zero);
 	LinearPredicate linPredRatio12(linTermsRatio12, LinearPredicate::EQUAL, zero);
 	LinearPredicate linPredRatio13(linTermsRatio13, LinearPredicate::EQUAL, zero);
+	LinearPredicate linPredRatio14(linTermsRatio14, LinearPredicate::EQUAL, zero);
 
 
 	/*
@@ -238,8 +253,14 @@ int main() {
 	invUpAndDown13.addLinPred(downLinPredGeq);
 	invUpAndDown13.addLinPred(linPredRatio13);
 
+	Invariant invUpAndDown14;
+	invUpAndDown14.addLinPred(upLinPredLeq);
+	invUpAndDown14.addLinPred(downLinPredGeq);
+	invUpAndDown14.addLinPred(linPredRatio14);
+
+
 	Invariant invUp11;
-	invUp11.addLinPred(upLinPredLeq);
+	//invUp11.addLinPred(upLinPredLeq);
 	invUp11.addLinPred(linPredRatio11);
 
 	Invariant invDown;
@@ -253,6 +274,10 @@ int main() {
 	Guard upNoBigJump;
 	upNoBigJump.addLinPred(bigJumpEqualsZero);
 	upNoBigJump.addLinPred(upLinPredGeq);
+
+	Guard upNoBigJump2;
+	upNoBigJump2.addLinPred(bigJumpEqualsZero);
+	upNoBigJump2.addLinPred(upLinPredGeq2);
 
 	Guard upBigJump;
 	upBigJump.addLinPred(bigJumpEqualsOne);
@@ -328,6 +353,7 @@ int main() {
 //	l12Bounds.push_back(l11Omega);
 //	l12Bounds.push_back(l11BigJump);
 	Location loc12(12, "one_two", invUpAndDown12, l11Bounds, false);
+	//Location loc12(12, "one_two", invUp11, l11Bounds, false);
 	bicycle.addLocation(loc12);
 
 
@@ -335,15 +361,17 @@ int main() {
 //	l13Bounds.push_back(l13Up);
 //	l13Bounds.push_back(l13Low);
 	Location loc13(13, "one_three", invUpAndDown13, l11Bounds, false);
+	//Location loc13(13, "one_three", invUp11, l11Bounds, false);
 	bicycle.addLocation(loc13);
 
-/*
+
 	vector <Bound> l14Bounds;
-	l14Bounds.push_back(l14Up);
-	l14Bounds.push_back(l14Low);
-	Location loc14(14, "one_four", invUpAndDown, l14Bounds, false);
+//	l14Bounds.push_back(l14Up);
+//	l14Bounds.push_back(l14Low);
+	Location loc14(14, "one_four", invUpAndDown14, l11Bounds, false);
 	bicycle.addLocation(loc14);
 
+	/*
 	vector <Bound> l15Bounds;
 	l15Bounds.push_back(l15Up);
 	l15Bounds.push_back(l15Low);
@@ -422,18 +450,18 @@ int main() {
 	Edge one_two_one_three(loc12, loc13, upNoBigJump, bigJumpZero,
 			"one_two_one_three");
 	bicycle.addEdge(one_two_one_three);
-	/*
+
 	Edge one_two_one_one(loc12, loc11, downNoBigJump, bigJumpZero,
 			"one_two_one_one");
-	bicycle.addEdge(one_two_one_one);
+	//bicycle.addEdge(one_two_one_one);
 
 	Edge one_three_one_four(loc13, loc14, upNoBigJump, bigJumpZero,
 			"one_three_one_four");
 	bicycle.addEdge(one_three_one_four);
 	Edge one_three_one_two(loc13, loc12, downNoBigJump, bigJumpZero,
 			"one_three_one_two");
-	bicycle.addEdge(one_three_one_two);
-
+	//bicycle.addEdge(one_three_one_two);
+/*
 	Edge one_four_one_five(loc14, loc15, upNoBigJump, bigJumpZero,
 			"one_four_one_five");
 	bicycle.addEdge(one_four_one_five);

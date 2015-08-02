@@ -44,7 +44,7 @@ void LinearPredicate::setLinTerms(const std::vector<LinearTerm>& linTerms) {
 }
 
 const std::string LinearPredicate::toString(bool prime) const {
-	std::string returnString = "";
+	std::string returnString = "(";
 	LinearTerm term;
 	term = _linTerms[0];
 	if (term.getConstant().getValue() != 1.0f) {
@@ -67,7 +67,7 @@ const std::string LinearPredicate::toString(bool prime) const {
 		if (prime)
 			returnString += "'";
 	}
-	returnString += " " + relationToString(_relation) + " " + _constant.getValueString();
+	returnString += " " + relationToString(_relation) + " " + _constant.getValueString() + ")";
 	return returnString;
 }
 

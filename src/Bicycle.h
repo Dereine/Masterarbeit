@@ -21,9 +21,9 @@
 #define C1			(FPEDAL * ((RPEDAL) / (pow(RWHEEL, 2) * M)))
 #define C2			(-1 * MU * G) / RWHEEL
 
-#define TARGET 		5
-#define DEVIATION 	3
-#define TIMEFRAMES 	200
+#define TARGET 		10
+#define DEVIATION 	8
+//#define TIMEFRAMES 	(unsigned int) 200
 
 #define TEETHF1 	(double) 34
 #define TEETHF2 	(double) 50

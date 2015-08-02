@@ -8,7 +8,7 @@
 #ifndef LINEARHYBRIDAUTOMATON_H_
 #define LINEARHYBRIDAUTOMATON_H_
 
-#define TIMEFRAMES 150
+#define TIMEFRAMES 250
 
 #include <vector>
 #include <map>
@@ -101,9 +101,10 @@ private:
 	struct isat3_node* flows();
 	string printIntervalOfVariableISat(
 			string variableName, unsigned int tframe);
+	string printTruthValueOfVariable(string variableName, unsigned int tframe);
 	void modifiedFraenzle();
 	void setUpLocationVariables();
-
+	void setUpEdgeVariables();
 };
 
 #endif /* LINEARHYBRIDAUTOMATON_H_ */
