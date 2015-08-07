@@ -8,7 +8,10 @@
 #ifndef LINEARHYBRIDAUTOMATON_H_
 #define LINEARHYBRIDAUTOMATON_H_
 
-#define TIMEFRAMES 250
+#define TIMEFRAMES 		220
+#define DEBUG 			1
+#define DELTASTRING 	"1"
+#define DELTANR			1.0
 
 #include <vector>
 #include <map>
@@ -86,6 +89,7 @@ private:
 	struct isat3_node* exactlyOneTransition();
 	struct isat3_node* asMostOneTransition();
 	struct isat3_node* continuousStateComponents();
+	struct isat3_node* jumpsNoTime();
 	struct isat3_node* invariantHoldsEntry();
 	struct isat3_node* invariantHoldsExit() ;
 	struct isat3_node* transitionStateChange();

@@ -37,6 +37,8 @@ void LinearPredicateConjunct::addLinPred(LinearPredicate linPred) {
 std::string LinearPredicateConjunct::toStringISat(bool prime) {
 	std::string returnString = "";
 	LinearPredicate linPred;
+	if (_linPreds.size() == 0)
+		return "true";
 	linPred = _linPreds[0];
 	returnString += linPred.toString(prime);
 	for (int i = 1; i < _linPreds.size(); i++) {
