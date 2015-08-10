@@ -37,6 +37,8 @@ public:
 
 	std::string getInitialValueAsString() const;
 
+	std::string stayConstantAsStringIsat();
+
 	void setInitialValue(double initialValue);
 	bool isFlowVariable() const;
 	void setFlowVariable(bool flowVariable);

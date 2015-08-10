@@ -19,7 +19,39 @@ Edge::Edge(Location source, Location destination, Guard guard,
 	_guard = guard;
 	_assignment = assignment;
 	_name = name;
+	_hasAssignment = true;
+	_hasGuard = true;
 }
+
+Edge::Edge(Location source, Location destination, Guard guard,
+		string name) {
+	_source = source;
+	_destination = destination;
+	_guard = guard;
+	_name = name;
+	_hasAssignment = false;
+	_hasGuard = true;
+}
+
+Edge::Edge(Location source, Location destination, Assignment assignment,
+		string name) {
+	_source = source;
+	_destination = destination;
+	_assignment = assignment;
+	_name = name;
+	_hasAssignment = true;
+	_hasGuard = false;
+}
+
+Edge::Edge(Location source, Location destination, string name) {
+	_source = source;
+	_destination = destination;
+	_name = name;
+	_hasAssignment = false;
+	_hasGuard = false;
+}
+
+
 
 Edge::~Edge() {
 	// TODO Auto-generated destructor stub
@@ -59,4 +91,20 @@ const string& Edge::getName() const {
 
 void Edge::setName(const string& name) {
 	_name = name;
+}
+
+bool Edge::isHasAssignment() const {
+	return _hasAssignment;
+}
+
+void Edge::setHasAssignment(bool hasAssignment) {
+	_hasAssignment = hasAssignment;
+}
+
+bool Edge::isHasGuard() const {
+	return _hasGuard;
+}
+
+void Edge::setHasGuard(bool hasGuard) {
+	_hasGuard = hasGuard;
 }

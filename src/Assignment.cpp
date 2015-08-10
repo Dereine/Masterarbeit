@@ -19,3 +19,24 @@ Assignment::~Assignment() {
 	// TODO Auto-generated destructor stub
 }
 
+const map<string, Variable>& Assignment::getAssignedVariables() const {
+	return _assignedVariables;
+}
+
+void Assignment::setAssignedVariables(
+		const vector<Variable>& assignedVariables) {
+	Variable variable;
+	for (size_t i = 0; i < assignedVariables.size(); i++) {
+		variable = assignedVariables[i];
+		_assignedVariables[variable.getName()] = variable;
+	}
+}
+
+void Assignment::addAssignedVariable(Variable assignedVariable) {
+	_assignedVariables[assignedVariable.getName()] = (assignedVariable);
+}
+
+bool Assignment::isAssignedVariable(string variableName) {
+	map<string, Variable>::iterator it = _assignedVariables.find(variableName);
+	return (it != _assignedVariables.end());
+}

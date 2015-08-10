@@ -122,6 +122,13 @@ int main() {
 
 	Constant cDrive11("cDrive11", C1 * (TEETHR1 / TEETHF1) - C2);
 	bicycle.addConstant(cDrive11);
+
+	Constant cDrive11Up("cDrive11", C1 * (TEETHR1 / TEETHF1) - C2);
+	bicycle.addConstant(cDrive11);
+
+	Constant cDrive11Low("cDrive11", C1 * (TEETHR1 / TEETHF1) - C2);
+	bicycle.addConstant(cDrive11);
+
 	Constant cDrive12("cDrive12", C1 * (TEETHR2 / TEETHF1) - C2);
 	bicycle.addConstant(cDrive12);
 	Constant cDrive13("cDrive13", C1 * (TEETHR3 / TEETHF1) - C2);
@@ -473,6 +480,79 @@ int main() {
 	 */
 	Assignment bigJumpOne;
 	bigJumpOne.addLinPred(bigJumpEqualsOne);
+	bigJumpOne.addAssignedVariable(bigJump);
+
+	Assignment assign1112;
+	assign1112.addLinPred(linPredRatio12);
+	assign1112.addAssignedVariable(omegaCrank);
+
+	Assignment assign1213;
+	assign1213.addLinPred(linPredRatio13);
+	assign1213.addAssignedVariable(omegaCrank);
+
+	Assignment assign1314;
+	assign1314.addLinPred(linPredRatio14);
+	assign1314.addAssignedVariable(omegaCrank);
+
+	Assignment assign1415;
+	assign1415.addLinPred(linPredRatio15);
+	assign1415.addAssignedVariable(omegaCrank);
+
+	Assignment assign1516;
+	assign1516.addLinPred(linPredRatio16);
+	assign1516.addAssignedVariable(omegaCrank);
+
+	Assignment assign1617;
+	assign1617.addLinPred(linPredRatio17);
+	assign1617.addAssignedVariable(omegaCrank);
+
+	Assignment assign1718;
+	assign1718.addLinPred(linPredRatio18);
+	assign1718.addAssignedVariable(omegaCrank);
+
+	Assignment assign1817;
+	assign1817.addLinPred(linPredRatio17);
+	assign1817.addAssignedVariable(omegaCrank);
+
+	Assignment assign1716;
+	assign1716.addLinPred(linPredRatio16);
+	assign1716.addAssignedVariable(omegaCrank);
+
+	Assignment assign1615;
+	assign1615.addLinPred(linPredRatio15);
+	assign1615.addAssignedVariable(omegaCrank);
+
+	Assignment assign1514;
+	assign1514.addLinPred(linPredRatio14);
+	assign1514.addAssignedVariable(omegaCrank);
+
+	Assignment assign1424;
+	assign1424.addLinPred(linPredRatio24);
+	assign1424.addAssignedVariable(omegaCrank);
+
+	Assignment assign2425;
+	assign2425.addLinPred(linPredRatio25);
+	assign2425.addAssignedVariable(omegaCrank);
+
+	Assignment assign2526;
+	assign2526.addLinPred(linPredRatio26);
+	assign2526.addAssignedVariable(omegaCrank);
+
+	Assignment assign2627;
+	assign2627.addLinPred(linPredRatio27);
+	assign2627.addAssignedVariable(omegaCrank);
+
+	Assignment assign2728;
+	assign2728.addLinPred(linPredRatio28);
+	assign2728.addAssignedVariable(omegaCrank);
+
+	Assignment assign2829;
+	assign2829.addLinPred(linPredRatio29);
+	assign2829.addAssignedVariable(omegaCrank);
+
+	Assignment assign29210;
+	assign29210.addLinPred(linPredRatio210);
+	assign29210.addAssignedVariable(omegaCrank);
 
 	Assignment bigJumpZero;
 	bigJumpZero.addLinPred(bigJumpEqualsZero);
@@ -736,98 +816,97 @@ int main() {
 	 * Edges
 	 * ************************************************************************
 	 */
-	Edge one_one_one_two(loc11, loc12, upNoBigJump, bigJumpZero,
-			"one_one_one_two");
+	Edge one_one_one_two(loc11, loc12, upNoBigJump, assign1112, "one_one_one_two");
 	bicycle.addEdge(one_one_one_two);
 
-	Edge one_two_one_three(loc12, loc13, upNoBigJump, bigJumpZero,
-			"one_two_one_three");
+	Edge one_two_one_three(loc12, loc13, upNoBigJump, assign1213, "one_two_one_three");
 	bicycle.addEdge(one_two_one_three);
 
-	Edge one_two_one_one(loc12, loc11, downNoBigJump, bigJumpZero,
-			"one_two_one_one");
+	Edge one_two_one_one(loc12, loc11, downNoBigJump, "one_two_one_one");
 	bicycle.addEdge(one_two_one_one);
 
-	Edge one_three_one_four(loc13, loc14, upNoBigJump, bigJumpZero,
-			"one_three_one_four");
+	Edge one_three_one_four(loc13, loc14, upNoBigJump, assign1314, "one_three_one_four");
 	bicycle.addEdge(one_three_one_four);
-	Edge one_three_one_two(loc13, loc12, downNoBigJump, bigJumpZero,
-			"one_three_one_two");
+	Edge one_three_one_two(loc13, loc12, downNoBigJump, "one_three_one_two");
 	//bicycle.addEdge(one_three_one_two);
 
-	Edge one_four_one_five(loc14, loc15, upNoBigJump, bigJumpZero,
-			"one_four_one_five");
+	Edge one_four_one_five(loc14, loc15, upNoBigJump, assign1415, "one_four_one_five");
 	bicycle.addEdge(one_four_one_five);
-	Edge one_four_one_three(loc14, loc13, downNoBigJump, bigJumpZero,
-			"one_four_one_three");
+	Edge one_four_one_three(loc14, loc13, downNoBigJump, "one_four_one_three");
 	//bicycle.addEdge(one_four_one_three);
 
-	Edge one_five_one_six(loc15, loc16, upNoBigJump, bigJumpZero,
-			"one_five_one_six");
+	Edge one_five_one_six(loc15, loc16, upNoBigJump, assign1516, "one_five_one_six");
 	bicycle.addEdge(one_five_one_six);
-	Edge one_five_one_four(loc15, loc14, downNoBigJump, bigJumpZero,
-			"one_five_one_four");
+	Edge one_five_one_four(loc15, loc14, downNoBigJump, "one_five_one_four");
 	//bicycle.addEdge(one_five_one_four);
 
-	Edge one_six_one_seven(loc16, loc17, upNoBigJump, bigJumpZero,
-			"one_six_one_seven");
+	Edge one_six_one_seven(loc16, loc17, upNoBigJump, assign1617, "one_six_one_seven");
 	bicycle.addEdge(one_six_one_seven);
-	Edge one_six_one_five(loc16, loc15, downNoBigJump, bigJumpZero,
-			"one_six_one_five");
+	Edge one_six_one_five(loc16, loc15, downNoBigJump, "one_six_one_five");
 	//bicycle.addEdge(one_six_one_five);
 
-	Edge one_seven_one_eight(loc17, loc18, upNoBigJump, bigJumpZero,
-			"one_seven_one_eight");
+	Edge one_seven_one_eight(loc17, loc18, upNoBigJump, assign1718, "one_seven_one_eight");
 	bicycle.addEdge(one_seven_one_eight);
-	Edge one_seven_one_six(loc17, loc16, downNoBigJump, bigJumpZero,
-			"one_seven_one_six");
+	Edge one_seven_one_six(loc17, loc16, downNoBigJump, "one_seven_one_six");
 	//bicycle.addEdge(one_seven_one_six);
 
-	Edge one_eight_one_seven_big(loc18, loc17BigJump, emptyGuard, emptyAssignment,
-			"one_eight_one_seven_big");
+//	Edge one_eight_one_seven_big(loc18, loc17BigJump, emptyGuard, emptyAssignment,
+//			"one_eight_one_seven_big");
+//	bicycle.addEdge(one_eight_one_seven_big);
+////	Edge one_eight_one_seven(loc18, loc17, downNoBigJump, bigJumpZero,
+////			"one_eight_one_seven");
+//	//bicycle.addEdge(one_eight_one_seven);
+//
+//	Edge one_seven_one_six_big(loc17BigJump, loc16BigJump, emptyGuard, emptyAssignment,
+//				"one_seven_one_six_big");
+//	bicycle.addEdge(one_seven_one_six_big);
+//
+//	Edge one_six_one_five_big(loc16BigJump, loc15BigJump, emptyGuard, emptyAssignment,
+//				"one_six_one_five_big");
+//	bicycle.addEdge(one_six_one_five_big);
+//
+//	Edge one_five_one_four_big(loc15BigJump, loc14BigJump, emptyGuard, emptyAssignment,
+//				"one_five_one_four_big");
+//	bicycle.addEdge(one_five_one_four_big);
+//
+//	Edge one_four_two_four_big(loc14BigJump, loc24, emptyGuard, emptyAssignment,
+//				"one_four_two_four_big");
+//	bicycle.addEdge(one_four_two_four_big);
+
+	Edge one_eight_one_seven_big(loc18, loc17BigJump, upBigJump, assign1817, "one_eight_one_seven_big");
 	bicycle.addEdge(one_eight_one_seven_big);
-//	Edge one_eight_one_seven(loc18, loc17, downNoBigJump, bigJumpZero,
-//			"one_eight_one_seven");
+	//	Edge one_eight_one_seven(loc18, loc17, downNoBigJump, bigJumpZero,
+	//			"one_eight_one_seven");
 	//bicycle.addEdge(one_eight_one_seven);
 
-	Edge one_seven_one_six_big(loc17BigJump, loc16BigJump, emptyGuard, emptyAssignment,
-				"one_seven_one_six_big");
+	Edge one_seven_one_six_big(loc17BigJump, loc16BigJump, assign1716, "one_seven_one_six_big");
 	bicycle.addEdge(one_seven_one_six_big);
 
-	Edge one_six_one_five_big(loc16BigJump, loc15BigJump, emptyGuard, emptyAssignment,
-				"one_six_one_five_big");
+	Edge one_six_one_five_big(loc16BigJump, loc15BigJump, assign1615, "one_six_one_five_big");
 	bicycle.addEdge(one_six_one_five_big);
 
-	Edge one_five_one_four_big(loc15BigJump, loc14BigJump, emptyGuard, emptyAssignment,
-				"one_five_one_four_big");
+	Edge one_five_one_four_big(loc15BigJump, loc14BigJump, assign1514, "one_five_one_four_big");
 	bicycle.addEdge(one_five_one_four_big);
 
-	Edge one_four_two_four_big(loc14BigJump, loc24, emptyGuard, emptyAssignment,
-				"one_four_two_four_big");
+	Edge one_four_two_four_big(loc14BigJump, loc24, assign1424, "one_four_two_four_big");
 	bicycle.addEdge(one_four_two_four_big);
 
-	Edge two_four_two_five(loc24, loc25, upNoBigJump, bigJumpZero,
-			"two_four_two_five");
+	Edge two_four_two_five(loc24, loc25, upNoBigJump, assign2425, "two_four_two_five");
 	bicycle.addEdge(two_four_two_five);
 
-	Edge two_five_two_six(loc25, loc26, upNoBigJump, bigJumpZero,
-			"two_five_two_six");
+	Edge two_five_two_six(loc25, loc26, upNoBigJump, assign2526, "two_five_two_six");
 	bicycle.addEdge(two_five_two_six);
 
-	Edge two_six_two_seven(loc26, loc27, upNoBigJump, bigJumpZero,
-			"two_six_two_seven");
+	Edge two_six_two_seven(loc26, loc27, upNoBigJump, assign2627, "two_six_two_seven");
 	bicycle.addEdge(two_six_two_seven);
 
-	Edge two_seven_two_eight(loc27, loc28, upNoBigJump, bigJumpZero,
-			"two_seven_two_eight");
+	Edge two_seven_two_eight(loc27, loc28, upNoBigJump, assign2728, "two_seven_two_eight");
 	bicycle.addEdge(two_seven_two_eight);
 
-	Edge two_eight_two_nine(loc28, loc29, upNoBigJump, bigJumpZero,
-			"two_eight_two_nine");
+	Edge two_eight_two_nine(loc28, loc29, upNoBigJump, assign2829, "two_eight_two_nine");
 	bicycle.addEdge(two_eight_two_nine);
 
-	Edge two_nine_two_ten(loc29, loc210, upNoBigJump, bigJumpZero,
-			"two_nine_two_ten");
+	Edge two_nine_two_ten(loc29, loc210, upNoBigJump, assign29210, "two_nine_two_ten");
 	bicycle.addEdge(two_nine_two_ten);
 
 	bicycle.setUpIsat3();
@@ -837,6 +916,7 @@ int main() {
 	bicycle.setUpInitial();
 	bicycle.setTarget(target);
 	bicycle.solveBMCIsat();
+	//bicycle.writeToFile();
 	bicycle.printBMCResultIsat(TIMEFRAMES);
 
 

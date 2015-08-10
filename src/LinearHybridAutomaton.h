@@ -22,7 +22,8 @@
 
 #include <isat3.h>
 #include <isat3types.h>
-#include <string.h>
+#include <string>
+//#include <sstream>
 #include <iostream>
 #include <cstdio>
 
@@ -56,6 +57,7 @@ public:
 	const LinearPredicate& getInitialPredicate() const;
 	void solveBMCIsat();
 	string printBMCResultIsat(unsigned int numberOfTimeframes);
+	void writeToFile();
 
 private:
 	std::vector<Location>	_locations;
@@ -68,6 +70,7 @@ private:
 	 * iSat3 Stuff
 	 */
 	bool _isatReady;
+	i3_type_t _tframe;
 
 	struct isat3* 					_isatInstance;
 	std::vector<struct isat3_node*> _isatConstants;
@@ -90,6 +93,8 @@ private:
 	struct isat3_node* asMostOneTransition();
 	struct isat3_node* continuousStateComponents();
 	struct isat3_node* jumpsNoTime();
+	struct isat3_node* jumpsNoTime2();
+	struct isat3_node* assignmentAndNoTime();
 	struct isat3_node* invariantHoldsEntry();
 	struct isat3_node* invariantHoldsExit() ;
 	struct isat3_node* transitionStateChange();

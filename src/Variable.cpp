@@ -76,6 +76,12 @@ bool Variable::isFlowVariable() const {
 	return _flowVariable;
 }
 
+std::string Variable::stayConstantAsStringIsat() {
+	std::string returnString = "";
+	returnString = _name + "' = " + _name;
+	return returnString;
+}
+
 void Variable::setFlowVariable(bool flowVariable) {
 	_flowVariable = flowVariable;
 }

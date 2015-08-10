@@ -21,6 +21,15 @@ public:
 	Edge();
 	Edge(Location source, Location destination, Guard guard,
 			Assignment assignment, string name);
+
+	Edge(Location source, Location destination, Guard guard,
+			string name);
+
+	Edge(Location source, Location destination, Assignment assignment,
+			string name);
+
+	Edge(Location source, Location destination, string name);
+
 	virtual ~Edge();
 
 	void setSource(Location source);
@@ -37,6 +46,10 @@ public:
 
 	const string& getName() const;
 	void setName(const string& name);
+	bool isHasAssignment() const;
+	void setHasAssignment(bool hasAssignment);
+	bool isHasGuard() const;
+	void setHasGuard(bool hasGuard);
 
 private:
 	string _name;
@@ -44,6 +57,8 @@ private:
 	Location _destination;
 	Guard _guard;
 	Assignment _assignment;
+	bool _hasAssignment;
+	bool _hasGuard;
 
 };
 

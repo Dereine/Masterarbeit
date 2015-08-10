@@ -327,14 +327,105 @@ struct isat3_node* LinearHybridAutomaton::jumpsNoTime() {
 				bound = location.getBounds()[i];
 				variable = bound.getVariable();
 				variableName = variable.getName();
-				upper = bound.getConstantUp();
-				lower = bound.getConstantLow();
+				// Check for assignments of variables. If on a edge the
+				// variable is assigned to a new value, do the assignment,
+				// else stay constant.
+//				for (size_t k = 0; k < edges.size(); k++) {
+//					if (edges[k].getAssignment().getLinPreds()[0].
+//							getLinTerms()[0].getVariable().getName() ==
+//									variableName)
+//						constraint += edges[k].getAssignment().
+//						toStringISat(true) +
+//						(i < numberOfBounds - 1 ? " and " : "));\n");
+//				}
 				constraint += variableName + "' = " + variableName
-						+ (i < numberOfBounds - 1 ? " and " : "));\n");
+				+ (i < numberOfBounds - 1 ? " and " : "));\n");
 			}
 		}
 	}
 	cout << "Jumps consume no time:" << endl;
+	cout << constraint;
+	cout << "----------------------------------------" << endl;
+	struct isat3_node* node = isat3_node_create_from_string(_isatInstance,
+			constraint.c_str());
+	return node;
+}
+
+struct isat3_node* LinearHybridAutomaton::jumpsNoTime2() {
+	string constraint1 = "";
+	string constraint2 = "";
+	string assignedVariable;
+	string variableName;
+	Location location;
+	string slope;
+	vector<Bound> bounds;
+	Bound bound;
+	Edge edge;
+	Constant lower, upper;
+	Variable variable;
+	for (size_t i = 0; i < _edges.size(); i++) {
+		edge = _edges[i];
+		if (!edge.isHasAssignment()) {
+			if (i == 0)
+				constraint1 = "(" + edge.getName();
+			else
+				constraint1 += " or " + edge.getName();
+		} else {
+				constraint2 += "(" + edge.getName() + " -> (" +
+						edge.getAssignment().toStringISat(true);//);//;\n";
+				assignedVariable = edge.getAssignment().getLinPreds()[0].
+						getLinTerms()[0].getVariable().getName();
+				for (size_t k = 0; k < _variables.size(); k++) {
+					if (_variables[k].getName() != assignedVariable)
+						constraint2  += " and " + _variables[k].
+						stayConstantAsStringIsat();
+				}
+				constraint2 += "));\n";
+		}
+	}
+	constraint1 += ") -> (" + _variables[0].stayConstantAsStringIsat();
+	for (size_t k = 1; k < _variables.size(); k++) {
+			constraint1  += " and " + _variables[k].
+			stayConstantAsStringIsat();
+	}
+	constraint1 += ");\n";
+	//constraint1 += constraint2;
+	cout << "Jumps consume no time:" << endl;
+	cout << constraint1;
+	cout << "----------------------------------------" << endl;
+	struct isat3_node* node = isat3_node_create_from_string(_isatInstance,
+			constraint1.c_str());
+	return node;
+}
+
+struct isat3_node* LinearHybridAutomaton::assignmentAndNoTime() {
+	Assignment assignment;
+	string constraint = "";
+	string assignedVariable;
+	string variableName;
+	Location location;
+	string slope;
+	vector<Bound> bounds;
+	Bound bound;
+	Edge edge;
+	Constant lower, upper;
+	Variable variable;
+	for (size_t i = 0; i < _edges.size(); i++) {
+		edge = _edges[i];
+		assignment = edge.getAssignment();
+		constraint += "(" + edge.getName() + " -> ";
+		for (size_t k = 0; k < _variables.size(); k++) {
+			variable = _variables[k];
+			if (k > 0)
+				constraint += " and ";
+			if (assignment.isAssignedVariable(variable.getName()))
+				constraint += assignment.toStringISat(true);
+			else
+				constraint += variable.stayConstantAsStringIsat();
+		}
+		constraint += ");\n";
+	}
+	cout << "Assignments, and jumps consume no time:" << endl;
 	cout << constraint;
 	cout << "----------------------------------------" << endl;
 	struct isat3_node* node = isat3_node_create_from_string(_isatInstance,
@@ -352,7 +443,7 @@ void LinearHybridAutomaton::modifiedFraenzle() {
 	_bmcFormula = isat3_node_create_binary_operation(_isatInstance,
 	ISAT3_NODE_BOP_AND, _bmcFormula, continuousStateComponents());
 	_bmcFormula = isat3_node_create_binary_operation(_isatInstance,
-	ISAT3_NODE_BOP_AND, _bmcFormula, jumpsNoTime());
+			ISAT3_NODE_BOP_AND, _bmcFormula, jumpsNoTime3());
 //	_bmcFormula = isat3_node_create_binary_operation(_isatInstance,
 //			ISAT3_NODE_BOP_AND, _bmcFormula, invariantHoldsEntry());
 	_bmcFormula = isat3_node_create_binary_operation(_isatInstance,
@@ -363,8 +454,8 @@ void LinearHybridAutomaton::modifiedFraenzle() {
 	ISAT3_NODE_BOP_AND, _bmcFormula, stayInLocation());
 	_bmcFormula = isat3_node_create_binary_operation(_isatInstance,
 	ISAT3_NODE_BOP_AND, _bmcFormula, transitionGuard());
-	_bmcFormula = isat3_node_create_binary_operation(_isatInstance,
-	ISAT3_NODE_BOP_AND, _bmcFormula, transitionAssignment());
+//	_bmcFormula = isat3_node_create_binary_operation(_isatInstance,
+//	ISAT3_NODE_BOP_AND, _bmcFormula, transitionAssignment());
 //	_bmcFormula = isat3_node_create_binary_operation(_isatInstance,
 //	ISAT3_NODE_BOP_AND, _bmcFormula, notFlowVariablesStayConstant());
 }
@@ -592,15 +683,20 @@ struct isat3_node* LinearHybridAutomaton::transitionAssignment() {
 	string transitionName;
 	string assignment;
 	Edge edge;
-	edge = _edges[0];
-	transitionName = edge.getName();
-	assignment = edge.getAssignment().toStringISat(true);
-	constraint = transitionName + "' -> (" + assignment + ");\n";
-	for (size_t i = 1; i < _edges.size(); i++) {
+//	edge = _edges[0];
+//	transitionName = edge.getName();
+	//assignment = edge.getAssignment().toStringISat(true);
+	//constraint = transitionName + " -> (" + assignment + ");\n";
+	for (size_t i = 0; i < _edges.size(); i++) {
 		edge = _edges[i];
-		transitionName = edge.getName();
-		assignment = edge.getAssignment().toStringISat(true);
-		constraint += transitionName + "' -> (" + assignment + ");\n";
+		if (edge.isHasAssignment()) {
+			transitionName = edge.getName();
+			assignment = edge.getAssignment().toStringISat(true);
+			constraint += transitionName + " -> (" + assignment + ");\n";
+		}
+	}
+	if (constraint.length() == 0) {
+		constraint = "true";
 	}
 	cout << "Transition -> Assignment" << endl;
 	cout << constraint;
@@ -712,7 +808,7 @@ string LinearHybridAutomaton::printTruthValueOfVariable(string variableName,
 //	printf("tframe %d: %s %s\n", tframe,
 //			isat3_node_get_variable_name(_isatInstance, variable),
 //			isat3_get_truth_value(_isatInstance, variable, tframe) ? "true" : "false");
-//	sprintf(value, "%s;",isat3_get_truth_value(_isatInstance, variable, tframe) ? "1" : "0");
+	sprintf(value, "%s;",isat3_get_truth_value(_isatInstance, variable, tframe) ? "1" : "0");
 	string returnString;
 	returnString.assign(value);
 	return returnString;
@@ -721,10 +817,10 @@ string LinearHybridAutomaton::printTruthValueOfVariable(string variableName,
 string LinearHybridAutomaton::printBMCResultIsat(
 		unsigned int numberOfTimeframes) {
 	string returnString = "";
-	i3_type_t tframe = isat3_get_tframe(_isatInstance);
-	cout << "In Timeframe " << tframe << ": "
+	_tframe = isat3_get_tframe(_isatInstance);
+	cout << "In Timeframe " << _tframe << ": "
 			<< isat3_get_result_string(_result) << endl;
-	for (unsigned int i = 0; i < tframe - 1; i++) {
+	for (unsigned int i = 0; i < _tframe - 1; i++) {
 		cout
 				<< "***************************************************************"
 				<< endl;
@@ -761,31 +857,25 @@ void LinearHybridAutomaton::writeToFile() {
 				_variables[k].getName() + "];";
 	}
 	header += "\n";
-
 	fprintf(theFile, header.c_str());
 	char dummy[100];
 	string data = "";
-	for (i = 0; i < TIMEFRAMES; i++) {
-		data << i;
+	for (unsigned int i = 0; i < _tframe; i++) {
+		sprintf(dummy, "%u;", i);
+		data = dummy;
 		if (i > 0)
 			theFile = fopen("trace.txt", "a");
-		sprintf(dummy, "%d;", i);
-		fprintf(theFile, dummy);
 		for (size_t k = 0; k < _locations.size(); k++) {
-			data += printTruthValueOfVariable(_locations[k].getName(),
-					i);
+			data += printTruthValueOfVariable(_locations[k].getName(), i);
 		}
 		for (size_t k = 0; k < _edges.size(); k++) {
 			data += printTruthValueOfVariable(_edges[k].getName(), i);
 		}
 		for (size_t k = 0; k < _variables.size(); k++) {
-			data += printIntervalOfVariableISat(_variables[k].getName(),
-					i);
+			data += printIntervalOfVariableISat(_variables[k].getName(),i);
 		}
-
-
-		//printIntervalOfVariable(isatInstance, bigJump, i);
-		fprintf(theFile, "\n");
+		data += "\n";
+		fprintf(theFile, data.c_str());
 		fclose(theFile);
 	}
 }
