@@ -7,6 +7,9 @@
 
 #include "LinearHybridAutomaton.h"
 
+//#ifndef
+//#define
+
 using namespace std;
 
 LinearHybridAutomaton::LinearHybridAutomaton() {
@@ -75,8 +78,14 @@ void LinearHybridAutomaton::setUpConstants() {
 
 }
 
-void LinearHybridAutomaton::setUpVariables() {
+string LinearHybridAutomaton::setUpVariables() {
 	Variable variable;
+	string hysString = "";
+	// TODO Modification here
+	struct isat3_node* node = isat3_node_create_variable_boole(_isatInstance, "flow");
+	hysString = "\tboole flow;\n";
+	_isatVariables.push_back(node);
+	_variableNodeMap["flow"] = node;
 	for (size_t i = 0; i < _variables.size(); i++) {
 		variable = _variables[i];
 		struct isat3_node* node = isat3_node_create_variable_float(
@@ -84,8 +93,12 @@ void LinearHybridAutomaton::setUpVariables() {
 				variable.getLowerBound(), variable.getUpperBound());
 		// Write the node in the list.
 		_isatVariables.push_back(node);
+		hysString += "\t float [" + toString(variable.getLowerBound()) + "," +
+				toString(variable.getUpperBound()) + "] " + variable.getName() +
+				";\n";
 		_variableNodeMap[variable.getName()] = node;
 	}
+	return hysString;
 }
 
 void LinearHybridAutomaton::setUpIsat3() {
@@ -144,6 +157,28 @@ struct isat3_node* LinearHybridAutomaton::exactlyOneState() {
 	cout << "----------------------------------------" << endl;
 	// Create the node in the isatinstance
 	node = isat3_node_create_from_string(_isatInstance, atLeastOne.c_str());
+	return node;
+}
+
+struct isat3_node* LinearHybridAutomaton::exactlyOneLocation(string &hysString) {
+	string constraint = "";
+	hysString += "\t";
+	//setUpLocationVariables();
+	for (size_t i = 0; i < _locations.size(); i++) {
+		if (i < _locations.size() - 1) {
+			constraint += _locations[i].getName() + "' + ";
+			hysString += _locations[i].getName() + "' + ";
+		}
+		else {
+			constraint += _locations[i].getName() + "' = 1;\n";
+			hysString += _locations[i].getName() + "' = 1;\n";
+		}
+	}
+	cout << "Exactly one Location: " << endl;
+	cout << constraint;
+	cout << "----------------------------------------" << endl;
+	// Create the node in the isatinstance
+	struct isat3_node* node = isat3_node_create_from_string(_isatInstance, constraint.c_str());
 	return node;
 }
 
@@ -283,6 +318,11 @@ struct isat3_node* LinearHybridAutomaton::continuousStateComponents() {
 					+ variableName + "' <= " + variableName + " + "
 					+ upper.getValueString() + " * " + DELTASTRING
 					+ (i < numberOfBounds - 1 ? " and " : "));\n");
+//			constraint += variableName + "' >= " + variableName + " + "
+//					+ lower.getValueString() + " * " + "t" + " and "
+//					+ variableName + "' <= " + variableName + " + "
+//					+ upper.getValueString() + " * " + "t"
+//					+ (i < numberOfBounds - 1 ? " and " : "));\n");
 		}
 	}
 	cout << "Continuous State Components:" << endl;
@@ -443,7 +483,7 @@ void LinearHybridAutomaton::modifiedFraenzle() {
 	_bmcFormula = isat3_node_create_binary_operation(_isatInstance,
 	ISAT3_NODE_BOP_AND, _bmcFormula, continuousStateComponents());
 	_bmcFormula = isat3_node_create_binary_operation(_isatInstance,
-			ISAT3_NODE_BOP_AND, _bmcFormula, jumpsNoTime3());
+			ISAT3_NODE_BOP_AND, _bmcFormula, assignmentAndNoTime());
 //	_bmcFormula = isat3_node_create_binary_operation(_isatInstance,
 //			ISAT3_NODE_BOP_AND, _bmcFormula, invariantHoldsEntry());
 	_bmcFormula = isat3_node_create_binary_operation(_isatInstance,
@@ -462,34 +502,36 @@ void LinearHybridAutomaton::modifiedFraenzle() {
 
 void LinearHybridAutomaton::toIsat3BMC() {
 	modifiedFraenzle();
-//	setUpLocationVariables();
-//	_bmcFormula = isat3_node_create_variable_boole(_isatInstance, "flow");
-//
-//	_bmcFormula = jumps();
+//	string hysdummy;
+//	setUpEdgeVariables();
+//	_bmcFormula = exactlyOneLocation(hysdummy);
+////	_bmcFormula = isat3_node_create_binary_operation(_isatInstance,
+////			ISAT3_NODE_BOP_AND, _bmcFormula, jumps());
+////	_bmcFormula = isat3_node_create_binary_operation(_isatInstance,
+////			ISAT3_NODE_BOP_AND, _bmcFormula, flows());
 //	_bmcFormula = isat3_node_create_binary_operation(_isatInstance,
-//			ISAT3_NODE_BOP_AND, _bmcFormula, flows());
-//	_bmcFormula = isat3_node_create_binary_operation(_isatInstance,
-//				ISAT3_NODE_BOP_AND, _bmcFormula,
-//				isat3_node_create_from_string(_isatInstance,
-//						""));
+//			ISAT3_NODE_BOP_AND, _bmcFormula, alternationAndSucessor(hysdummy));
 }
 
-void LinearHybridAutomaton::setUpLocationVariables() {
+string LinearHybridAutomaton::setUpLocationVariables() {
 	Location location;
+	string hysString = "";
 	for (size_t i = 0; i < _locations.size(); i++) {
 		location = _locations[i];
-		//struct isat3_node* node = isat3_node_create_variable_integer(_isatInstance,
-		//	location.getName().c_str(), 0, 1);
 		struct isat3_node* node = isat3_node_create_variable_boole(
 				_isatInstance, location.getName().c_str());
 		// Write the node in the list.
 //		_isatVariables.push_back(node);
-//		_variableNodeMap[variable.getName()] = node;
+		_variableNodeMap[location.getName()] = node;
+		// Write to hys-String
+		hysString += "\t boole " +  location.getName() + ";\n";
 	}
+	return hysString;
 }
 
-void LinearHybridAutomaton::setUpEdgeVariables() {
+string LinearHybridAutomaton::setUpEdgeVariables() {
 	Edge edge;
+	string hysString = "";
 	for (size_t i = 0; i < _edges.size(); i++) {
 		edge = _edges[i];
 		//struct isat3_node* node = isat3_node_create_variable_integer(_isatInstance,
@@ -499,24 +541,42 @@ void LinearHybridAutomaton::setUpEdgeVariables() {
 		//Write the node in the list.
 		_isatVariables.push_back(node);
 		_variableNodeMap[edge.getName()] = node;
+		hysString += "\t boole" +  edge.getName() + ";\n";
 	}
+	return hysString;
 }
-struct isat3_node* LinearHybridAutomaton::jumps() {
+struct isat3_node* LinearHybridAutomaton::jumps(string &hysString) {
 	string constraint = "";
 	Edge edge;
 	Location source;
 	Location destination;
 	Guard guard;
 	Assignment assignment;
+	Variable variable;
 	for (size_t i = 0; i < _edges.size(); i++) {
 		edge = _edges[i];
 		source = edge.getSource();
 		destination = edge.getDestination();
 		guard = edge.getGuard();
 		assignment = edge.getAssignment();
-		constraint += "(" + source.getName() + " and " + destination.getName()
+		constraint += source.getName() + " and " + destination.getName()
 				+ "' -> " + guard.toStringISat(false) + " and "
-				+ assignment.toStringISat(true) + ");\n";
+				+ assignment.toStringISat(true);
+		hysString += "\t" + source.getName() + " and " + destination.getName()
+				+ "' -> " + guard.toStringISat(false) + " and\n\t\t\t"
+				+ assignment.toStringISat(true) + + "\n\t\t\t";
+		for (size_t k = 0; k < _variables.size(); k++) {
+			variable = _variables[k];
+			if (!assignment.isAssignedVariable(variable.getName()) &&
+					variable.getName() != "t") {
+				constraint += " and " + variable.getName() + "' = " +
+						variable.getName() + "\n\t\t\t";
+				hysString += " and " + variable.getName() + "' = " +
+						variable.getName() + "\n\t\t\t";
+			}
+		}
+		constraint += " and (t = 0.00000);\n";
+		hysString += " and (t = 0.00000);\n";
 	}
 	cout << "Jumps : " << endl;
 	cout << constraint;
@@ -525,7 +585,7 @@ struct isat3_node* LinearHybridAutomaton::jumps() {
 			constraint.c_str());
 	return node;
 }
-struct isat3_node* LinearHybridAutomaton::flows() {
+struct isat3_node* LinearHybridAutomaton::flows(string &hysString) {
 	string constraint = "";
 	Location location;
 	Invariant invariant;
@@ -540,8 +600,12 @@ struct isat3_node* LinearHybridAutomaton::flows() {
 	for (size_t i = 0; i < _locations.size(); i++) {
 		location = _locations[i];
 		locationName = location.getName();
-		constraint += "( " + locationName + " and " + locationName + "'"
+		constraint += locationName + " and " + locationName + "'"
 				+ " -> ";
+		hysString += "\t" + locationName + " and " + locationName + "'"
+				+ " -> ";
+		constraint += "(t > 0.00000) and ";
+		hysString += "(t > 0.00000) and\n\t\t\t";
 		// Upper and lower bounds.
 		for (size_t k = 0; k < location.getBounds().size(); k++) {
 			bound = location.getBounds()[k];
@@ -549,21 +613,35 @@ struct isat3_node* LinearHybridAutomaton::flows() {
 			variableName = variable.getName();
 			upper = bound.getConstantUp();
 			lower = bound.getConstantLow();
+//			constraint += variableName + "' >= " + variableName + " + "
+//					+ lower.getValueString() + " * " + DELTASTRING + " and "
+//					+ variableName + "' <= " + variableName + " + "
+//					+ upper.getValueString() + " * " + DELTASTRING + " and ";
 			constraint += variableName + "' >= " + variableName + " + "
-					+ lower.getValueString() + " * " + DELTASTRING + " and "
+					+ lower.getValueString() + " * " + "t" + " and "
 					+ variableName + "' <= " + variableName + " + "
-					+ upper.getValueString() + " * " + DELTASTRING + " and ";
+					+ upper.getValueString() + " * " + "t" + " and ";
+			hysString += variableName + "' >= " + variableName + " + "
+					+ lower.getValueString() + " * " + "t" + " and\n\t\t\t"
+					+ variableName + "' <= " + variableName + " + "
+					+ upper.getValueString() + " * " + "t" + " and\n\t\t\t";
 		}
 		invariant = location.getInvariant();
 		linPreds = invariant.getLinPreds();
-		// Invariants
-		for (size_t k = 0; k < linPreds.getLinPreds().size(); k++) {
-			linPred = linPreds.getLinPreds()[k];
-			constraint +=
-					linPred.toString(true)
-							+ (k < linPreds.getLinPreds().size() - 1 ?
-									" and " : ");\n");
-		}
+		constraint += invariant.toStringISat(true) + ";\n";
+		hysString += invariant.toStringISat(true) + ";\n";
+//		// Invariants
+//		for (size_t k = 0; k < linPreds.getLinPreds().size(); k++) {
+//			linPred = linPreds.getLinPreds()[k];
+//			constraint += linPred.toString(true)// + " and ";
+//							+ (k < linPreds.getLinPreds().size() - 1 ?
+//									" and " : ");\n");
+//			hysString += linPred.toString(true)// + " and ";
+//							+ (k < linPreds.getLinPreds().size() - 1 ?
+//									" and " : ");\n");
+//		}
+//		constraint += ";\n";
+//		hysString += ";\n";
 	}
 	cout << "Flows : " << endl;
 	cout << constraint;
@@ -572,6 +650,64 @@ struct isat3_node* LinearHybridAutomaton::flows() {
 			constraint.c_str());
 	return node;
 }
+
+struct isat3_node* LinearHybridAutomaton::alternationAndSucessor(string &hysString) {
+	string constraint = "";
+	Edge edge;
+	Location source, destination;
+
+	constraint += "flow <-> !flow';\n";
+	hysString += "\t flow <-> !flow';\n";
+	for (size_t i = 0; i < _edges.size(); i++) {
+		edge = _edges[i];
+		source = edge.getSource();
+		destination = edge.getDestination();
+		constraint += "(flow and " + source.getName() + ") -> " +
+				source.getName() + "';\n";
+		hysString += "\t (flow and " + source.getName() + ") -> " +
+						source.getName() + "';\n";
+	}
+	bool locationFound = false;
+	for (size_t k = 0; k < _locations.size(); k++) {
+		source = _locations[k];
+		locationFound = false;
+		for (size_t i = 0; i < _edges.size(); i++) {
+			edge = _edges[i];
+			if (edge.getSource().getId() == source.getId()) {
+				if (!locationFound) {
+					constraint += "!flow and " + source.getName() + " -> " +
+							edge.getDestination().getName() + "'";
+					hysString += "!flow and " + source.getName() + " -> " +
+							edge.getDestination().getName() + "'";
+					locationFound = true;
+				} else {
+					constraint += " or " + edge.getDestination().getName() + "'";
+					hysString += " or " + edge.getDestination().getName() + "'";
+				}
+			}
+		}
+		if (locationFound) {
+			constraint += ";\n";
+			hysString += ";\n";
+		}
+	}
+//	for (size_t i = 0; i < _edges.size(); i++) {
+//		edge = _edges[i];
+//		source = edge.getSource();
+//		destination = edge.getDestination();
+//		constraint += "(!flow and " + source.getName() + ") -> " +
+//				destination.getName() + "';\n";
+//		hysString += "\t (!flow and " + source.getName() + ") -> " +
+//						destination.getName() + "';\n";
+//	}
+	cout << "Alternation and successor:" << endl;
+	cout << constraint;
+	cout << "--------------------------------------------------------" << endl;
+	struct isat3_node* node = isat3_node_create_from_string(_isatInstance,
+			constraint.c_str());
+	return node;
+}
+
 
 struct isat3_node* LinearHybridAutomaton::invariantHoldsEntry() {
 	string constraint = "";
@@ -705,64 +841,98 @@ struct isat3_node* LinearHybridAutomaton::transitionAssignment() {
 	node = isat3_node_create_from_string(_isatInstance, constraint.c_str());
 	return node;
 }
-struct isat3_node* LinearHybridAutomaton::notFlowVariablesStayConstant() {
-	struct isat3_node* node;
-	string constraint = "";
-	string variableName;
-	Variable variable;
-	Edge edge;
-	for (size_t i = 0; i < _edges.size(); i++) {
-		edge = _edges[i];
-		variable =
-				edge.getAssignment().getLinPreds()[i].getLinTerms()[0].getVariable();
-		if (!variable.isFlowVariable()) {
-			variableName = variable.getName();
-			constraint += "(" + edge.getName() + " = 0 -> (" + variableName
-					+ "' = " + variableName + "));";
-		}
-	}
-	cout << "Not - flow - variables stay constant in locations :" << endl;
-	cout << constraint;
-	cout << "----------------------------------------" << endl;
-	node = isat3_node_create_from_string(_isatInstance, constraint.c_str());
-	return node;
-}
+//struct isat3_node* LinearHybridAutomaton::notFlowVariablesStayConstant() {
+//	struct isat3_node* node;
+//	string constraint = "";
+//	string variableName;
+//	Variable variable;
+//	Edge edge;
+//	for (size_t i = 0; i < _edges.size(); i++) {
+//		edge = _edges[i];
+//		variable =
+//				edge.getAssignment().getLinPreds()[i].getLinTerms()[0].getVariable();
+//		if (!variable.isFlowVariable()) {
+//			variableName = variable.getName();
+//			constraint += "(" + edge.getName() + " = 0 -> (" + variableName
+//					+ "' = " + variableName + "));";
+//		}
+//	}
+//	cout << "Not - flow - variables stay constant in locations :" << endl;
+//	cout << constraint;
+//	cout << "----------------------------------------" << endl;
+//	node = isat3_node_create_from_string(_isatInstance, constraint.c_str());
+//	return node;
+//}
 
-void LinearHybridAutomaton::setUpInitial() {
+string LinearHybridAutomaton::setUpInitial() {
 	string initCondition = "";
+	string hysString = "";
 	Variable variable;
 	for (size_t i = 0; i < _variables.size(); i++) {
 		variable = _variables[i];
-		initCondition += variable.getName() + " = "
-				+ variable.getInitialValueAsString() + ";\n";
+		// TODO: Modification done here.
+		if (variable.isInitialized()) {
+			initCondition += variable.getName() + " = "
+			+ variable.getInitialValueAsString() + ";\n";
+			hysString += "\t" + variable.getName() + " = "
+			+ variable.getInitialValueAsString() + ";\n";
+		}
 	}
+#ifdef ENCODING1
 	Edge edge;
 	for (size_t i = 0; i < _edges.size(); i++) {
 		edge = _edges[i];
 		initCondition += "!" + edge.getName() + ";\n";
 	}
+#endif
 	Location location;
 	for (size_t i = 0; i < _locations.size(); i++) {
 		location = _locations[i];
 		initCondition += (location.isInitial() ? "" : "!") + location.getName()
 				+ ";\n";
+		hysString += "\t";
+		hysString += (location.isInitial() ? "" : "!") + location.getName()
+				+ ";\n";
 	}
+	// TODO: Modification done here.
+#ifdef ENCODING2
+	initCondition += "flow;\n";
+	hysString += "\tflow;\n";
+#endif
 	cout << initCondition;
 	cout << "---------------------------" << endl;
 	_init = isat3_node_create_from_string(_isatInstance, initCondition.c_str());
+	return hysString;
 }
 
-void LinearHybridAutomaton::setTarget(LinearPredicate target) {
+string LinearHybridAutomaton::setTarget(LinearPredicate target) {
+	string hysString = "";
 	cout << "Creating Target Condition:" << endl;
 	cout << target.toString(false) << endl;
 	cout << "---------------------------" << endl;
-	std::string targetString = target.toString(false) + ";\n";
+	string targetString = target.toString(false) + ";\n";
+	hysString = "\t" + target.toString(false) + ";\n";
 	_target = isat3_node_create_from_string(_isatInstance,
 			targetString.c_str());
+	//_target = isat3_node_create_from_string(_isatInstance, "one_three;\n");
+	//hysString += "one_three;\n";
+	return hysString;
+}
+
+string LinearHybridAutomaton::setTarget(string target) {
+	string hysString = "";
+	string targetString = target + "\n";
+	cout << "Creating Target Condition:" << endl;
+	cout << targetString << endl;
+	cout << "---------------------------" << endl;
+	hysString = "\t" + targetString;
+	_target = isat3_node_create_from_string(_isatInstance,
+			targetString.c_str());
+	return hysString;
 }
 
 void LinearHybridAutomaton::solveBMCIsat() {
-	i3_type_t _result = isat3_solve_bmc(_isatInstance, _init, _bmcFormula,
+	_result = isat3_solve_bmc(_isatInstance, _init, _bmcFormula,
 			_target, 0, TIMEFRAMES, 6280000);
 }
 
@@ -820,12 +990,14 @@ string LinearHybridAutomaton::printBMCResultIsat(
 	_tframe = isat3_get_tframe(_isatInstance);
 	cout << "In Timeframe " << _tframe << ": "
 			<< isat3_get_result_string(_result) << endl;
-	for (unsigned int i = 0; i < _tframe - 1; i++) {
+	for (unsigned int i = 0; i <= _tframe; i++) {
 		cout
 				<< "***************************************************************"
 				<< endl;
 		cout << "                          Timeframe" << i
 				<< "                 " << endl;
+		// TODO: Modification done here.
+		printTruthValueOfVariable("flow", i);
 		for (size_t k = 0; k < _variables.size(); k++) {
 			returnString += printIntervalOfVariableISat(_variables[k].getName(),
 					i);
@@ -834,12 +1006,69 @@ string LinearHybridAutomaton::printBMCResultIsat(
 			returnString += printTruthValueOfVariable(_locations[k].getName(),
 					i);
 		}
+		// TODO: Modification done here.
 		for (size_t k = 0; k < _edges.size(); k++) {
 			returnString += printTruthValueOfVariable(_edges[k].getName(), i);
 		}
 
 	}
 	return returnString;
+}
+
+void LinearHybridAutomaton::toHysFile(LinearPredicate target) {
+	_hysFile = fopen("LHA.hys", "w");
+	_hysFileActive = true;
+	fprintf(_hysFile, "DECL\n");
+	fprintf(_hysFile, setUpVariables().c_str());
+	fprintf(_hysFile, setUpLocationVariables().c_str());
+	fprintf(_hysFile, "\nINIT\n");
+	fprintf(_hysFile, setUpInitial().c_str());
+	fprintf(_hysFile, "\nTRANS\n");
+	string hysString = "";
+	exactlyOneLocation(hysString);
+	fprintf(_hysFile, hysString.c_str());
+	hysString = "";
+	alternationAndSucessor(hysString);
+	fprintf(_hysFile, hysString.c_str());
+	fprintf(_hysFile, "\n");
+	hysString = "";
+	jumps(hysString);
+	fprintf(_hysFile, hysString.c_str());
+	fprintf(_hysFile, "\n");
+	hysString = "";
+	flows(hysString);
+	fprintf(_hysFile, hysString.c_str());
+	fprintf(_hysFile, "\nTARGET\n");
+	fprintf(_hysFile, setTarget(target).c_str());
+	fclose(_hysFile);
+}
+
+void LinearHybridAutomaton::toHysFile(string target) {
+	_hysFile = fopen("LHA.hys", "w");
+	_hysFileActive = true;
+	fprintf(_hysFile, "DECL\n");
+	fprintf(_hysFile, setUpVariables().c_str());
+	fprintf(_hysFile, setUpLocationVariables().c_str());
+	fprintf(_hysFile, "\nINIT\n");
+	fprintf(_hysFile, setUpInitial().c_str());
+	fprintf(_hysFile, "\nTRANS\n");
+	string hysString = "";
+	exactlyOneLocation(hysString);
+	fprintf(_hysFile, hysString.c_str());
+	hysString = "";
+	alternationAndSucessor(hysString);
+	fprintf(_hysFile, hysString.c_str());
+	fprintf(_hysFile, "\n");
+	hysString = "";
+	jumps(hysString);
+	fprintf(_hysFile, hysString.c_str());
+	fprintf(_hysFile, "\n");
+	hysString = "";
+	flows(hysString);
+	fprintf(_hysFile, hysString.c_str());
+	fprintf(_hysFile, "\nTARGET\n");
+	fprintf(_hysFile, setTarget(target).c_str());
+	fclose(_hysFile);
 }
 
 void LinearHybridAutomaton::writeToFile() {
@@ -878,4 +1107,20 @@ void LinearHybridAutomaton::writeToFile() {
 		fprintf(theFile, data.c_str());
 		fclose(theFile);
 	}
+}
+
+string LinearHybridAutomaton::toString(double value) {
+	char tmp[100];
+	sprintf(tmp, "%1.5f", value);
+	string string;
+	string.assign(tmp);
+	return string;
+}
+
+string LinearHybridAutomaton::toString(unsigned int value) {
+	char tmp[100];
+	sprintf(tmp, "%u", value);
+	string string;
+	string.assign(tmp);
+	return string;
 }

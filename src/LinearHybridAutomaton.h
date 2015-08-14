@@ -11,7 +11,7 @@
 #define TIMEFRAMES 		220
 #define DEBUG 			1
 #define DELTASTRING 	"1"
-#define DELTANR			1.0
+#define DELTANR			1
 
 #include <vector>
 #include <map>
@@ -50,20 +50,29 @@ public:
 
 	void toIsat3BMC();
 	void setUpIsat3();
-	void setUpVariables();
+	string setUpVariables();
 	void setUpConstants();
-	void setUpInitial();
-	void setTarget(LinearPredicate target);
+	string setUpInitial();
+	string setTarget(LinearPredicate target);
+	string setTarget(string target);
 	const LinearPredicate& getInitialPredicate() const;
 	void solveBMCIsat();
 	string printBMCResultIsat(unsigned int numberOfTimeframes);
 	void writeToFile();
+	void toHysFile(LinearPredicate target);
+	void toHysFile(string target);
+
+	string toString(double value);
+	string toString(unsigned int value);
 
 private:
 	std::vector<Location>	_locations;
 	std::vector<Edge>		_edges;
 	std::vector<Variable>	_variables;
 	std::vector<Constant>	_constants;
+
+	FILE * _hysFile;
+	bool _hysFileActive;
 
 
 	/*
@@ -89,6 +98,7 @@ private:
 	 * Fränzle encoding 1 paper
 	 */
 	struct isat3_node* exactlyOneState();
+	struct isat3_node* exactlyOneLocation(string &hysString);
 	struct isat3_node* exactlyOneTransition();
 	struct isat3_node* asMostOneTransition();
 	struct isat3_node* continuousStateComponents();
@@ -106,14 +116,15 @@ private:
 	/*
 	 * Fränzle encoding presentation
 	 */
-	struct isat3_node* jumps();
-	struct isat3_node* flows();
-	string printIntervalOfVariableISat(
-			string variableName, unsigned int tframe);
+	struct isat3_node* jumps(string &hysString);
+	struct isat3_node* flows(string &hysString);
+	struct isat3_node* alternationAndSucessor(string &hysString);
+	string printIntervalOfVariableISat(string variableName,
+			unsigned int tframe);
 	string printTruthValueOfVariable(string variableName, unsigned int tframe);
 	void modifiedFraenzle();
-	void setUpLocationVariables();
-	void setUpEdgeVariables();
+	string setUpLocationVariables();
+	string setUpEdgeVariables();
 };
 
 #endif /* LINEARHYBRIDAUTOMATON_H_ */

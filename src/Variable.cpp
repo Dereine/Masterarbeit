@@ -11,14 +11,23 @@ Variable::Variable() {
 }
 
 Variable::Variable(Variable::type variableType, std::string name,
-		double lowerBound, double upperBound, double initialValue,
-		bool flowVariable) {
+		double lowerBound, double upperBound, double initialValue) {
 	_initialValue = initialValue;
 	_variableType = variableType;
 	_name = name;
 	_lowerBound = lowerBound;
 	_upperBound = upperBound;
-	_flowVariable = flowVariable;
+	_initialized = true;
+}
+
+Variable::Variable(Variable::type variableType, std::string name,
+		double lowerBound, double upperBound) {
+	_initialValue = -1;
+	_variableType = variableType;
+	_name = name;
+	_lowerBound = lowerBound;
+	_upperBound = upperBound;
+	_initialized = false;
 }
 
 Variable::~Variable() {
@@ -43,6 +52,7 @@ void Variable::setName(std::string name) {
 double Variable::getLowerBound() {
 	return _lowerBound;
 }
+
 
 void Variable::setLowerBound(double lowerBound) {
 	_lowerBound = lowerBound;
@@ -72,16 +82,24 @@ void Variable::setInitialValue(double initialValue) {
 	_initialValue = initialValue;
 }
 
-bool Variable::isFlowVariable() const {
-	return _flowVariable;
-}
-
 std::string Variable::stayConstantAsStringIsat() {
 	std::string returnString = "";
 	returnString = _name + "' = " + _name;
 	return returnString;
 }
 
-void Variable::setFlowVariable(bool flowVariable) {
-	_flowVariable = flowVariable;
+bool Variable::isInitialized() const {
+	return _initialized;
+}
+
+void Variable::setInitialized(bool initialized) {
+	_initialized = initialized;
+}
+
+//type Variable::getVariableType() const {
+//	return _variableType;
+//}
+
+void Variable::setVariableType(type variableType) {
+	_variableType = variableType;
 }

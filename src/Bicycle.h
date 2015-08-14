@@ -9,20 +9,29 @@
 #define BICYCLE_H_
 
 #include "math.h"
+#include <cstdlib>
 
-#define FPEDAL		(double)70
-#define RPEDAL		(double)0.015
+#define FPEDAL		(double)200
+#define FPEDALLOW	(double)100
+#define FPEDALHIGH	(double)210
+#define RPEDAL		(double)0.15
 #define MU			(double)0.015
 #define RWHEEL		(double)0.622
 #define M			(double)70
 #define G			(double)9.81
-#define TS			(double) 1.0
 #define CINV		(double)0.8
 #define C1			(FPEDAL * ((RPEDAL) / (pow(RWHEEL, 2) * M)))
-#define C2			(-1 * MU * G) / RWHEEL
+#define C1_1		((RPEDAL) / (pow(RWHEEL, 2) * M))
+#define C2			(MU * G) / RWHEEL
 
-#define TARGET 		10
-#define DEVIATION 	8
+#define TARGET 		(double)100
+#define DEVIATION 	(double)10
+#define ERROR		(double)10
+
+#define TARGETUPPEROMEGA 	((TARGET + DEVIATION) * 2 * M_PI) / 60.0f
+#define TARGETLOWEROMEGA 	((TARGET - DEVIATION) * 2 * M_PI) / 60.0f
+#define UPPERLIMIT			TARGETUPPEROMEGA * (1 + ERROR / 100.0f)
+#define LOWERLIMIT			TARGETLOWEROMEGA * (1 - ERROR / 100.0f)
 
 
 #define TEETHF1 	(double) 34
