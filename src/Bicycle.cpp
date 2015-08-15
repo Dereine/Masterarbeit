@@ -20,6 +20,8 @@ int main() {
 	double targetRPM;
 	double deviation;
 	double error;
+	ShiftSequence shiftSequence;
+	shiftSequence = TWO_ONE_TWO;
 #ifdef USERINPUT
 	cout << "Please enter target in RPM:" << endl;
 	cin >> targetRPM;
@@ -232,7 +234,7 @@ int main() {
 	bicycle.addVariable(t);
 
 	Variable bigJump(Variable::INTEGER, "bigJump", 0, 1, 0);
-	//bicycle.addVariable(bigJump);
+	bicycle.addVariable(bigJump);
 
 	/*
 	 * ************************************************************************
@@ -241,7 +243,6 @@ int main() {
 	 * ************************************************************************
 	 */
 	LinearTerm oneTimesT(one, t);
-
 
 	LinearTerm oneTimesOmegaWheel(one, omegaWheel);
 	LinearTerm oneTimesOmegaCrank(one, omegaCrank);
@@ -510,13 +511,16 @@ int main() {
 	upNoBigJump2.addLinPred(upLinPredGeq2);
 
 	Guard upBigJump;
-	upBigJump.addLinPred(upLinPredGeq);
+	upBigJump.addLinPred(bigJumpEqualsOne);
+
+	Guard downBigJump;
+	downBigJump.addLinPred(bigJumpEqualsZero);
 
 	Guard downNoBigJump;
 	downNoBigJump.addLinPred(downLinPredLeq);
 
-	Guard downBigJump;
-	downBigJump.addLinPred(downLinPredGeq);
+//	Guard downBigJump;
+//	downBigJump.addLinPred(downLinPredGeq);
 
 	Guard emptyGuard;
 
@@ -525,6 +529,14 @@ int main() {
 	 * Assignments
 	 * ************************************************************************
 	 */
+	Assignment bigJumpToOne;
+	bigJumpToOne.addLinPred(bigJumpEqualsOne);
+	bigJumpToOne.addAssignedVariable(bigJump);
+
+	Assignment bigJumpToZero;
+	bigJumpToZero.addLinPred(bigJumpEqualsZero);
+	bigJumpToZero.addAssignedVariable(bigJump);
+
 	Assignment tZero;
 	tZero.addLinPred(tEqualsZero);
 	tZero.addAssignedVariable(t);
@@ -532,6 +544,10 @@ int main() {
 	Assignment bigJumpOne;
 	bigJumpOne.addLinPred(bigJumpEqualsOne);
 	bigJumpOne.addAssignedVariable(bigJump);
+
+	Assignment assign11;
+	assign11.addLinPred(linPredRatio11);
+	assign11.addAssignedVariable(omegaCrank);
 
 	Assignment assign12;
 	assign12.addLinPred(linPredRatio12);
@@ -566,6 +582,28 @@ int main() {
 	assign18.addLinPred(linPredRatio18);
 	assign18.addAssignedVariable(omegaCrank);
 
+	Assignment assign17BigUp;
+	assign17BigUp.addLinPred(linPredRatio17);
+	assign17BigUp.addAssignedVariable(omegaCrank);
+	assign17BigUp.addLinPred(bigJumpEqualsOne);
+	assign17BigUp.addAssignedVariable(bigJump);
+
+	Assignment assign16BigUp;
+	assign16BigUp.addLinPred(linPredRatio16);
+	assign16BigUp.addAssignedVariable(omegaCrank);
+
+	Assignment assign15BigUp;
+	assign15BigUp.addLinPred(linPredRatio15);
+	assign15BigUp.addAssignedVariable(omegaCrank);
+
+	Assignment assign14BigUp;
+	assign14BigUp.addLinPred(linPredRatio14);
+	assign14BigUp.addAssignedVariable(omegaCrank);
+
+	Assignment assign24BigUp;
+	assign24BigUp.addLinPred(linPredRatio24);
+	assign24BigUp.addAssignedVariable(omegaCrank);
+
 	Assignment assign24;
 	assign24.addLinPred(linPredRatio24);
 	assign24.addAssignedVariable(omegaCrank);
@@ -573,6 +611,12 @@ int main() {
 	Assignment assign25;
 	assign25.addLinPred(linPredRatio25);
 	assign25.addAssignedVariable(omegaCrank);
+
+	Assignment assign25BigDown;
+	assign25BigDown.addLinPred(linPredRatio25);
+	assign25BigDown.addAssignedVariable(omegaCrank);
+	assign25BigDown.addLinPred(bigJumpEqualsZero);
+	assign25BigDown.addAssignedVariable(bigJump);
 
 	Assignment assign26;
 	assign26.addLinPred(linPredRatio26);
@@ -678,6 +722,7 @@ int main() {
 	 */
 	vector <Bound> l11Bounds;
 	l11Bounds.push_back(l11Omega);
+	l11Bounds.push_back(bigJumpBound);
 	//l11Bounds.push_back(timeBound);
 	Location loc11(11, "one_one", invUp11, l11Bounds, true);
 	bicycle.addLocation(loc11);
@@ -685,120 +730,140 @@ int main() {
 	vector <Bound> l12Bounds;
 	l12Bounds.push_back(l12Omega);
 	//l12Bounds.push_back(timeBound);
-	//l12Bounds.push_back(bigJumpBound);
+	l12Bounds.push_back(bigJumpBound);
 	Location loc12(12, "one_two", invUpAndDown12, l12Bounds, false);
 	bicycle.addLocation(loc12);
 
 	vector <Bound> l13Bounds;
 	l13Bounds.push_back(l13Omega);
-	//l13Bounds.push_back(bigJumpBound);
+	l13Bounds.push_back(bigJumpBound);
 	Location loc13(13, "one_three", invUpAndDown13, l13Bounds, false);
 	bicycle.addLocation(loc13);
 
 	vector <Bound> l14Bounds;
 	l14Bounds.push_back(l14Omega);
+	l14Bounds.push_back(bigJumpBound);
 	Location loc14(14, "one_four", invUpAndDown14, l14Bounds, false);
 	bicycle.addLocation(loc14);
 
 	vector <Bound> l15Bounds;
 	l15Bounds.push_back(l15Omega);
+	l15Bounds.push_back(bigJumpBound);
 	Location loc15(15, "one_five", invUpAndDown15, l15Bounds, false);
 	bicycle.addLocation(loc15);
 
 	vector <Bound> l16Bounds;
 	l16Bounds.push_back(l16Omega);
+	l16Bounds.push_back(bigJumpBound);
 	Location loc16(16, "one_six", invUpAndDown16, l16Bounds, false);
 	bicycle.addLocation(loc16);
 
 	vector <Bound> l17Bounds;
 	l17Bounds.push_back(l17Omega);
+	l17Bounds.push_back(bigJumpBound);
 	Location loc17(17, "one_seven", invUpAndDown17, l17Bounds, false);
 	bicycle.addLocation(loc17);
 
 	vector <Bound> l18Bounds;
 	l18Bounds.push_back(l18Omega);
+	l18Bounds.push_back(bigJumpBound);
 	Location loc18(18, "one_eight", invUpAndDown18, l18Bounds, false);
 	bicycle.addLocation(loc18);
 
 	vector <Bound> l17BoundsBigJump;
 	l17BoundsBigJump.push_back(bigJumpBoundsOmega);
+	l17BoundsBigJump.push_back(bigJumpBound);
 	Location loc17BigJump(172, "one_seven_big",
 			invBigJump17, l17BoundsBigJump, false);
 	bicycle.addLocation(loc17BigJump);
 
 	vector <Bound> l16BoundsBigJump;
 	l16BoundsBigJump.push_back(bigJumpBoundsOmega);
+	l16BoundsBigJump.push_back(bigJumpBound);
 	Location loc16BigJump(162, "one_six_big",
 			invBigJump16, l16BoundsBigJump, false);
 	bicycle.addLocation(loc16BigJump);
 
 	vector <Bound> l15BoundsBigJump;
 	l15BoundsBigJump.push_back(bigJumpBoundsOmega);
+	l15BoundsBigJump.push_back(bigJumpBound);
 	Location loc15BigJump(152, "one_five_big",
 			invBigJump15, l15BoundsBigJump, false);
 	bicycle.addLocation(loc15BigJump);
 
 	vector <Bound> l14BoundsBigJump;
 	l14BoundsBigJump.push_back(bigJumpBoundsOmega);
+	l14BoundsBigJump.push_back(bigJumpBound);
 	Location loc14BigJump(142, "one_four_big",
 			invBigJump14, l14BoundsBigJump, false);
 	bicycle.addLocation(loc14BigJump);
 
 	vector <Bound> l24Bounds;
 	l24Bounds.push_back(l24Omega);
+	l24Bounds.push_back(bigJumpBound);
 	Location loc24(24, "two_four", invUpAndDown24, l24Bounds, false);
 	bicycle.addLocation(loc24);
 
 	vector <Bound> l25Bounds;
 	l25Bounds.push_back(l25Omega);
+	l25Bounds.push_back(bigJumpBound);
 	Location loc25(25, "two_five", invUpAndDown25, l25Bounds, false);
 	bicycle.addLocation(loc25);
 
 	vector <Bound> l26Bounds;
 	l26Bounds.push_back(l26Omega);
+	l26Bounds.push_back(bigJumpBound);
 	Location loc26(26, "two_six", invUpAndDown26, l26Bounds, false);
 	bicycle.addLocation(loc26);
 
 	vector <Bound> l27Bounds;
 	l27Bounds.push_back(l27Omega);
+	l27Bounds.push_back(bigJumpBound);
 	Location loc27(27, "two_seven", invUpAndDown27, l27Bounds, false);
 	bicycle.addLocation(loc27);
 
 	vector <Bound> l28Bounds;
 	l28Bounds.push_back(l28Omega);
+	l28Bounds.push_back(bigJumpBound);
 	Location loc28(28, "two_eight", invUpAndDown28, l28Bounds, false);
 	bicycle.addLocation(loc28);
 
 	vector <Bound> l29Bounds;
 	l29Bounds.push_back(l29Omega);
+	l29Bounds.push_back(bigJumpBound);
 	Location loc29(29, "two_nine", invUpAndDown29, l29Bounds, false);
 	bicycle.addLocation(loc29);
 
 	vector <Bound> l210Bounds;
 	l210Bounds.push_back(l210Omega);
+	l210Bounds.push_back(bigJumpBound);
 	Location loc210(210, "two_ten", invUpAndDown210, l210Bounds, false);
 	bicycle.addLocation(loc210);
 
 	vector <Bound> l25BoundsBigJump;
 	l25BoundsBigJump.push_back(bigJumpBoundsOmega);
+	l25Bounds.push_back(bigJumpBound);
 	Location loc25BigJump(252, "two_five_big",
 			invBigJump25, l25BoundsBigJump, false);
 	bicycle.addLocation(loc25BigJump);
 
 	vector <Bound> l26BoundsBigJump;
 	l26BoundsBigJump.push_back(bigJumpBoundsOmega);
+	l26BoundsBigJump.push_back(bigJumpBound);
 	Location loc26BigJump(662, "two_six_big",
 			invBigJump26, l26BoundsBigJump, false);
 	bicycle.addLocation(loc26BigJump);
 
 	vector <Bound> l27BoundsBigJump;
 	l27BoundsBigJump.push_back(bigJumpBoundsOmega);
+	l27BoundsBigJump.push_back(bigJumpBound);
 	Location loc27BigJump(272, "two_seven_big",
 			invBigJump27, l27BoundsBigJump, false);
 	bicycle.addLocation(loc27BigJump);
 
 	vector <Bound> l28BoundsBigJump;
 	l28BoundsBigJump.push_back(bigJumpBoundsOmega);
+	l28BoundsBigJump.push_back(bigJumpBound);
 	Location loc28BigJump(282, "two_eight_big",
 			invBigJump28, l28BoundsBigJump, false);
 	bicycle.addLocation(loc28BigJump);
@@ -817,7 +882,7 @@ int main() {
 	//Edge one_two_one_three(loc12, loc13, "one_two_one_three");
 	bicycle.addEdge(one_two_one_three);
 
-	Edge one_two_one_one(loc12, loc11, downNoBigJump, "one_two_one_one");
+	Edge one_two_one_one(loc12, loc11, downNoBigJump, assign11, "one_two_one_one");
 	bicycle.addEdge(one_two_one_one);
 
 	Edge one_three_one_four(loc13, loc14, upNoBigJump, assign14, "one_three_one_four");
@@ -846,23 +911,30 @@ int main() {
 	Edge one_seven_one_six(loc17, loc16, downNoBigJump, assign16, "one_seven_one_six");
 	bicycle.addEdge(one_seven_one_six);
 
-	Edge one_eight_one_seven_big(loc18, loc17BigJump, upBigJump, assign17, "one_eight_one_seven_big");
-	bicycle.addEdge(one_eight_one_seven_big);
-
 	Edge one_eight_one_seven(loc18, loc17, downNoBigJump, assign17, "one_eight_one_seven");
 	bicycle.addEdge(one_eight_one_seven);
 
-	Edge one_seven_one_six_big(loc17BigJump, loc16BigJump, assign16, "one_seven_one_six_big");
+	Edge one_eight_one_seven_big(loc18, loc17BigJump, upNoBigJump, assign17BigUp, "one_eight_one_seven_big");
+	bicycle.addEdge(one_eight_one_seven_big);
+
+	Edge one_seven_one_six_big(loc17BigJump, loc16BigJump, upBigJump, assign16, "one_seven_one_six_big");
 	bicycle.addEdge(one_seven_one_six_big);
 
-	Edge one_six_one_five_big(loc16BigJump, loc15BigJump, assign15, "one_six_one_five_big");
-	bicycle.addEdge(one_six_one_five_big);
-
-	Edge one_five_one_four_big(loc15BigJump, loc14BigJump, assign14, "one_five_one_four_big");
-	bicycle.addEdge(one_five_one_four_big);
-
-	Edge one_four_two_four_big(loc14BigJump, loc24, assign24, "one_four_two_four_big");
-	bicycle.addEdge(one_four_two_four_big);
+	if (shiftSequence == FOUR_ONE) {
+		Edge one_six_one_five_big(loc16BigJump, loc15BigJump, upBigJump, assign15, "one_six_one_five_big");
+		bicycle.addEdge(one_six_one_five_big);
+		Edge one_five_one_four_big(loc15BigJump, loc14BigJump, upBigJump, assign14, "one_five_one_four_big");
+		bicycle.addEdge(one_five_one_four_big);
+		Edge one_four_two_four_big(loc14BigJump, loc24, upBigJump, assign24, "one_four_two_four_big");
+		bicycle.addEdge(one_four_two_four_big);
+	} else if (shiftSequence == TWO_ONE_TWO) {
+		Edge one_six_two_six_big(loc16BigJump, loc26BigJump, upBigJump, assign26, "one_six_two_six_big");
+		bicycle.addEdge(one_six_two_six_big);
+		Edge two_six_two_five_big(loc26BigJump, loc25BigJump, upBigJump, assign25, "two_six_two_five_big");
+		bicycle.addEdge(two_six_two_five_big);
+		Edge two_five_two_four_big(loc25BigJump, loc24, upBigJump, assign24, "two_five_two_four_big");
+		bicycle.addEdge(two_five_two_four_big);
+	}
 
 	Edge two_four_two_five(loc24, loc25, upNoBigJump, assign25, "two_four_two_five");
 	bicycle.addEdge(two_four_two_five);
@@ -900,24 +972,32 @@ int main() {
 	Edge two_ten_two_nine(loc210, loc29, downNoBigJump, assign210, "two_ten_two_nine");
 	bicycle.addEdge(two_ten_two_nine);
 
-	Edge two_four_two_five_big(loc24, loc25BigJump, downNoBigJump, assign25, "two_four_two_five_big");
+	Edge two_four_two_five_big(loc24, loc25BigJump, downNoBigJump,
+			assign25BigDown, "two_four_two_five_big");
 	bicycle.addEdge(two_four_two_five_big);
 
-	Edge two_five_two_six_big(loc25BigJump, loc26BigJump, assign26, "two_five_two_six_big");
+	Edge two_five_two_six_big(loc25BigJump, loc26BigJump, downBigJump, assign26, "two_five_two_six_big");
 	bicycle.addEdge(two_five_two_six_big);
 
-	Edge two_six_two_seven_big(loc26BigJump, loc27BigJump, assign27, "two_six_two_seven_big");
-	bicycle.addEdge(two_six_two_seven_big);
-
-	Edge two_seven_two_eight_big(loc27BigJump, loc28BigJump, assign28, "two_seven_two_eight_big");
-	bicycle.addEdge(two_seven_two_eight_big);
-
-	Edge two_eight_one_eight_big(loc28BigJump, loc18, assign18, "two_eight_one_eight_big");
-	bicycle.addEdge(two_eight_one_eight_big);
+	if (shiftSequence == FOUR_ONE) {
+		Edge two_six_two_seven_big(loc26BigJump, loc27BigJump, downBigJump, assign27, "two_six_two_seven_big");
+		bicycle.addEdge(two_six_two_seven_big);
+		Edge two_seven_two_eight_big(loc27BigJump, loc28BigJump, downBigJump, assign28, "two_seven_two_eight_big");
+		bicycle.addEdge(two_seven_two_eight_big);
+		Edge two_eight_one_eight_big(loc28BigJump, loc18, downBigJump, assign18, "two_eight_one_eight_big");
+		bicycle.addEdge(two_eight_one_eight_big);
+	} else if (shiftSequence == TWO_ONE_TWO) {
+		Edge two_six_one_six_big(loc26BigJump, loc16BigJump, downBigJump, assign16, "two_six_one_six_big");
+		bicycle.addEdge(two_six_one_six_big);
+		Edge one_six_one_seven_big(loc16BigJump, loc17BigJump, downBigJump, assign17, "one_six_one_seven_big");
+		bicycle.addEdge(one_six_one_seven_big);
+		Edge one_seven_one_eight_big(loc17BigJump, loc18, downBigJump, assign18, "one_seven_one_eight_big");
+		bicycle.addEdge(one_seven_one_eight_big);
+	}
 
 	bicycle.setUpIsat3();
 	//bicycle.toHysFile(target);
-	//bicycle.toHysFile("two_five_big;");
+	//bicycle.toHysFile("two_nine;");
 	bicycle.toHysFile("(omegaCrank < " + bicycle.toString(lowerLimit) + ") and !one_one;");
 	system("./isat3 -I -v -v --start-depth 0 --max-depth 150 LHA.hys");
 	return 0;

@@ -3,6 +3,7 @@ DECL
 	 float [0.00000,150.00000] omegaWheel;
 	 float [0.00000,150.00000] omegaCrank;
 	 float [0.00000,500.00000] t;
+	 float [0.00000,1.00000] bigJump;
 	 boole one_one;
 	 boole one_two;
 	 boole one_three;
@@ -30,6 +31,7 @@ DECL
 INIT
 	omegaWheel = 0.00000;
 	omegaCrank = 0.00000;
+	bigJump = 0.00000;
 	one_one;
 	!one_two;
 	!one_three;
@@ -74,8 +76,8 @@ TRANS
 	 (flow and one_eight) -> one_eight';
 	 (flow and one_seven_big) -> one_seven_big';
 	 (flow and one_six_big) -> one_six_big';
-	 (flow and one_five_big) -> one_five_big';
-	 (flow and one_four_big) -> one_four_big';
+	 (flow and two_six_big) -> two_six_big';
+	 (flow and two_five_big) -> two_five_big';
 	 (flow and two_four) -> two_four';
 	 (flow and two_five) -> two_five';
 	 (flow and two_five) -> two_five';
@@ -91,8 +93,8 @@ TRANS
 	 (flow and two_four) -> two_four';
 	 (flow and two_five_big) -> two_five_big';
 	 (flow and two_six_big) -> two_six_big';
-	 (flow and two_seven_big) -> two_seven_big';
-	 (flow and two_eight_big) -> two_eight_big';
+	 (flow and one_six_big) -> one_six_big';
+	 (flow and one_seven_big) -> one_seven_big';
 !flow and one_one -> one_two';
 !flow and one_two -> one_three' or one_one';
 !flow and one_three -> one_four' or one_two';
@@ -100,11 +102,9 @@ TRANS
 !flow and one_five -> one_six' or one_four';
 !flow and one_six -> one_seven' or one_five';
 !flow and one_seven -> one_eight' or one_six';
-!flow and one_eight -> one_seven_big' or one_seven';
-!flow and one_seven_big -> one_six_big';
-!flow and one_six_big -> one_five_big';
-!flow and one_five_big -> one_four_big';
-!flow and one_four_big -> two_four';
+!flow and one_eight -> one_seven' or one_seven_big';
+!flow and one_seven_big -> one_six_big' or one_eight';
+!flow and one_six_big -> two_six_big' or one_seven_big';
 !flow and two_four -> two_five' or two_five_big';
 !flow and two_five -> two_four' or two_six';
 !flow and two_six -> two_five' or two_seven';
@@ -112,232 +112,301 @@ TRANS
 !flow and two_eight -> two_seven' or two_nine';
 !flow and two_nine -> two_eight' or two_ten';
 !flow and two_ten -> two_nine';
-!flow and two_five_big -> two_six_big';
-!flow and two_six_big -> two_seven_big';
-!flow and two_seven_big -> two_eight_big';
-!flow and two_eight_big -> one_eight';
+!flow and two_five_big -> two_four' or two_six_big';
+!flow and two_six_big -> two_five_big' or one_six_big';
 
 	one_one and one_two' -> (omegaCrank >= 11.51917) and
 			(omegaCrank' + -0.67647 * omegaWheel' = 0.00000)
 			 and omegaWheel' = omegaWheel
+			 and bigJump' = bigJump
 			 and (t = 0.00000);
 	one_two and one_three' -> (omegaCrank >= 11.51917) and
 			(omegaCrank' + -0.61765 * omegaWheel' = 0.00000)
 			 and omegaWheel' = omegaWheel
+			 and bigJump' = bigJump
 			 and (t = 0.00000);
 	one_two and one_one' -> (omegaCrank <= 9.42478) and
-			true
+			(omegaCrank' + -0.73529 * omegaWheel' = 0.00000)
 			 and omegaWheel' = omegaWheel
-			 and omegaCrank' = omegaCrank
+			 and bigJump' = bigJump
 			 and (t = 0.00000);
 	one_three and one_four' -> (omegaCrank >= 11.51917) and
 			(omegaCrank' + -0.55882 * omegaWheel' = 0.00000)
 			 and omegaWheel' = omegaWheel
+			 and bigJump' = bigJump
 			 and (t = 0.00000);
 	one_three and one_two' -> (omegaCrank <= 9.42478) and
 			(omegaCrank' + -0.67647 * omegaWheel' = 0.00000)
 			 and omegaWheel' = omegaWheel
+			 and bigJump' = bigJump
 			 and (t = 0.00000);
 	one_four and one_five' -> (omegaCrank >= 11.51917) and
 			(omegaCrank' + -0.50000 * omegaWheel' = 0.00000)
 			 and omegaWheel' = omegaWheel
+			 and bigJump' = bigJump
 			 and (t = 0.00000);
 	one_four and one_three' -> (omegaCrank <= 9.42478) and
 			(omegaCrank' + -0.61765 * omegaWheel' = 0.00000)
 			 and omegaWheel' = omegaWheel
+			 and bigJump' = bigJump
 			 and (t = 0.00000);
 	one_five and one_six' -> (omegaCrank >= 11.51917) and
 			(omegaCrank' + -0.47059 * omegaWheel' = 0.00000)
 			 and omegaWheel' = omegaWheel
+			 and bigJump' = bigJump
 			 and (t = 0.00000);
 	one_five and one_four' -> (omegaCrank <= 9.42478) and
 			(omegaCrank' + -0.55882 * omegaWheel' = 0.00000)
 			 and omegaWheel' = omegaWheel
+			 and bigJump' = bigJump
 			 and (t = 0.00000);
 	one_six and one_seven' -> (omegaCrank >= 11.51917) and
 			(omegaCrank' + -0.44118 * omegaWheel' = 0.00000)
 			 and omegaWheel' = omegaWheel
+			 and bigJump' = bigJump
 			 and (t = 0.00000);
 	one_six and one_five' -> (omegaCrank <= 9.42478) and
 			(omegaCrank' + -0.50000 * omegaWheel' = 0.00000)
 			 and omegaWheel' = omegaWheel
+			 and bigJump' = bigJump
 			 and (t = 0.00000);
 	one_seven and one_eight' -> (omegaCrank >= 11.51917) and
 			(omegaCrank' + -0.41176 * omegaWheel' = 0.00000)
 			 and omegaWheel' = omegaWheel
+			 and bigJump' = bigJump
 			 and (t = 0.00000);
 	one_seven and one_six' -> (omegaCrank <= 9.42478) and
 			(omegaCrank' + -0.47059 * omegaWheel' = 0.00000)
 			 and omegaWheel' = omegaWheel
-			 and (t = 0.00000);
-	one_eight and one_seven_big' -> (omegaCrank >= 11.51917) and
-			(omegaCrank' + -0.44118 * omegaWheel' = 0.00000)
-			 and omegaWheel' = omegaWheel
+			 and bigJump' = bigJump
 			 and (t = 0.00000);
 	one_eight and one_seven' -> (omegaCrank <= 9.42478) and
 			(omegaCrank' + -0.44118 * omegaWheel' = 0.00000)
 			 and omegaWheel' = omegaWheel
+			 and bigJump' = bigJump
 			 and (t = 0.00000);
-	one_seven_big and one_six_big' -> true and
+	one_eight and one_seven_big' -> (omegaCrank >= 11.51917) and
+			(omegaCrank' + -0.44118 * omegaWheel' = 0.00000) and (bigJump' = 1.00000)
+			 and omegaWheel' = omegaWheel
+			 and (t = 0.00000);
+	one_seven_big and one_six_big' -> (bigJump = 1.00000) and
 			(omegaCrank' + -0.47059 * omegaWheel' = 0.00000)
 			 and omegaWheel' = omegaWheel
+			 and bigJump' = bigJump
 			 and (t = 0.00000);
-	one_six_big and one_five_big' -> true and
-			(omegaCrank' + -0.50000 * omegaWheel' = 0.00000)
+	one_six_big and two_six_big' -> (bigJump = 1.00000) and
+			(omegaCrank' + -0.32000 * omegaWheel' = 0.00000)
 			 and omegaWheel' = omegaWheel
+			 and bigJump' = bigJump
 			 and (t = 0.00000);
-	one_five_big and one_four_big' -> true and
-			(omegaCrank' + -0.55882 * omegaWheel' = 0.00000)
+	two_six_big and two_five_big' -> (bigJump = 1.00000) and
+			(omegaCrank' + -0.34000 * omegaWheel' = 0.00000)
 			 and omegaWheel' = omegaWheel
+			 and bigJump' = bigJump
 			 and (t = 0.00000);
-	one_four_big and two_four' -> true and
+	two_five_big and two_four' -> (bigJump = 1.00000) and
 			(omegaCrank' + -0.38000 * omegaWheel' = 0.00000)
 			 and omegaWheel' = omegaWheel
+			 and bigJump' = bigJump
 			 and (t = 0.00000);
 	two_four and two_five' -> (omegaCrank >= 11.51917) and
 			(omegaCrank' + -0.34000 * omegaWheel' = 0.00000)
 			 and omegaWheel' = omegaWheel
+			 and bigJump' = bigJump
 			 and (t = 0.00000);
 	two_five and two_four' -> (omegaCrank <= 9.42478) and
 			(omegaCrank' + -0.38000 * omegaWheel' = 0.00000)
 			 and omegaWheel' = omegaWheel
+			 and bigJump' = bigJump
 			 and (t = 0.00000);
 	two_five and two_six' -> (omegaCrank >= 11.51917) and
 			(omegaCrank' + -0.32000 * omegaWheel' = 0.00000)
 			 and omegaWheel' = omegaWheel
+			 and bigJump' = bigJump
 			 and (t = 0.00000);
 	two_six and two_five' -> (omegaCrank <= 9.42478) and
 			(omegaCrank' + -0.34000 * omegaWheel' = 0.00000)
 			 and omegaWheel' = omegaWheel
+			 and bigJump' = bigJump
 			 and (t = 0.00000);
 	two_six and two_seven' -> (omegaCrank >= 11.51917) and
 			(omegaCrank' + -0.30000 * omegaWheel' = 0.00000)
 			 and omegaWheel' = omegaWheel
+			 and bigJump' = bigJump
 			 and (t = 0.00000);
 	two_seven and two_six' -> (omegaCrank <= 9.42478) and
 			(omegaCrank' + -0.32000 * omegaWheel' = 0.00000)
 			 and omegaWheel' = omegaWheel
+			 and bigJump' = bigJump
 			 and (t = 0.00000);
 	two_seven and two_eight' -> (omegaCrank >= 11.51917) and
 			(omegaCrank' + -0.28000 * omegaWheel' = 0.00000)
 			 and omegaWheel' = omegaWheel
+			 and bigJump' = bigJump
 			 and (t = 0.00000);
 	two_eight and two_seven' -> (omegaCrank <= 9.42478) and
 			(omegaCrank' + -0.28000 * omegaWheel' = 0.00000)
 			 and omegaWheel' = omegaWheel
+			 and bigJump' = bigJump
 			 and (t = 0.00000);
 	two_eight and two_nine' -> (omegaCrank >= 11.51917) and
 			(omegaCrank' + -0.26000 * omegaWheel' = 0.00000)
 			 and omegaWheel' = omegaWheel
+			 and bigJump' = bigJump
 			 and (t = 0.00000);
 	two_nine and two_eight' -> (omegaCrank <= 9.42478) and
 			(omegaCrank' + -0.28000 * omegaWheel' = 0.00000)
 			 and omegaWheel' = omegaWheel
+			 and bigJump' = bigJump
 			 and (t = 0.00000);
 	two_nine and two_ten' -> (omegaCrank >= 11.51917) and
 			(omegaCrank' + -0.24000 * omegaWheel' = 0.00000)
 			 and omegaWheel' = omegaWheel
+			 and bigJump' = bigJump
 			 and (t = 0.00000);
 	two_ten and two_nine' -> (omegaCrank <= 9.42478) and
 			(omegaCrank' + -0.24000 * omegaWheel' = 0.00000)
 			 and omegaWheel' = omegaWheel
+			 and bigJump' = bigJump
 			 and (t = 0.00000);
 	two_four and two_five_big' -> (omegaCrank <= 9.42478) and
-			(omegaCrank' + -0.34000 * omegaWheel' = 0.00000)
+			(omegaCrank' + -0.34000 * omegaWheel' = 0.00000) and (bigJump' = 0.00000)
 			 and omegaWheel' = omegaWheel
 			 and (t = 0.00000);
-	two_five_big and two_six_big' -> true and
+	two_five_big and two_six_big' -> (bigJump = 0.00000) and
 			(omegaCrank' + -0.32000 * omegaWheel' = 0.00000)
 			 and omegaWheel' = omegaWheel
+			 and bigJump' = bigJump
 			 and (t = 0.00000);
-	two_six_big and two_seven_big' -> true and
-			(omegaCrank' + -0.30000 * omegaWheel' = 0.00000)
+	two_six_big and one_six_big' -> (bigJump = 0.00000) and
+			(omegaCrank' + -0.47059 * omegaWheel' = 0.00000)
 			 and omegaWheel' = omegaWheel
+			 and bigJump' = bigJump
 			 and (t = 0.00000);
-	two_seven_big and two_eight_big' -> true and
-			(omegaCrank' + -0.28000 * omegaWheel' = 0.00000)
+	one_six_big and one_seven_big' -> (bigJump = 0.00000) and
+			(omegaCrank' + -0.44118 * omegaWheel' = 0.00000)
 			 and omegaWheel' = omegaWheel
+			 and bigJump' = bigJump
 			 and (t = 0.00000);
-	two_eight_big and one_eight' -> true and
+	one_seven_big and one_eight' -> (bigJump = 0.00000) and
 			(omegaCrank' + -0.41176 * omegaWheel' = 0.00000)
 			 and omegaWheel' = omegaWheel
+			 and bigJump' = bigJump
 			 and (t = 0.00000);
 
 	one_one and one_one' -> (t > 0.00000) and
 			omegaWheel' >= omegaWheel + 0.17069 * t and
 			omegaWheel' <= omegaWheel + 0.61867 * t and
+			bigJump' >= bigJump + 0.00000 * t and
+			bigJump' <= bigJump + 0.00000 * t and
 			(omegaCrank' <= 11.51917) and (omegaCrank' + -0.73529 * omegaWheel' = 0.00000);
 	one_two and one_two' -> (t > 0.00000) and
 			omegaWheel' >= omegaWheel + 0.13811 * t and
 			omegaWheel' <= omegaWheel + 0.55025 * t and
+			bigJump' >= bigJump + 0.00000 * t and
+			bigJump' <= bigJump + 0.00000 * t and
 			(omegaCrank' <= 11.51917) and (omegaCrank' >= 9.42478) and (omegaCrank' + -0.67647 * omegaWheel' = 0.00000);
 	one_three and one_three' -> (t > 0.00000) and
 			omegaWheel' >= omegaWheel + 0.10552 * t and
 			omegaWheel' <= omegaWheel + 0.48183 * t and
+			bigJump' >= bigJump + 0.00000 * t and
+			bigJump' <= bigJump + 0.00000 * t and
 			(omegaCrank' <= 11.51917) and (omegaCrank' >= 9.42478) and (omegaCrank' + -0.61765 * omegaWheel' = 0.00000);
 	one_four and one_four' -> (t > 0.00000) and
 			omegaWheel' >= omegaWheel + 0.07294 * t and
 			omegaWheel' <= omegaWheel + 0.41341 * t and
+			bigJump' >= bigJump + 0.00000 * t and
+			bigJump' <= bigJump + 0.00000 * t and
 			(omegaCrank' <= 11.51917) and (omegaCrank' >= 9.42478) and (omegaCrank' + -0.55882 * omegaWheel' = 0.00000);
 	one_five and one_five' -> (t > 0.00000) and
 			omegaWheel' >= omegaWheel + 0.04036 * t and
 			omegaWheel' <= omegaWheel + 0.34499 * t and
+			bigJump' >= bigJump + 0.00000 * t and
+			bigJump' <= bigJump + 0.00000 * t and
 			(omegaCrank' <= 11.51917) and (omegaCrank' >= 9.42478) and (omegaCrank' + -0.50000 * omegaWheel' = 0.00000);
 	one_six and one_six' -> (t > 0.00000) and
 			omegaWheel' >= omegaWheel + 0.02407 * t and
 			omegaWheel' <= omegaWheel + 0.31078 * t and
+			bigJump' >= bigJump + 0.00000 * t and
+			bigJump' <= bigJump + 0.00000 * t and
 			(omegaCrank' <= 11.51917) and (omegaCrank' >= 9.42478) and (omegaCrank' + -0.47059 * omegaWheel' = 0.00000);
 	one_seven and one_seven' -> (t > 0.00000) and
 			omegaWheel' >= omegaWheel + 0.00778 * t and
 			omegaWheel' <= omegaWheel + 0.27657 * t and
+			bigJump' >= bigJump + 0.00000 * t and
+			bigJump' <= bigJump + 0.00000 * t and
 			(omegaCrank' <= 11.51917) and (omegaCrank' >= 9.42478) and (omegaCrank' + -0.44118 * omegaWheel' = 0.00000);
 	one_eight and one_eight' -> (t > 0.00000) and
 			omegaWheel' >= omegaWheel + -0.00851 * t and
 			omegaWheel' <= omegaWheel + 0.24236 * t and
+			bigJump' >= bigJump + 0.00000 * t and
+			bigJump' <= bigJump + 0.00000 * t and
 			(omegaCrank' <= 11.51917) and (omegaCrank' >= 9.42478) and (omegaCrank' + -0.41176 * omegaWheel' = 0.00000);
 	one_seven_big and one_seven_big' -> (t > 0.00000) and
 			omegaWheel' >= omegaWheel + 0.00000 * t and
 			omegaWheel' <= omegaWheel + 0.00000 * t and
+			bigJump' >= bigJump + 0.00000 * t and
+			bigJump' <= bigJump + 0.00000 * t and
 			(omegaCrank' + -0.44118 * omegaWheel' = 0.00000);
 	one_six_big and one_six_big' -> (t > 0.00000) and
 			omegaWheel' >= omegaWheel + 0.00000 * t and
 			omegaWheel' <= omegaWheel + 0.00000 * t and
+			bigJump' >= bigJump + 0.00000 * t and
+			bigJump' <= bigJump + 0.00000 * t and
 			(omegaCrank' + -0.47059 * omegaWheel' = 0.00000);
 	one_five_big and one_five_big' -> (t > 0.00000) and
 			omegaWheel' >= omegaWheel + 0.00000 * t and
 			omegaWheel' <= omegaWheel + 0.00000 * t and
+			bigJump' >= bigJump + 0.00000 * t and
+			bigJump' <= bigJump + 0.00000 * t and
 			(omegaCrank' + -0.50000 * omegaWheel' = 0.00000);
 	one_four_big and one_four_big' -> (t > 0.00000) and
 			omegaWheel' >= omegaWheel + 0.00000 * t and
 			omegaWheel' <= omegaWheel + 0.00000 * t and
+			bigJump' >= bigJump + 0.00000 * t and
+			bigJump' <= bigJump + 0.00000 * t and
 			(omegaCrank' + -0.55882 * omegaWheel' = 0.00000);
 	two_four and two_four' -> (t > 0.00000) and
 			omegaWheel' >= omegaWheel + -0.02610 * t and
 			omegaWheel' <= omegaWheel + 0.20542 * t and
+			bigJump' >= bigJump + 0.00000 * t and
+			bigJump' <= bigJump + 0.00000 * t and
 			(omegaCrank' <= 11.51917) and (omegaCrank' >= 9.42478) and (omegaCrank' + -0.38000 * omegaWheel' = 0.00000);
 	two_five and two_five' -> (t > 0.00000) and
 			omegaWheel' >= omegaWheel + -0.04826 * t and
 			omegaWheel' <= omegaWheel + 0.15889 * t and
+			bigJump' >= bigJump + 0.00000 * t and
+			bigJump' <= bigJump + 0.00000 * t and
 			(omegaCrank' <= 11.51917) and (omegaCrank' >= 9.42478) and (omegaCrank' + -0.34000 * omegaWheel' = 0.00000);
 	two_six and two_six' -> (t > 0.00000) and
 			omegaWheel' >= omegaWheel + -0.05934 * t and
 			omegaWheel' <= omegaWheel + 0.13563 * t and
+			bigJump' >= bigJump + 0.00000 * t and
+			bigJump' <= bigJump + 0.00000 * t and
 			(omegaCrank' <= 11.51917) and (omegaCrank' >= 9.42478) and (omegaCrank' + -0.32000 * omegaWheel' = 0.00000);
 	two_seven and two_seven' -> (t > 0.00000) and
 			omegaWheel' >= omegaWheel + -0.07041 * t and
 			omegaWheel' <= omegaWheel + 0.11237 * t and
+			bigJump' >= bigJump + 0.00000 * t and
+			bigJump' <= bigJump + 0.00000 * t and
 			(omegaCrank' <= 11.51917) and (omegaCrank' >= 9.42478) and (omegaCrank' + -0.30000 * omegaWheel' = 0.00000);
 	two_eight and two_eight' -> (t > 0.00000) and
 			omegaWheel' >= omegaWheel + -0.08149 * t and
 			omegaWheel' <= omegaWheel + 0.08910 * t and
+			bigJump' >= bigJump + 0.00000 * t and
+			bigJump' <= bigJump + 0.00000 * t and
 			(omegaCrank' <= 11.51917) and (omegaCrank' >= 9.42478) and (omegaCrank' + -0.28000 * omegaWheel' = 0.00000);
 	two_nine and two_nine' -> (t > 0.00000) and
 			omegaWheel' >= omegaWheel + -0.09257 * t and
 			omegaWheel' <= omegaWheel + 0.06584 * t and
+			bigJump' >= bigJump + 0.00000 * t and
+			bigJump' <= bigJump + 0.00000 * t and
 			(omegaCrank' <= 11.51917) and (omegaCrank' >= 9.42478) and (omegaCrank' + -0.26000 * omegaWheel' = 0.00000);
 	two_ten and two_ten' -> (t > 0.00000) and
 			omegaWheel' >= omegaWheel + -0.10365 * t and
 			omegaWheel' <= omegaWheel + 0.04258 * t and
+			bigJump' >= bigJump + 0.00000 * t and
+			bigJump' <= bigJump + 0.00000 * t and
 			(omegaCrank' <= 11.51917) and (omegaCrank' >= 9.42478) and (omegaCrank' + -0.24000 * omegaWheel' = 0.00000);
 	two_five_big and two_five_big' -> (t > 0.00000) and
 			omegaWheel' >= omegaWheel + 0.00000 * t and
@@ -346,14 +415,20 @@ TRANS
 	two_six_big and two_six_big' -> (t > 0.00000) and
 			omegaWheel' >= omegaWheel + 0.00000 * t and
 			omegaWheel' <= omegaWheel + 0.00000 * t and
+			bigJump' >= bigJump + 0.00000 * t and
+			bigJump' <= bigJump + 0.00000 * t and
 			(omegaCrank' + -0.32000 * omegaWheel' = 0.00000);
 	two_seven_big and two_seven_big' -> (t > 0.00000) and
 			omegaWheel' >= omegaWheel + 0.00000 * t and
 			omegaWheel' <= omegaWheel + 0.00000 * t and
+			bigJump' >= bigJump + 0.00000 * t and
+			bigJump' <= bigJump + 0.00000 * t and
 			(omegaCrank' + -0.30000 * omegaWheel' = 0.00000);
 	two_eight_big and two_eight_big' -> (t > 0.00000) and
 			omegaWheel' >= omegaWheel + 0.00000 * t and
 			omegaWheel' <= omegaWheel + 0.00000 * t and
+			bigJump' >= bigJump + 0.00000 * t and
+			bigJump' <= bigJump + 0.00000 * t and
 			(omegaCrank' + -0.28000 * omegaWheel' = 0.00000);
 
 TARGET

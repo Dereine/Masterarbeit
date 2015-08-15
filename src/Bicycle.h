@@ -48,5 +48,6 @@
 #define TEETHR9 	(double) 13
 #define TEETHR10 	(double) 12
 
+enum ShiftSequence {FOUR_ONE, THREE_TWO, TWO_ONE_TWO};
 
 #endif /* BICYCLE_H_ */
