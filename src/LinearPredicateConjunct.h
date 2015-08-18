@@ -22,7 +22,7 @@ public:
 	void addLinPred(LinearPredicate linPred);
 	string toStringISat(bool prime);
 
-private:
+protected:
 	vector<LinearPredicate> _linPreds;
 };
 

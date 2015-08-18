@@ -20,15 +20,36 @@ int main() {
 	double targetRPM;
 	double deviation;
 	double error;
+	unsigned int switchTimeModel = 1;
+	double fPedMax;
+	double fPedMin;
 	ShiftSequence shiftSequence;
 	shiftSequence = TWO_ONE_TWO;
+	int shiftSequenceInt;
+	string targetString;
+	bool spaceEx = 0;
 #ifdef USERINPUT
+	cout << "Please enter a max F_ped" << endl;
+	cin >> fPedMax;
+	cout << "Please enter a min F_ped" << endl;
+	cin >> fPedMin;
 	cout << "Please enter target in RPM:" << endl;
 	cin >> targetRPM;
 	cout << "Please enter deviation in RPM:" << endl;
 	cin >> deviation;
 	cout << "Please enter maximal allowed error in [%]:" << endl;
 	cin >> error;
+	cout << "Please enter a shift sequence for the big jumps (0: FOUR_ONE, 1 : TWO_ONE_TWO):" << endl;
+	cin >> shiftSequenceInt;
+	if (shiftSequenceInt == 0)
+		shiftSequence = FOUR_ONE;
+	else if (shiftSequenceInt == 1) {
+		shiftSequence = TWO_ONE_TWO;
+	}
+	cout << "Please enter Property to check." << endl;
+	cin >> targetString;
+	cout << "Consider time behavior? (0: Gear shift in 0-time, 1: Gear shift takes 600 ms)" << endl;
+	cin >> switchTimeModel;
 	double targetUpper = ((targetRPM + deviation) * 6.28f) / 60.0f;
 	double targetLower = ((targetRPM - deviation) * 6.28f) / 60.0f;
 	double upperLimit = targetUpper * (1 + (error / 100.0f));
@@ -40,8 +61,10 @@ int main() {
 	double targetLower = TARGETLOWEROMEGA;
 	double upperLimit = UPPERLIMIT;
 	double lowerLimit = LOWERLIMIT;
+	fPedMax = FPEDALHIGH;
+	fPedMin = FPEDALLOW;
 #endif
-	LinearHybridAutomaton bicycle;
+	LinearHybridAutomaton bicycle("bicyle");
 
 	/*
 	 * ************************************************************************
@@ -49,6 +72,8 @@ int main() {
 	 * ************************************************************************
 	 */
 	Constant timeDelta("deltaT", DELTANR);
+
+	Constant switchTimeThreshold("switchTime", 0.400f);
 
 	Constant one("one", 1.0f);
 	bicycle.addConstant(one);
@@ -85,107 +110,107 @@ int main() {
 
 	Constant cDrive11("cDrive11", C1 * (TEETHR1 / TEETHF1) - C2);
 	bicycle.addConstant(cDrive11);
-	Constant cDrive11Up("cDrive11Up", FPEDALHIGH * C1_1 * (TEETHR1 / TEETHF1) - C2);
+	Constant cDrive11Up("cDrive11Up", fPedMax * C1_1 * (TEETHR1 / TEETHF1) - C2);
 	bicycle.addConstant(cDrive11Up);
-	Constant cDrive11Low("cDrive11Low", FPEDALLOW * C1_1 * (TEETHR1 / TEETHF1) - C2);
+	Constant cDrive11Low("cDrive11Low", fPedMin * C1_1 * (TEETHR1 / TEETHF1) - C2);
 	bicycle.addConstant(cDrive11Low);
 
 	Constant cDrive12("cDrive12", C1 * (TEETHR2 / TEETHF1) - C2);
 	bicycle.addConstant(cDrive12);
-	Constant cDrive12Up("cDrive12Up", FPEDALHIGH * C1_1 * (TEETHR2 / TEETHF1) - C2);
+	Constant cDrive12Up("cDrive12Up", fPedMax * C1_1 * (TEETHR2 / TEETHF1) - C2);
 	bicycle.addConstant(cDrive12Up);
-	Constant cDrive12Low("cDrive12Low", FPEDALLOW * C1_1 * (TEETHR2 / TEETHF1) - C2);
+	Constant cDrive12Low("cDrive12Low", fPedMin * C1_1 * (TEETHR2 / TEETHF1) - C2);
 	bicycle.addConstant(cDrive12Low);
 
 	Constant cDrive13("cDrive13", C1 * (TEETHR3 / TEETHF1) - C2);
 	bicycle.addConstant(cDrive13);
-	Constant cDrive13Up("cDrive13Up", FPEDALHIGH * C1_1 * (TEETHR3 / TEETHF1) - C2);
+	Constant cDrive13Up("cDrive13Up", fPedMax * C1_1 * (TEETHR3 / TEETHF1) - C2);
 	bicycle.addConstant(cDrive13Up);
-	Constant cDrive13Low("cDrive13Low", FPEDALLOW * C1_1 * (TEETHR3 / TEETHF1) - C2);
+	Constant cDrive13Low("cDrive13Low", fPedMin * C1_1 * (TEETHR3 / TEETHF1) - C2);
 	bicycle.addConstant(cDrive13Low);
 
 	Constant cDrive14("cDrive14", C1 * (TEETHR4 / TEETHF1) - C2);
 	bicycle.addConstant(cDrive14);
-	Constant cDrive14Up("cDrive14Up", FPEDALHIGH * C1_1 * (TEETHR4 / TEETHF1) - C2);
+	Constant cDrive14Up("cDrive14Up", fPedMax * C1_1 * (TEETHR4 / TEETHF1) - C2);
 	bicycle.addConstant(cDrive14Up);
-	Constant cDrive14Low("cDrive14Low", FPEDALLOW * C1_1 * (TEETHR4 / TEETHF1) - C2);
+	Constant cDrive14Low("cDrive14Low", fPedMin * C1_1 * (TEETHR4 / TEETHF1) - C2);
 	bicycle.addConstant(cDrive14Low);
 
 	Constant cDrive15("cDrive15", C1 * (TEETHR5 / TEETHF1) - C2);
 	bicycle.addConstant(cDrive15);
-	Constant cDrive15Up("cDrive15Up", FPEDALHIGH * C1_1 * (TEETHR5 / TEETHF1) - C2);
+	Constant cDrive15Up("cDrive15Up", fPedMax * C1_1 * (TEETHR5 / TEETHF1) - C2);
 	bicycle.addConstant(cDrive15Up);
-	Constant cDrive15Low("cDrive15Low", FPEDALLOW * C1_1 * (TEETHR5 / TEETHF1) - C2);
+	Constant cDrive15Low("cDrive15Low", fPedMin * C1_1 * (TEETHR5 / TEETHF1) - C2);
 	bicycle.addConstant(cDrive15Low);
 
 	Constant cDrive16("cDrive16", C1 * (TEETHR6 / TEETHF1) - C2);
 	bicycle.addConstant(cDrive16);
-	Constant cDrive16Up("cDrive16Up", FPEDALHIGH * C1_1 * (TEETHR6 / TEETHF1) - C2);
+	Constant cDrive16Up("cDrive16Up", fPedMax * C1_1 * (TEETHR6 / TEETHF1) - C2);
 	bicycle.addConstant(cDrive16Up);
-	Constant cDrive16Low("cDrive16Low", FPEDALLOW * C1_1 * (TEETHR6 / TEETHF1) - C2);
+	Constant cDrive16Low("cDrive16Low", fPedMin * C1_1 * (TEETHR6 / TEETHF1) - C2);
 	bicycle.addConstant(cDrive16Low);
 
 	Constant cDrive17("cDrive17", C1 * (TEETHR7 / TEETHF1) - C2);
 	bicycle.addConstant(cDrive17);
-	Constant cDrive17Up("cDrive17Up", FPEDALHIGH * C1_1 * (TEETHR7 / TEETHF1) - C2);
+	Constant cDrive17Up("cDrive17Up", fPedMax * C1_1 * (TEETHR7 / TEETHF1) - C2);
 	bicycle.addConstant(cDrive17Up);
-	Constant cDrive17Low("cDrive17Low", FPEDALLOW * C1_1 * (TEETHR7 / TEETHF1) - C2);
+	Constant cDrive17Low("cDrive17Low", fPedMin * C1_1 * (TEETHR7 / TEETHF1) - C2);
 	bicycle.addConstant(cDrive17Low);
 
 	Constant cDrive18("cDrive18", C1 * (TEETHR8 / TEETHF1) - C2);
 	bicycle.addConstant(cDrive18);
-	Constant cDrive18Up("cDrive18Up", FPEDALHIGH * C1_1 * (TEETHR8 / TEETHF1) - C2);
+	Constant cDrive18Up("cDrive18Up", fPedMax * C1_1 * (TEETHR8 / TEETHF1) - C2);
 	bicycle.addConstant(cDrive18Up);
-	Constant cDrive18Low("cDrive18Low", FPEDALLOW * C1_1 * (TEETHR8 / TEETHF1) - C2);
+	Constant cDrive18Low("cDrive18Low", fPedMin * C1_1 * (TEETHR8 / TEETHF1) - C2);
 	bicycle.addConstant(cDrive18Low);
 
 	Constant cDrive24("cDrive24", C1 * (TEETHR4 / TEETHF2) - C2);
 	bicycle.addConstant(cDrive24);
-	Constant cDrive24Up("cDrive24Up", FPEDALHIGH * C1_1 * (TEETHR4 / TEETHF2) - C2);
+	Constant cDrive24Up("cDrive24Up", fPedMax * C1_1 * (TEETHR4 / TEETHF2) - C2);
 	bicycle.addConstant(cDrive24Up);
-	Constant cDrive24Low("cDrive24Low", FPEDALLOW * C1_1 * (TEETHR4 / TEETHF2) - C2);
+	Constant cDrive24Low("cDrive24Low", fPedMin * C1_1 * (TEETHR4 / TEETHF2) - C2);
 	bicycle.addConstant(cDrive24Low);
 
 	Constant cDrive25("cDrive25", C1 * (TEETHR5 / TEETHF2) - C2);
 	bicycle.addConstant(cDrive25);
-	Constant cDrive25Up("cDrive25Up", FPEDALHIGH * C1_1 * (TEETHR5 / TEETHF2) - C2);
+	Constant cDrive25Up("cDrive25Up", fPedMax * C1_1 * (TEETHR5 / TEETHF2) - C2);
 	bicycle.addConstant(cDrive25Up);
-	Constant cDrive25Low("cDrive25Low", FPEDALLOW * C1_1 * (TEETHR5 / TEETHF2) - C2);
+	Constant cDrive25Low("cDrive25Low", fPedMin * C1_1 * (TEETHR5 / TEETHF2) - C2);
 	bicycle.addConstant(cDrive25Low);
 
 	Constant cDrive26("cDrive26", C1 * (TEETHR6 / TEETHF2) - C2);
 	bicycle.addConstant(cDrive26);
-	Constant cDrive26Up("cDrive26Up", FPEDALHIGH * C1_1 * (TEETHR6 / TEETHF2) - C2);
+	Constant cDrive26Up("cDrive26Up", fPedMax * C1_1 * (TEETHR6 / TEETHF2) - C2);
 	bicycle.addConstant(cDrive26Up);
-	Constant cDrive26Low("cDrive26Low", FPEDALLOW * C1_1 * (TEETHR6 / TEETHF2) - C2);
+	Constant cDrive26Low("cDrive26Low", fPedMin * C1_1 * (TEETHR6 / TEETHF2) - C2);
 	bicycle.addConstant(cDrive26Low);
 
 	Constant cDrive27("cDrive27", C1 * (TEETHR7 / TEETHF2) - C2);
 	bicycle.addConstant(cDrive27);
-	Constant cDrive27Up("cDrive27Up", FPEDALHIGH * C1_1 * (TEETHR7 / TEETHF2) - C2);
+	Constant cDrive27Up("cDrive27Up", fPedMax * C1_1 * (TEETHR7 / TEETHF2) - C2);
 	bicycle.addConstant(cDrive27Up);
-	Constant cDrive27Low("cDrive27Low", FPEDALLOW * C1_1 * (TEETHR7 / TEETHF2) - C2);
+	Constant cDrive27Low("cDrive27Low", fPedMin * C1_1 * (TEETHR7 / TEETHF2) - C2);
 	bicycle.addConstant(cDrive27Low);
 
 	Constant cDrive28("cDrive28", C1 * (TEETHR8 / TEETHF2) - C2);
 	bicycle.addConstant(cDrive28);
-	Constant cDrive28Up("cDrive28Up", FPEDALHIGH * C1_1 * (TEETHR8 / TEETHF2) - C2);
+	Constant cDrive28Up("cDrive28Up", fPedMax * C1_1 * (TEETHR8 / TEETHF2) - C2);
 	bicycle.addConstant(cDrive28Up);
-	Constant cDrive28Low("cDrive28Low", FPEDALLOW * C1_1 * (TEETHR8 / TEETHF2) - C2);
+	Constant cDrive28Low("cDrive28Low", fPedMin * C1_1 * (TEETHR8 / TEETHF2) - C2);
 	bicycle.addConstant(cDrive28Low);
 
 	Constant cDrive29("cDrive29", C1 * (TEETHR9 / TEETHF2) - C2);
 	bicycle.addConstant(cDrive29);
-	Constant cDrive29Up("cDrive29Up", FPEDALHIGH * C1_1 * (TEETHR9 / TEETHF2) - C2);
+	Constant cDrive29Up("cDrive29Up", fPedMax * C1_1 * (TEETHR9 / TEETHF2) - C2);
 	bicycle.addConstant(cDrive29Up);
-	Constant cDrive29Low("cDrive29Low", FPEDALLOW * C1_1 * (TEETHR9 / TEETHF2) - C2);
+	Constant cDrive29Low("cDrive29Low", fPedMin * C1_1 * (TEETHR9 / TEETHF2) - C2);
 	bicycle.addConstant(cDrive29Low);
 
 	Constant cDrive210("cDrive210", C1 * (TEETHR10 / TEETHF2) - C2);
 	bicycle.addConstant(cDrive210);
-	Constant cDrive210Up("cDrive210Up", FPEDALHIGH * C1_1 * (TEETHR10 / TEETHF2) - C2);
+	Constant cDrive210Up("cDrive210Up", fPedMax * C1_1 * (TEETHR10 / TEETHF2) - C2);
 	bicycle.addConstant(cDrive210Up);
-	Constant cDrive210Low("cDrive210Low", FPEDALLOW * C1_1 * (TEETHR10 / TEETHF2) - C2);
+	Constant cDrive210Low("cDrive210Low", fPedMin * C1_1 * (TEETHR10 / TEETHF2) - C2);
 	bicycle.addConstant(cDrive210Low);
 
 	Constant ratioOneOne("ratio_one_one", (-1 * TEETHR1 / TEETHF1));
@@ -233,6 +258,9 @@ int main() {
 	Variable t(Variable::REAL, "t", 0, 500);
 	bicycle.addVariable(t);
 
+	Variable tSum(Variable::REAL, "tSum", 0, 500);
+	bicycle.addVariable(tSum);
+
 	Variable bigJump(Variable::INTEGER, "bigJump", 0, 1, 0);
 	bicycle.addVariable(bigJump);
 
@@ -243,6 +271,9 @@ int main() {
 	 * ************************************************************************
 	 */
 	LinearTerm oneTimesT(one, t);
+	//LinearTerm oneTimesTSum(one, tSum);
+	vector<LinearTerm> linTermsTimeThreshold;
+	linTermsTimeThreshold.push_back(oneTimesT);
 
 	LinearTerm oneTimesOmegaWheel(one, omegaWheel);
 	LinearTerm oneTimesOmegaCrank(one, omegaCrank);
@@ -254,6 +285,14 @@ int main() {
 	LinearTerm oneTimesBigJump(one, bigJump);
 	vector<LinearTerm> linTermsBigJump;
 	linTermsBigJump.push_back(oneTimesBigJump);
+
+	// t > Threshold.
+	LinearPredicate tGreaterThreshold(linTermsTimeThreshold,
+			LinearPredicate::GREATER, switchTimeThreshold);
+
+	// t = Threshold.
+	LinearPredicate tEqualThreshold(linTermsTimeThreshold,
+			LinearPredicate::EQUAL, switchTimeThreshold);
 
 	// omegaWheel <= target + deviation
 	LinearPredicate upLinPredLeq(linTermsInv, LinearPredicate::LEQ, targetPlus);
@@ -309,7 +348,6 @@ int main() {
 			ratio28TimesOmegaWheel(ratioTwoEight, omegaWheel),
 			ratio29TimesOmegaWheel(ratioTwoNine, omegaWheel),
 			ratio210TimesOmegaWheel(ratioTwoTen, omegaWheel);
-
 
 	vector<LinearTerm> linTermsRatio11;
 	linTermsRatio11.push_back(oneTimesOmegaCrank);
@@ -371,23 +409,51 @@ int main() {
 	linTermsRatio210.push_back(oneTimesOmegaCrank);
 	linTermsRatio210.push_back(ratio210TimesOmegaWheel);
 
-
 	LinearPredicate linPredRatio11(linTermsRatio11, LinearPredicate::EQUAL, zero);
+	if (spaceEx)
+		linPredRatio11.setFlow(true);
 	LinearPredicate linPredRatio12(linTermsRatio12, LinearPredicate::EQUAL, zero);
+	if (spaceEx)
+		linPredRatio12.setFlow(true);
 	LinearPredicate linPredRatio13(linTermsRatio13, LinearPredicate::EQUAL, zero);
+	if (spaceEx)
+		linPredRatio13.setFlow(true);
 	LinearPredicate linPredRatio14(linTermsRatio14, LinearPredicate::EQUAL, zero);
+	if (spaceEx)
+		linPredRatio14.setFlow(true);
 	LinearPredicate linPredRatio15(linTermsRatio15, LinearPredicate::EQUAL, zero);
+	if (spaceEx)
+		linPredRatio15.setFlow(true);
 	LinearPredicate linPredRatio16(linTermsRatio16, LinearPredicate::EQUAL, zero);
+	if (spaceEx)
+		linPredRatio16.setFlow(true);
 	LinearPredicate linPredRatio17(linTermsRatio17, LinearPredicate::EQUAL, zero);
+	if (spaceEx)
+		linPredRatio17.setFlow(true);
 	LinearPredicate linPredRatio18(linTermsRatio18, LinearPredicate::EQUAL, zero);
+	if (spaceEx)
+		linPredRatio18.setFlow(true);
 	LinearPredicate linPredRatio24(linTermsRatio24, LinearPredicate::EQUAL, zero);
+	if (spaceEx)
+		linPredRatio24.setFlow(true);
 	LinearPredicate linPredRatio25(linTermsRatio25, LinearPredicate::EQUAL, zero);
+	if (spaceEx)
+		linPredRatio25.setFlow(true);
 	LinearPredicate linPredRatio26(linTermsRatio26, LinearPredicate::EQUAL, zero);
+	if (spaceEx)
+		linPredRatio26.setFlow(true);
 	LinearPredicate linPredRatio27(linTermsRatio27, LinearPredicate::EQUAL, zero);
+	if (spaceEx)
+		linPredRatio27.setFlow(true);
 	LinearPredicate linPredRatio28(linTermsRatio28, LinearPredicate::EQUAL, zero);
+	if (spaceEx)
+		linPredRatio28.setFlow(true);
 	LinearPredicate linPredRatio29(linTermsRatio29, LinearPredicate::EQUAL, zero);
+	if (spaceEx)
+		linPredRatio29.setFlow(true);
 	LinearPredicate linPredRatio210(linTermsRatio210, LinearPredicate::EQUAL, zero);
-
+	if (spaceEx)
+		linPredRatio210.setFlow(true);
 
 	/*
 	 * ************************************************************************
@@ -504,20 +570,29 @@ int main() {
 	 * Guards
 	 * ************************************************************************
 	 */
+
 	Guard upNoBigJump;
 	upNoBigJump.addLinPred(upLinPredGeq);
+//	if (switchTimeModel)
+//		upNoBigJump.addLinPred(tGreaterThreshold);
 
 	Guard upNoBigJump2;
 	upNoBigJump2.addLinPred(upLinPredGeq2);
 
 	Guard upBigJump;
 	upBigJump.addLinPred(bigJumpEqualsOne);
+//	if (switchTimeModel)
+//		upBigJump.addLinPred(tGreaterThreshold);
 
 	Guard downBigJump;
 	downBigJump.addLinPred(bigJumpEqualsZero);
+//	if (switchTimeModel)
+//		downBigJump.addLinPred(tGreaterThreshold);
 
 	Guard downNoBigJump;
 	downNoBigJump.addLinPred(downLinPredLeq);
+//	if (switchTimeModel)
+//		downNoBigJump.addLinPred(tGreaterThreshold);
 
 //	Guard downBigJump;
 //	downBigJump.addLinPred(downLinPredGeq);
@@ -548,12 +623,18 @@ int main() {
 	Assignment assign11;
 	assign11.addLinPred(linPredRatio11);
 	assign11.addAssignedVariable(omegaCrank);
+	assign11.addLinPred(tGreaterThreshold);
+	assign11.addAssignedVariable(t);
 
 	Assignment assign12;
 	assign12.addLinPred(linPredRatio12);
 	//assign12.addLinPred(tEqualsZero);
 	assign12.addAssignedVariable(omegaCrank);
 	//assign12.addAssignedVariable(t);
+	if (switchTimeModel) {
+		assign12.addLinPred(tGreaterThreshold);
+		assign12.addAssignedVariable(t);
+	}
 
 	Assignment assign13;
 	assign13.addLinPred(linPredRatio13);
@@ -561,82 +642,246 @@ int main() {
 	//assign13.addLinPred(tEqualsZero);
 	//assign13.addAssignedVariable(omegaCrank);
 	//assign13.addAssignedVariable(t);
+	if (switchTimeModel) {
+		assign13.addLinPred(tGreaterThreshold);
+		assign13.addAssignedVariable(t);
+	}
 
 	Assignment assign14;
 	assign14.addLinPred(linPredRatio14);
 	assign14.addAssignedVariable(omegaCrank);
+	if (switchTimeModel) {
+		assign14.addLinPred(tGreaterThreshold);
+		assign14.addAssignedVariable(t);
+	}
 
 	Assignment assign15;
 	assign15.addLinPred(linPredRatio15);
 	assign15.addAssignedVariable(omegaCrank);
+	if (switchTimeModel) {
+		assign15.addLinPred(tGreaterThreshold);
+		assign15.addAssignedVariable(t);
+	}
 
 	Assignment assign16;
 	assign16.addLinPred(linPredRatio16);
 	assign16.addAssignedVariable(omegaCrank);
+	if (switchTimeModel) {
+		assign16.addLinPred(tGreaterThreshold);
+		assign16.addAssignedVariable(t);
+	}
 
 	Assignment assign17;
 	assign17.addLinPred(linPredRatio17);
 	assign17.addAssignedVariable(omegaCrank);
+	if (switchTimeModel) {
+		assign17.addLinPred(tGreaterThreshold);
+		assign17.addAssignedVariable(t);
+	}
 
 	Assignment assign18;
 	assign18.addLinPred(linPredRatio18);
 	assign18.addAssignedVariable(omegaCrank);
+	if (switchTimeModel) {
+		assign18.addLinPred(tGreaterThreshold);
+		assign18.addAssignedVariable(t);
+	}
 
 	Assignment assign17BigUp;
 	assign17BigUp.addLinPred(linPredRatio17);
 	assign17BigUp.addAssignedVariable(omegaCrank);
 	assign17BigUp.addLinPred(bigJumpEqualsOne);
 	assign17BigUp.addAssignedVariable(bigJump);
+	if (switchTimeModel) {
+		assign17BigUp.addLinPred(tEqualThreshold);
+		assign17BigUp.addAssignedVariable(t);
+	}
 
 	Assignment assign16BigUp;
 	assign16BigUp.addLinPred(linPredRatio16);
 	assign16BigUp.addAssignedVariable(omegaCrank);
+	assign16BigUp.addLinPred(bigJumpEqualsOne);
+	assign16BigUp.addAssignedVariable(bigJump);
+	if (switchTimeModel) {
+		assign16BigUp.addLinPred(tEqualThreshold);
+		assign16BigUp.addAssignedVariable(t);
+	}
 
 	Assignment assign15BigUp;
 	assign15BigUp.addLinPred(linPredRatio15);
 	assign15BigUp.addAssignedVariable(omegaCrank);
+	assign15BigUp.addLinPred(bigJumpEqualsOne);
+	assign15BigUp.addAssignedVariable(bigJump);
+	if (switchTimeModel) {
+		assign15BigUp.addLinPred(tEqualThreshold);
+		assign15BigUp.addAssignedVariable(t);
+	}
 
 	Assignment assign14BigUp;
 	assign14BigUp.addLinPred(linPredRatio14);
 	assign14BigUp.addAssignedVariable(omegaCrank);
+	assign14BigUp.addLinPred(bigJumpEqualsOne);
+	assign14BigUp.addAssignedVariable(bigJump);
+	if (switchTimeModel) {
+		assign14BigUp.addLinPred(tEqualThreshold);
+		assign14BigUp.addAssignedVariable(t);
+	}
 
-	Assignment assign24BigUp;
-	assign24BigUp.addLinPred(linPredRatio24);
-	assign24BigUp.addAssignedVariable(omegaCrank);
+//	Assignment assign24BigUp;
+//	assign24BigUp.addLinPred(linPredRatio24);
+//	assign24BigUp.addAssignedVariable(omegaCrank);
+//	assign24BigUp.addLinPred(bigJumpEqualsOne);
+//	assign24BigUp.addAssignedVariable(bigJump);
+//	if (switchTimeModel) {
+//		assign24BigUp.addLinPred(tGreaterThreshold);
+//		assign24BigUp.addAssignedVariable(t);
+//	}
+
+	Assignment assign25BigUp;
+	assign25BigUp.addLinPred(linPredRatio25);
+	assign25BigUp.addAssignedVariable(omegaCrank);
+	assign25BigUp.addLinPred(bigJumpEqualsOne);
+	assign25BigUp.addAssignedVariable(bigJump);
+	if (switchTimeModel) {
+		assign25BigUp.addLinPred(tEqualThreshold);
+		assign25BigUp.addAssignedVariable(t);
+	}
+
+	Assignment assign26BigUp;
+	assign26BigUp.addLinPred(linPredRatio26);
+	assign26BigUp.addAssignedVariable(omegaCrank);
+	assign26BigUp.addLinPred(bigJumpEqualsOne);
+	assign26BigUp.addAssignedVariable(bigJump);
+	if (switchTimeModel) {
+		assign26BigUp.addLinPred(tEqualThreshold);
+		assign26BigUp.addAssignedVariable(t);
+	}
 
 	Assignment assign24;
 	assign24.addLinPred(linPredRatio24);
 	assign24.addAssignedVariable(omegaCrank);
+	if (switchTimeModel) {
+		assign24.addLinPred(tGreaterThreshold);
+		assign24.addAssignedVariable(t);
+	}
 
 	Assignment assign25;
 	assign25.addLinPred(linPredRatio25);
 	assign25.addAssignedVariable(omegaCrank);
+	if (switchTimeModel) {
+		assign25.addLinPred(tGreaterThreshold);
+		assign25.addAssignedVariable(t);
+	}
 
 	Assignment assign25BigDown;
 	assign25BigDown.addLinPred(linPredRatio25);
 	assign25BigDown.addAssignedVariable(omegaCrank);
 	assign25BigDown.addLinPred(bigJumpEqualsZero);
 	assign25BigDown.addAssignedVariable(bigJump);
+	if (switchTimeModel) {
+		assign25BigDown.addLinPred(tEqualThreshold);
+		assign25BigDown.addAssignedVariable(t);
+	}
+
+	Assignment assign26BigDown;
+	assign26BigDown.addLinPred(linPredRatio26);
+	assign26BigDown.addAssignedVariable(omegaCrank);
+	assign26BigDown.addLinPred(bigJumpEqualsZero);
+	assign26BigDown.addAssignedVariable(bigJump);
+	if (switchTimeModel) {
+		assign26BigDown.addLinPred(tEqualThreshold);
+		assign26BigDown.addAssignedVariable(t);
+	}
+
+	Assignment assign27BigDown;
+	assign27BigDown.addLinPred(linPredRatio27);
+	assign27BigDown.addAssignedVariable(omegaCrank);
+	assign27BigDown.addLinPred(bigJumpEqualsZero);
+	assign27BigDown.addAssignedVariable(bigJump);
+	if (switchTimeModel) {
+		assign27BigDown.addLinPred(tEqualThreshold);
+		assign27BigDown.addAssignedVariable(t);
+	}
+
+	Assignment assign28BigDown;
+	assign28BigDown.addLinPred(linPredRatio28);
+	assign28BigDown.addAssignedVariable(omegaCrank);
+	assign28BigDown.addLinPred(bigJumpEqualsZero);
+	assign28BigDown.addAssignedVariable(bigJump);
+	if (switchTimeModel) {
+		assign28BigDown.addLinPred(tEqualThreshold);
+		assign28BigDown.addAssignedVariable(t);
+	}
+
+//	Assignment assign18BigDown;
+//	assign18BigDown.addLinPred(linPredRatio18);
+//	assign18BigDown.addAssignedVariable(omegaCrank);
+//	assign18BigDown.addLinPred(bigJumpEqualsZero);
+//	assign18BigDown.addAssignedVariable(bigJump);
+//	if (switchTimeModel) {
+//		assign18BigDown.addLinPred(tGreaterThreshold);
+//		assign18BigDown.addAssignedVariable(t);
+//	}
+
+	Assignment assign16BigDown;
+	assign16BigDown.addLinPred(linPredRatio16);
+	assign16BigDown.addAssignedVariable(omegaCrank);
+	assign16BigDown.addLinPred(bigJumpEqualsZero);
+	assign16BigDown.addAssignedVariable(bigJump);
+	if (switchTimeModel) {
+		assign16BigDown.addLinPred(tEqualThreshold);
+		assign16BigDown.addAssignedVariable(t);
+	}
+
+	Assignment assign17BigDown;
+	assign17BigDown.addLinPred(linPredRatio17);
+	assign17BigDown.addAssignedVariable(omegaCrank);
+	assign17BigDown.addLinPred(bigJumpEqualsZero);
+	assign17BigDown.addAssignedVariable(bigJump);
+	if (switchTimeModel) {
+		assign17BigDown.addLinPred(tEqualThreshold);
+		assign17BigDown.addAssignedVariable(t);
+	}
 
 	Assignment assign26;
 	assign26.addLinPred(linPredRatio26);
 	assign26.addAssignedVariable(omegaCrank);
+	if (switchTimeModel) {
+		assign26.addLinPred(tGreaterThreshold);
+		assign26.addAssignedVariable(t);
+	}
 
 	Assignment assign27;
 	assign27.addLinPred(linPredRatio27);
 	assign27.addAssignedVariable(omegaCrank);
+	if (switchTimeModel) {
+		assign27.addLinPred(tGreaterThreshold);
+		assign27.addAssignedVariable(t);
+	}
 
 	Assignment assign28;
 	assign28.addLinPred(linPredRatio28);
 	assign28.addAssignedVariable(omegaCrank);
+	if (switchTimeModel) {
+		assign28.addLinPred(tGreaterThreshold);
+		assign28.addAssignedVariable(t);
+	}
 
 	Assignment assign29;
 	assign29.addLinPred(linPredRatio29);
 	assign29.addAssignedVariable(omegaCrank);
+	if (switchTimeModel) {
+		assign29.addLinPred(tGreaterThreshold);
+		assign29.addAssignedVariable(t);
+	}
 
 	Assignment assign210;
 	assign210.addLinPred(linPredRatio210);
 	assign210.addAssignedVariable(omegaCrank);
+	if (switchTimeModel) {
+		assign210.addLinPred(tGreaterThreshold);
+		assign210.addAssignedVariable(t);
+	}
 
 	Assignment bigJumpZero;
 	bigJumpZero.addLinPred(bigJumpEqualsZero);
@@ -684,36 +929,6 @@ int main() {
 	Bound bigJumpBound(bigJump, zero, zero);
 
 	Bound bigJumpBoundsOmega(omegaWheel, zero, zero);
-//	Bound l11Up(cDrive11, omegaWheel, Bound::UP);
-//	Bound l11Low(cDrive11, omegaWheel, Bound::LOW);
-//	Bound l12Up(cDrive12, omegaWheel, Bound::UP);
-//	Bound l12Low(cDrive12, omegaWheel, Bound::LOW);
-//	Bound l13Up(cDrive13, omegaWheel, Bound::UP);
-//	Bound l13Low(cDrive13, omegaWheel, Bound::LOW);
-//	Bound l14Up(cDrive14, omegaWheel, Bound::UP);
-//	Bound l14Low(cDrive14, omegaWheel, Bound::LOW);
-//	Bound l15Up(cDrive15, omegaWheel, Bound::UP);
-//	Bound l15Low(cDrive15, omegaWheel, Bound::LOW);
-//	Bound l16Up(cDrive16, omegaWheel, Bound::UP);
-//	Bound l16Low(cDrive16, omegaWheel, Bound::LOW);
-//	Bound l17Up(cDrive17, omegaWheel, Bound::UP);
-//	Bound l17Low(cDrive17, omegaWheel, Bound::LOW);
-//	Bound l18Up(cDrive18, omegaWheel, Bound::UP);
-//	Bound l18Low(cDrive18, omegaWheel, Bound::LOW);
-//	Bound l24Up(cDrive24, omegaWheel, Bound::UP);
-//	Bound l24Low(cDrive24, omegaWheel, Bound::LOW);
-//	Bound l25Up(cDrive25, omegaWheel, Bound::UP);
-//	Bound l25Low(cDrive25, omegaWheel, Bound::LOW);
-//	Bound l26Up(cDrive26, omegaWheel, Bound::UP);
-//	Bound l26Low(cDrive26, omegaWheel, Bound::LOW);
-//	Bound l27Up(cDrive27, omegaWheel, Bound::UP);
-//	Bound l27Low(cDrive27, omegaWheel, Bound::LOW);
-//	Bound l28Up(cDrive28, omegaWheel, Bound::UP);
-//	Bound l28Low(cDrive28, omegaWheel, Bound::LOW);
-//	Bound l29Up(cDrive29, omegaWheel, Bound::UP);
-//	Bound l29Low(cDrive29, omegaWheel, Bound::LOW);
-//	Bound l210Up(cDrive210, omegaWheel, Bound::UP);
-//	Bound l210Low(cDrive210, omegaWheel, Bound::LOW);
 
 	/*
 	 * ************************************************************************
@@ -771,28 +986,32 @@ int main() {
 	bicycle.addLocation(loc18);
 
 	vector <Bound> l17BoundsBigJump;
-	l17BoundsBigJump.push_back(bigJumpBoundsOmega);
+	//l17BoundsBigJump.push_back(bigJumpBoundsOmega);
+	l17BoundsBigJump.push_back(l17Omega);
 	l17BoundsBigJump.push_back(bigJumpBound);
 	Location loc17BigJump(172, "one_seven_big",
 			invBigJump17, l17BoundsBigJump, false);
 	bicycle.addLocation(loc17BigJump);
 
 	vector <Bound> l16BoundsBigJump;
-	l16BoundsBigJump.push_back(bigJumpBoundsOmega);
+	//l16BoundsBigJump.push_back(bigJumpBoundsOmega);
+	l16BoundsBigJump.push_back(l16Omega);
 	l16BoundsBigJump.push_back(bigJumpBound);
 	Location loc16BigJump(162, "one_six_big",
 			invBigJump16, l16BoundsBigJump, false);
 	bicycle.addLocation(loc16BigJump);
 
 	vector <Bound> l15BoundsBigJump;
-	l15BoundsBigJump.push_back(bigJumpBoundsOmega);
+	//l15BoundsBigJump.push_back(bigJumpBoundsOmega);
+	l15BoundsBigJump.push_back(l15Omega);
 	l15BoundsBigJump.push_back(bigJumpBound);
 	Location loc15BigJump(152, "one_five_big",
 			invBigJump15, l15BoundsBigJump, false);
 	bicycle.addLocation(loc15BigJump);
 
 	vector <Bound> l14BoundsBigJump;
-	l14BoundsBigJump.push_back(bigJumpBoundsOmega);
+	//l14BoundsBigJump.push_back(bigJumpBoundsOmega);
+	l14BoundsBigJump.push_back(l14Omega);
 	l14BoundsBigJump.push_back(bigJumpBound);
 	Location loc14BigJump(142, "one_four_big",
 			invBigJump14, l14BoundsBigJump, false);
@@ -841,28 +1060,32 @@ int main() {
 	bicycle.addLocation(loc210);
 
 	vector <Bound> l25BoundsBigJump;
-	l25BoundsBigJump.push_back(bigJumpBoundsOmega);
+	//l25BoundsBigJump.push_back(bigJumpBoundsOmega);
+	l25BoundsBigJump.push_back(l25Omega);
 	l25Bounds.push_back(bigJumpBound);
 	Location loc25BigJump(252, "two_five_big",
 			invBigJump25, l25BoundsBigJump, false);
 	bicycle.addLocation(loc25BigJump);
 
 	vector <Bound> l26BoundsBigJump;
-	l26BoundsBigJump.push_back(bigJumpBoundsOmega);
+	//l26BoundsBigJump.push_back(bigJumpBoundsOmega);
+	l26BoundsBigJump.push_back(l26Omega);
 	l26BoundsBigJump.push_back(bigJumpBound);
 	Location loc26BigJump(662, "two_six_big",
 			invBigJump26, l26BoundsBigJump, false);
 	bicycle.addLocation(loc26BigJump);
 
 	vector <Bound> l27BoundsBigJump;
-	l27BoundsBigJump.push_back(bigJumpBoundsOmega);
+//	l27BoundsBigJump.push_back(bigJumpBoundsOmega);
+	l27BoundsBigJump.push_back(l27Omega);
 	l27BoundsBigJump.push_back(bigJumpBound);
 	Location loc27BigJump(272, "two_seven_big",
 			invBigJump27, l27BoundsBigJump, false);
 	bicycle.addLocation(loc27BigJump);
 
 	vector <Bound> l28BoundsBigJump;
-	l28BoundsBigJump.push_back(bigJumpBoundsOmega);
+//	l28BoundsBigJump.push_back(bigJumpBoundsOmega);
+	l28BoundsBigJump.push_back(l28Omega);
 	l28BoundsBigJump.push_back(bigJumpBound);
 	Location loc28BigJump(282, "two_eight_big",
 			invBigJump28, l28BoundsBigJump, false);
@@ -914,27 +1137,34 @@ int main() {
 	Edge one_eight_one_seven(loc18, loc17, downNoBigJump, assign17, "one_eight_one_seven");
 	bicycle.addEdge(one_eight_one_seven);
 
+	/*
+	 * Shift sequence for the big jump.
+	 */
 	Edge one_eight_one_seven_big(loc18, loc17BigJump, upNoBigJump, assign17BigUp, "one_eight_one_seven_big");
 	bicycle.addEdge(one_eight_one_seven_big);
 
-	Edge one_seven_one_six_big(loc17BigJump, loc16BigJump, upBigJump, assign16, "one_seven_one_six_big");
+	Edge one_seven_one_six_big(loc17BigJump, loc16BigJump, upBigJump, assign16BigUp, "one_seven_one_six_big");
 	bicycle.addEdge(one_seven_one_six_big);
 
 	if (shiftSequence == FOUR_ONE) {
-		Edge one_six_one_five_big(loc16BigJump, loc15BigJump, upBigJump, assign15, "one_six_one_five_big");
+		Edge one_six_one_five_big(loc16BigJump, loc15BigJump, upBigJump, assign15BigUp, "one_six_one_five_big");
 		bicycle.addEdge(one_six_one_five_big);
-		Edge one_five_one_four_big(loc15BigJump, loc14BigJump, upBigJump, assign14, "one_five_one_four_big");
+		Edge one_five_one_four_big(loc15BigJump, loc14BigJump, upBigJump, assign14BigUp, "one_five_one_four_big");
 		bicycle.addEdge(one_five_one_four_big);
 		Edge one_four_two_four_big(loc14BigJump, loc24, upBigJump, assign24, "one_four_two_four_big");
 		bicycle.addEdge(one_four_two_four_big);
 	} else if (shiftSequence == TWO_ONE_TWO) {
-		Edge one_six_two_six_big(loc16BigJump, loc26BigJump, upBigJump, assign26, "one_six_two_six_big");
+		Edge one_six_two_six_big(loc16BigJump, loc26BigJump, upBigJump, assign26BigUp, "one_six_two_six_big");
 		bicycle.addEdge(one_six_two_six_big);
-		Edge two_six_two_five_big(loc26BigJump, loc25BigJump, upBigJump, assign25, "two_six_two_five_big");
+		Edge two_six_two_five_big(loc26BigJump, loc25BigJump, upBigJump, assign25BigUp, "two_six_two_five_big");
 		bicycle.addEdge(two_six_two_five_big);
 		Edge two_five_two_four_big(loc25BigJump, loc24, upBigJump, assign24, "two_five_two_four_big");
 		bicycle.addEdge(two_five_two_four_big);
 	}
+
+	/*
+	 * End of shift sequence for the big jump.
+	 */
 
 	Edge two_four_two_five(loc24, loc25, upNoBigJump, assign25, "two_four_two_five");
 	bicycle.addEdge(two_four_two_five);
@@ -972,33 +1202,39 @@ int main() {
 	Edge two_ten_two_nine(loc210, loc29, downNoBigJump, assign210, "two_ten_two_nine");
 	bicycle.addEdge(two_ten_two_nine);
 
+	/*
+	 * Shift sequence for the big down jump.
+	 */
 	Edge two_four_two_five_big(loc24, loc25BigJump, downNoBigJump,
 			assign25BigDown, "two_four_two_five_big");
 	bicycle.addEdge(two_four_two_five_big);
 
-	Edge two_five_two_six_big(loc25BigJump, loc26BigJump, downBigJump, assign26, "two_five_two_six_big");
+	Edge two_five_two_six_big(loc25BigJump, loc26BigJump, downBigJump, assign26BigDown, "two_five_two_six_big");
 	bicycle.addEdge(two_five_two_six_big);
 
 	if (shiftSequence == FOUR_ONE) {
-		Edge two_six_two_seven_big(loc26BigJump, loc27BigJump, downBigJump, assign27, "two_six_two_seven_big");
+		Edge two_six_two_seven_big(loc26BigJump, loc27BigJump, downBigJump, assign27BigDown, "two_six_two_seven_big");
 		bicycle.addEdge(two_six_two_seven_big);
-		Edge two_seven_two_eight_big(loc27BigJump, loc28BigJump, downBigJump, assign28, "two_seven_two_eight_big");
+		Edge two_seven_two_eight_big(loc27BigJump, loc28BigJump, downBigJump, assign28BigDown, "two_seven_two_eight_big");
 		bicycle.addEdge(two_seven_two_eight_big);
 		Edge two_eight_one_eight_big(loc28BigJump, loc18, downBigJump, assign18, "two_eight_one_eight_big");
 		bicycle.addEdge(two_eight_one_eight_big);
 	} else if (shiftSequence == TWO_ONE_TWO) {
-		Edge two_six_one_six_big(loc26BigJump, loc16BigJump, downBigJump, assign16, "two_six_one_six_big");
+		Edge two_six_one_six_big(loc26BigJump, loc16BigJump, downBigJump, assign16BigDown, "two_six_one_six_big");
 		bicycle.addEdge(two_six_one_six_big);
-		Edge one_six_one_seven_big(loc16BigJump, loc17BigJump, downBigJump, assign17, "one_six_one_seven_big");
+		Edge one_six_one_seven_big(loc16BigJump, loc17BigJump, downBigJump, assign17BigDown, "one_six_one_seven_big");
 		bicycle.addEdge(one_six_one_seven_big);
 		Edge one_seven_one_eight_big(loc17BigJump, loc18, downBigJump, assign18, "one_seven_one_eight_big");
 		bicycle.addEdge(one_seven_one_eight_big);
 	}
 
+	bicycle.toSpaceExXML("(omegaCrank > " + bicycle.toString(upperLimit) + ") and !one_one;");
+
 	bicycle.setUpIsat3();
 	//bicycle.toHysFile(target);
 	//bicycle.toHysFile("two_nine;");
-	bicycle.toHysFile("(omegaCrank < " + bicycle.toString(lowerLimit) + ") and !one_one;");
+	bicycle.toHysFile("(omegaCrank > " + bicycle.toString(upperLimit) + ") and !one_one;");
+	//bicycle.toHysFile(targetString);
 	system("./isat3 -I -v -v --start-depth 0 --max-depth 150 LHA.hys");
 	return 0;
 	bicycle.setUpVariables();

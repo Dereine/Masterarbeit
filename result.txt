@@ -1,0 +1,3218 @@
+opening 'LHA.hys' for reading
+parsing (user time 0.003732 seconds)
+rewriting (user time 0.010788 seconds)
+cnf generation (user time 0.003223 seconds)
+starting to solve
+depth 0 is UNSATISFIABLE (user time 0.000109 seconds)
+depth 1 is UNSATISFIABLE (user time 0.003837 seconds)
+depth 2 is UNSATISFIABLE (user time 0.008799 seconds)
+depth 3 is UNSATISFIABLE (user time 0.009747 seconds)
+depth 4 is UNSATISFIABLE (user time 0.014780 seconds)
+depth 5 is UNSATISFIABLE (user time 0.006637 seconds)
+depth 6 is UNSATISFIABLE (user time 0.010807 seconds)
+depth 7 is UNSATISFIABLE (user time 0.008587 seconds)
+depth 8 is UNSATISFIABLE (user time 0.021384 seconds)
+depth 9 is UNSATISFIABLE (user time 0.006430 seconds)
+depth 10 is UNSATISFIABLE (user time 0.007697 seconds)
+depth 11 is UNSATISFIABLE (user time 0.006216 seconds)
+depth 12 is UNSATISFIABLE (user time 0.006633 seconds)
+depth 13 is UNSATISFIABLE (user time 0.006162 seconds)
+depth 14 is UNSATISFIABLE (user time 0.009123 seconds)
+depth 15 is UNSATISFIABLE (user time 0.031495 seconds)
+depth 16 is UNSATISFIABLE (user time 0.009591 seconds)
+depth 17 is UNSATISFIABLE (user time 0.005950 seconds)
+depth 18 is UNSATISFIABLE (user time 0.006275 seconds)
+depth 19 is UNSATISFIABLE (user time 0.006923 seconds)
+depth 20 is UNSATISFIABLE (user time 0.006544 seconds)
+depth 21 is UNSATISFIABLE (user time 0.008341 seconds)
+depth 22 is UNSATISFIABLE (user time 0.007059 seconds)
+depth 23 is UNSATISFIABLE (user time 0.009870 seconds)
+depth 24 is UNSATISFIABLE (user time 0.022742 seconds)
+depth 25 is UNSATISFIABLE (user time 0.013222 seconds)
+depth 26 is UNSATISFIABLE (user time 0.006172 seconds)
+depth 27 is UNSATISFIABLE (user time 0.006344 seconds)
+depth 28 is CANDIDATE SOLUTION [given intervals may or may not contain a solution] (user time 1.256652 seconds)
+omegaWheel@0:
+    [0, 0] -- point interval
+omegaCrank@0:
+    [0, 0] -- point interval
+bigJump@0:
+    [0, 0] -- point interval
+one_one@0:
+    true
+one_two@0:
+    false
+one_three@0:
+    false
+one_four@0:
+    false
+one_five@0:
+    false
+one_six@0:
+    false
+one_seven@0:
+    false
+one_eight@0:
+    false
+one_seven_big@0:
+    false
+one_six_big@0:
+    false
+one_five_big@0:
+    false
+one_four_big@0:
+    false
+two_four@0:
+    false
+two_five@0:
+    false
+two_six@0:
+    false
+two_seven@0:
+    false
+two_eight@0:
+    false
+two_nine@0:
+    false
+two_ten@0:
+    false
+two_five_big@0:
+    false
+two_six_big@0:
+    false
+two_seven_big@0:
+    false
+two_eight_big@0:
+    false
+flow@0:
+    true
+one_six_big@1:
+    false
+two_five_big@1:
+    false
+two_four@1:
+    false
+two_six_big@1:
+    false
+two_nine@1:
+    false
+two_eight@1:
+    false
+two_ten@1:
+    false
+two_seven@1:
+    false
+two_six@1:
+    false
+two_five@1:
+    false
+one_seven_big@1:
+    false
+one_eight@1:
+    false
+one_seven@1:
+    false
+one_six@1:
+    false
+one_five@1:
+    false
+one_four@1:
+    false
+one_three@1:
+    false
+one_two@1:
+    false
+one_one@1:
+    true
+flow@1:
+    false
+two_eight_big@1:
+    false
+omegaCrank@1:
+    [11.519169999999999021156327216885983943939208984375, 11.519169999999999021156327216885983943939208984375] -- point interval
+omegaWheel@1:
+    [15.666158930490009737468426465056836605072021484375, 15.666158930490009737468426465056836605072021484375] -- point interval
+bigJump@1:
+    [0, 0] -- point interval
+t@0:
+    [25.33461820650041573799171601422131061553955078125, 25.33461820650041573799171601422131061553955078125] -- point interval
+two_seven_big@1:
+    false
+one_four_big@1:
+    false
+one_five_big@1:
+    false
+one_six_big@2:
+    false
+two_five_big@2:
+    false
+two_four@2:
+    false
+two_six_big@2:
+    false
+two_nine@2:
+    false
+two_eight@2:
+    false
+two_ten@2:
+    false
+two_seven@2:
+    false
+two_six@2:
+    false
+two_five@2:
+    false
+one_seven_big@2:
+    false
+one_eight@2:
+    false
+one_seven@2:
+    false
+one_six@2:
+    false
+one_five@2:
+    false
+one_four@2:
+    false
+one_three@2:
+    false
+one_two@2:
+    true
+one_one@2:
+    false
+flow@2:
+    true
+omegaCrank@2:
+    [10.5976865317085771067695532110519707202911376953125, 10.5976865317085771067695532110519707202911376953125] -- point interval
+omegaWheel@2:
+    [15.666158930490009737468426465056836605072021484375, 15.666158930490009737468426465056836605072021484375] -- point interval
+bigJump@2:
+    [0, 0] -- point interval
+t@1:
+    [0, 0] -- point interval
+two_eight_big@2:
+    false
+two_seven_big@2:
+    false
+one_four_big@2:
+    false
+one_five_big@2:
+    false
+one_six_big@3:
+    false
+two_five_big@3:
+    false
+two_four@3:
+    false
+two_six_big@3:
+    false
+two_nine@3:
+    false
+two_eight@3:
+    false
+two_ten@3:
+    false
+two_seven@3:
+    false
+two_six@3:
+    false
+two_five@3:
+    false
+one_seven_big@3:
+    false
+one_eight@3:
+    false
+one_seven@3:
+    false
+one_six@3:
+    false
+one_five@3:
+    false
+one_four@3:
+    false
+one_three@3:
+    false
+one_two@3:
+    true
+one_one@3:
+    false
+flow@3:
+    false
+omegaCrank@3:
+    [11.519169999999999021156327216885983943939208984375, 11.519169999999999021156327216885983943939208984375] -- point interval
+omegaWheel@3:
+    [17.028353068133100123304757289588451385498046875, 17.028353068133100123304757289588451385498046875] -- point interval
+bigJump@3:
+    [0, 0] -- point interval
+t@2:
+    [2.48657680417549098450535893789492547512054443359375, 2.48657680417549098450535893789492547512054443359375] -- point interval
+two_eight_big@3:
+    false
+two_seven_big@3:
+    false
+one_four_big@3:
+    false
+one_five_big@3:
+    false
+one_six_big@4:
+    false
+two_five_big@4:
+    false
+two_four@4:
+    false
+two_six_big@4:
+    false
+two_nine@4:
+    false
+two_eight@4:
+    false
+two_ten@4:
+    false
+two_seven@4:
+    false
+two_six@4:
+    false
+two_five@4:
+    false
+one_seven_big@4:
+    false
+one_eight@4:
+    false
+one_seven@4:
+    false
+one_six@4:
+    false
+one_five@4:
+    false
+one_four@4:
+    false
+one_three@4:
+    true
+one_two@4:
+    false
+one_one@4:
+    false
+flow@4:
+    true
+omegaCrank@4:
+    [10.51756227253240894015107187442481517791748046875, 10.51756227253240894015107187442481517791748046875] -- point interval
+omegaWheel@4:
+    [17.028353068133100123304757289588451385498046875, 17.028353068133100123304757289588451385498046875] -- point interval
+bigJump@4:
+    [0, 0] -- point interval
+t@3:
+    [0, 0] -- point interval
+two_eight_big@4:
+    false
+two_seven_big@4:
+    false
+one_four_big@4:
+    false
+one_five_big@4:
+    false
+one_six_big@5:
+    false
+two_five_big@5:
+    false
+two_four@5:
+    false
+two_six_big@5:
+    false
+two_nine@5:
+    false
+two_eight@5:
+    false
+two_ten@5:
+    false
+two_seven@5:
+    false
+two_six@5:
+    false
+two_five@5:
+    false
+one_seven_big@5:
+    false
+one_eight@5:
+    false
+one_seven@5:
+    false
+one_six@5:
+    false
+one_five@5:
+    false
+one_four@5:
+    false
+one_three@5:
+    true
+one_two@5:
+    false
+one_one@5:
+    false
+flow@5:
+    false
+omegaCrank@5:
+    [11.519169999999999021156327216885983943939208984375, 11.519169999999999021156327216885983943939208984375] -- point interval
+omegaWheel@5:
+    [18.64999595240022500775012304075062274932861328125, 18.64999595240022500775012304075062274932861328125] -- point interval
+bigJump@5:
+    [0, 0] -- point interval
+t@4:
+    [3.374294649452366456898744218051433563232421875, 3.374294649452366456898744218051433563232421875] -- point interval
+two_eight_big@5:
+    false
+two_seven_big@5:
+    false
+one_four_big@5:
+    false
+one_five_big@5:
+    false
+one_six_big@6:
+    false
+two_five_big@6:
+    false
+two_four@6:
+    false
+two_six_big@6:
+    false
+two_nine@6:
+    false
+two_eight@6:
+    false
+two_ten@6:
+    false
+two_seven@6:
+    false
+two_six@6:
+    false
+two_five@6:
+    false
+one_seven_big@6:
+    false
+one_eight@6:
+    false
+one_seven@6:
+    false
+one_six@6:
+    false
+one_five@6:
+    false
+one_four@6:
+    true
+one_three@6:
+    false
+one_two@6:
+    false
+one_one@6:
+    false
+flow@6:
+    true
+omegaCrank@6:
+    [10.42199073812029297414483153261244297027587890625, 10.42199073812029297414483153261244297027587890625] -- point interval
+omegaWheel@6:
+    [18.64999595240022500775012304075062274932861328125, 18.64999595240022500775012304075062274932861328125] -- point interval
+bigJump@6:
+    [0, 0] -- point interval
+t@5:
+    [0, 0] -- point interval
+two_eight_big@6:
+    false
+two_seven_big@6:
+    false
+one_four_big@6:
+    false
+one_five_big@6:
+    false
+one_six_big@7:
+    false
+two_five_big@7:
+    false
+two_four@7:
+    false
+two_six_big@7:
+    false
+two_nine@7:
+    false
+two_eight@7:
+    false
+two_ten@7:
+    false
+two_seven@7:
+    false
+two_six@7:
+    false
+two_five@7:
+    false
+one_seven_big@7:
+    false
+one_eight@7:
+    false
+one_seven@7:
+    false
+one_six@7:
+    false
+one_five@7:
+    false
+one_four@7:
+    true
+one_three@7:
+    false
+one_two@7:
+    false
+one_one@7:
+    false
+flow@7:
+    false
+omegaCrank@7:
+    [11.519169999999999021156327216885983943939208984375, 11.519169999999999021156327216885983943939208984375] -- point interval
+omegaWheel@7:
+    [20.61338176872695981955985189415514469146728515625, 20.61338176872695981955985189415514469146728515625] -- point interval
+bigJump@7:
+    [0, 0] -- point interval
+t@6:
+    [4.752925333137710595110547728836536407470703125, 4.752925333137710595110547728836536407470703125] -- point interval
+two_eight_big@7:
+    false
+two_seven_big@7:
+    false
+one_four_big@7:
+    false
+one_five_big@7:
+    false
+one_six_big@8:
+    false
+two_five_big@8:
+    false
+two_four@8:
+    false
+two_six_big@8:
+    false
+two_nine@8:
+    false
+two_eight@8:
+    false
+two_ten@8:
+    false
+two_seven@8:
+    false
+two_six@8:
+    false
+two_five@8:
+    false
+one_seven_big@8:
+    false
+one_eight@8:
+    false
+one_seven@8:
+    false
+one_six@8:
+    false
+one_five@8:
+    true
+one_four@8:
+    false
+one_three@8:
+    false
+one_two@8:
+    false
+one_one@8:
+    false
+flow@8:
+    true
+omegaCrank@8:
+    [10.306690884363479909779925947077572345733642578125, 10.306690884363479909779925947077572345733642578125] -- point interval
+omegaWheel@8:
+    [20.61338176872695981955985189415514469146728515625, 20.61338176872695981955985189415514469146728515625] -- point interval
+bigJump@8:
+    [0, 0] -- point interval
+t@7:
+    [0, 0] -- point interval
+two_eight_big@8:
+    false
+two_seven_big@8:
+    false
+one_four_big@8:
+    false
+one_five_big@8:
+    false
+one_six_big@9:
+    false
+two_five_big@9:
+    false
+two_four@9:
+    false
+two_six_big@9:
+    false
+two_nine@9:
+    false
+two_eight@9:
+    false
+two_ten@9:
+    false
+two_seven@9:
+    false
+two_six@9:
+    false
+two_five@9:
+    false
+one_seven_big@9:
+    false
+one_eight@9:
+    false
+one_seven@9:
+    false
+one_six@9:
+    false
+one_five@9:
+    true
+one_four@9:
+    false
+one_three@9:
+    false
+one_two@9:
+    false
+one_one@9:
+    false
+flow@9:
+    false
+omegaCrank@9:
+    [11.519169999999999021156327216885983943939208984375, 11.519169999999999021156327216885983943939208984375] -- point interval
+omegaWheel@9:
+    [23.03833999999999804231265443377196788787841796875, 23.03833999999999804231265443377196788787841796875] -- point interval
+bigJump@9:
+    [0, 0] -- point interval
+t@8:
+    [7.0411579427569233047279340098612010478973388671875, 7.0411579427569233047279340098612010478973388671875] -- point interval
+two_eight_big@9:
+    false
+two_seven_big@9:
+    false
+one_four_big@9:
+    false
+one_five_big@9:
+    false
+one_six_big@10:
+    false
+two_five_big@10:
+    false
+two_four@10:
+    false
+two_six_big@10:
+    false
+two_nine@10:
+    false
+two_eight@10:
+    false
+two_ten@10:
+    false
+two_seven@10:
+    false
+two_six@10:
+    false
+two_five@10:
+    false
+one_seven_big@10:
+    false
+one_eight@10:
+    false
+one_seven@10:
+    false
+one_six@10:
+    true
+one_five@10:
+    false
+one_four@10:
+    false
+one_three@10:
+    false
+one_two@10:
+    false
+one_one@10:
+    false
+flow@10:
+    true
+omegaCrank@10:
+    [10.841612420600000632475712336599826812744140625, 10.841612420600000632475712336599826812744140625] -- point interval
+omegaWheel@10:
+    [23.03833999999999804231265443377196788787841796875, 23.03833999999999804231265443377196788787841796875] -- point interval
+bigJump@10:
+    [0, 0] -- point interval
+t@9:
+    [0, 0] -- point interval
+two_eight_big@10:
+    false
+two_seven_big@10:
+    false
+one_four_big@10:
+    false
+one_five_big@10:
+    false
+one_six_big@11:
+    false
+two_five_big@11:
+    false
+two_four@11:
+    false
+two_six_big@11:
+    false
+two_nine@11:
+    false
+two_eight@11:
+    false
+two_ten@11:
+    false
+two_seven@11:
+    false
+two_six@11:
+    false
+two_five@11:
+    false
+one_seven_big@11:
+    false
+one_eight@11:
+    false
+one_seven@11:
+    false
+one_six@11:
+    true
+one_five@11:
+    false
+one_four@11:
+    false
+one_three@11:
+    false
+one_two@11:
+    false
+one_one@11:
+    false
+flow@11:
+    false
+omegaCrank@11:
+    [11.519169999999999021156327216885983943939208984375, 11.519169999999999021156327216885983943939208984375] -- point interval
+omegaWheel@11:
+    [24.47814445695828311500008567236363887786865234375, 24.47814445695828311500008567236363887786865234375] -- point interval
+bigJump@11:
+    [0, 0] -- point interval
+t@10:
+    [4.6418276272463234732867931597866117954254150390625, 4.6418276272463234732867931597866117954254150390625] -- point interval
+two_eight_big@11:
+    false
+two_seven_big@11:
+    false
+one_four_big@11:
+    false
+one_five_big@11:
+    false
+one_six_big@12:
+    false
+two_five_big@12:
+    false
+two_four@12:
+    false
+two_six_big@12:
+    false
+two_nine@12:
+    false
+two_eight@12:
+    false
+two_ten@12:
+    false
+two_seven@12:
+    false
+two_six@12:
+    false
+two_five@12:
+    false
+one_seven_big@12:
+    false
+one_eight@12:
+    false
+one_seven@12:
+    true
+one_six@12:
+    false
+one_five@12:
+    false
+one_four@12:
+    false
+one_three@12:
+    false
+one_two@12:
+    false
+one_one@12:
+    false
+flow@12:
+    true
+omegaCrank@12:
+    [10.799267771520856484812611597590148448944091796875, 10.799267771520856484812611597590148448944091796875] -- point interval
+omegaWheel@12:
+    [24.47814445695828311500008567236363887786865234375, 24.47814445695828311500008567236363887786865234375] -- point interval
+bigJump@12:
+    [0, 0] -- point interval
+t@11:
+    [0, 0] -- point interval
+two_eight_big@12:
+    false
+two_seven_big@12:
+    false
+one_four_big@12:
+    false
+one_five_big@12:
+    false
+one_six_big@13:
+    false
+two_five_big@13:
+    false
+two_four@13:
+    false
+two_six_big@13:
+    false
+two_nine@13:
+    false
+two_eight@13:
+    false
+two_ten@13:
+    false
+two_seven@13:
+    false
+two_six@13:
+    false
+two_five@13:
+    false
+one_seven_big@13:
+    false
+one_eight@13:
+    false
+one_seven@13:
+    true
+one_six@13:
+    false
+one_five@13:
+    false
+one_four@13:
+    false
+one_three@13:
+    false
+one_two@13:
+    false
+one_one@13:
+    false
+flow@13:
+    false
+omegaCrank@13:
+    [11.519169999999999021156327216885983943939208984375, 11.519169999999999021156327216885983943939208984375] -- point interval
+omegaWheel@13:
+    [26.109909787388364321714107063598930835723876953125, 26.109909787388364321714107063598930835723876953125] -- point interval
+bigJump@13:
+    [0, 0] -- point interval
+t@12:
+    [5.90082171501164420845952918170951306819915771484375, 5.90082171501164420845952918170951306819915771484375] -- point interval
+two_eight_big@13:
+    false
+two_seven_big@13:
+    false
+one_four_big@13:
+    false
+one_five_big@13:
+    false
+one_six_big@14:
+    false
+two_five_big@14:
+    false
+two_four@14:
+    false
+two_six_big@14:
+    false
+two_nine@14:
+    false
+two_eight@14:
+    false
+two_ten@14:
+    false
+two_seven@14:
+    false
+two_six@14:
+    false
+two_five@14:
+    false
+one_seven_big@14:
+    false
+one_eight@14:
+    true
+one_seven@14:
+    false
+one_six@14:
+    false
+one_five@14:
+    false
+one_four@14:
+    false
+one_three@14:
+    false
+one_two@14:
+    false
+one_one@14:
+    false
+flow@14:
+    true
+omegaCrank@14:
+    [10.7510164540550334777435637079179286956787109375, 10.7510164540550334777435637079179286956787109375] -- point interval
+omegaWheel@14:
+    [26.109909787388364321714107063598930835723876953125, 26.109909787388364321714107063598930835723876953125] -- point interval
+bigJump@14:
+    [0, 0] -- point interval
+t@13:
+    [0, 0] -- point interval
+two_eight_big@14:
+    false
+two_seven_big@14:
+    false
+one_four_big@14:
+    false
+one_five_big@14:
+    false
+one_six_big@15:
+    false
+two_five_big@15:
+    false
+two_four@15:
+    false
+two_six_big@15:
+    false
+two_nine@15:
+    false
+two_eight@15:
+    false
+two_ten@15:
+    false
+two_seven@15:
+    false
+two_six@15:
+    false
+two_five@15:
+    false
+one_seven_big@15:
+    false
+one_eight@15:
+    true
+one_seven@15:
+    false
+one_six@15:
+    false
+one_five@15:
+    false
+one_four@15:
+    false
+one_three@15:
+    false
+one_two@15:
+    false
+one_one@15:
+    false
+flow@15:
+    false
+omegaCrank@15:
+    [11.519169999999999021156327216885983943939208984375, 11.519169999999999021156327216885983943939208984375] -- point interval
+omegaWheel@15:
+    [27.9754468622498535523845930583775043487548828125, 27.9754468622498535523845930583775043487548828125] -- point interval
+bigJump@15:
+    [0, 0] -- point interval
+t@14:
+    [7.70819425878874131541351744090206921100616455078125, 7.70819425878874131541351744090206921100616455078125] -- point interval
+two_eight_big@15:
+    false
+two_seven_big@15:
+    false
+one_four_big@15:
+    false
+one_five_big@15:
+    false
+one_six_big@16:
+    false
+two_five_big@16:
+    false
+two_four@16:
+    false
+two_six_big@16:
+    false
+two_nine@16:
+    false
+two_eight@16:
+    false
+two_ten@16:
+    false
+two_seven@16:
+    false
+two_six@16:
+    false
+two_five@16:
+    false
+one_seven_big@16:
+    true
+one_eight@16:
+    false
+one_seven@16:
+    false
+one_six@16:
+    false
+one_five@16:
+    false
+one_four@16:
+    false
+one_three@16:
+    false
+one_two@16:
+    false
+one_one@16:
+    false
+flow@16:
+    true
+omegaCrank@16:
+    [12.3422076466873900102427796809934079647064208984375, 12.3422076466873900102427796809934079647064208984375] -- point interval
+omegaWheel@16:
+    [27.9754468622498535523845930583775043487548828125, 27.9754468622498535523845930583775043487548828125] -- point interval
+bigJump@16:
+    [1, 1] -- point interval
+t@15:
+    [0, 0] -- point interval
+two_eight_big@16:
+    false
+two_seven_big@16:
+    false
+one_four_big@16:
+    false
+one_five_big@16:
+    false
+one_six_big@17:
+    false
+two_five_big@17:
+    false
+two_four@17:
+    false
+two_six_big@17:
+    false
+two_nine@17:
+    false
+two_eight@17:
+    false
+two_ten@17:
+    false
+two_seven@17:
+    false
+two_six@17:
+    false
+two_five@17:
+    false
+one_seven_big@17:
+    true
+one_eight@17:
+    false
+one_seven@17:
+    false
+one_six@17:
+    false
+one_five@17:
+    false
+one_four@17:
+    false
+one_three@17:
+    false
+one_two@17:
+    false
+one_one@17:
+    false
+flow@17:
+    false
+omegaCrank@17:
+    [12.3422076466873900102427796809934079647064208984375, 12.3422076466873900102427796809934079647064208984375] -- point interval
+omegaWheel@17:
+    [27.9754468622498535523845930583775043487548828125, 27.9754468622498535523845930583775043487548828125] -- point interval
+bigJump@17:
+    [1, 1] -- point interval
+t@16:
+    [5.45622224275281853146562984964685623679738445124254297979859984479844570159912109375e-14, 5.45622224275281853146562984964685623679738445124254297979859984479844570159912109375e-14] -- point interval
+two_eight_big@17:
+    false
+two_seven_big@17:
+    false
+one_four_big@17:
+    false
+one_five_big@17:
+    false
+one_six_big@18:
+    true
+two_five_big@18:
+    false
+two_four@18:
+    false
+two_six_big@18:
+    false
+two_nine@18:
+    false
+two_eight@18:
+    false
+two_ten@18:
+    false
+two_seven@18:
+    false
+two_six@18:
+    false
+two_five@18:
+    false
+one_seven_big@18:
+    false
+one_eight@18:
+    false
+one_seven@18:
+    false
+one_six@18:
+    false
+one_five@18:
+    false
+one_four@18:
+    false
+one_three@18:
+    false
+one_two@18:
+    false
+one_one@18:
+    false
+flow@18:
+    true
+omegaCrank@18:
+    [13.164965538906159281395957805216312408447265625, 13.164965538906159281395957805216312408447265625] -- point interval
+omegaWheel@18:
+    [27.9754468622498535523845930583775043487548828125, 27.9754468622498535523845930583775043487548828125] -- point interval
+bigJump@18:
+    [1, 1] -- point interval
+t@17:
+    [0, 0] -- point interval
+two_eight_big@18:
+    false
+two_seven_big@18:
+    false
+one_four_big@18:
+    false
+one_five_big@18:
+    false
+one_six_big@19:
+    true
+two_five_big@19:
+    false
+two_four@19:
+    false
+two_six_big@19:
+    false
+two_nine@19:
+    false
+two_eight@19:
+    false
+two_ten@19:
+    false
+two_seven@19:
+    false
+two_six@19:
+    false
+two_five@19:
+    false
+one_seven_big@19:
+    false
+one_eight@19:
+    false
+one_seven@19:
+    false
+one_six@19:
+    false
+one_five@19:
+    false
+one_four@19:
+    false
+one_three@19:
+    false
+one_two@19:
+    false
+one_one@19:
+    false
+flow@19:
+    false
+omegaCrank@19:
+    [13.164965538906159281395957805216312408447265625, 13.164965538906159281395957805216312408447265625] -- point interval
+omegaWheel@19:
+    [27.9754468622498535523845930583775043487548828125, 27.9754468622498535523845930583775043487548828125] -- point interval
+bigJump@19:
+    [1, 1] -- point interval
+t@18:
+    [5.45622224275281853146562984964685623679738445124254297979859984479844570159912109375e-14, 5.45622224275281853146562984964685623679738445124254297979859984479844570159912109375e-14] -- point interval
+two_eight_big@19:
+    false
+two_seven_big@19:
+    false
+one_four_big@19:
+    false
+one_five_big@19:
+    false
+two_four@22:
+    false
+two_six_big@22:
+    false
+two_nine@22:
+    false
+two_eight@22:
+    false
+two_ten@22:
+    false
+two_seven@22:
+    false
+two_six@22:
+    false
+two_five@22:
+    false
+one_seven_big@22:
+    false
+one_eight@22:
+    false
+one_seven@22:
+    false
+one_six@22:
+    false
+one_five@22:
+    false
+one_four@22:
+    false
+one_three@22:
+    false
+one_two@22:
+    false
+one_one@22:
+    false
+flow@22:
+    true
+one_six_big@20:
+    false
+two_five_big@20:
+    false
+two_four@20:
+    false
+two_six_big@20:
+    true
+two_nine@20:
+    false
+two_eight@20:
+    false
+two_ten@20:
+    false
+two_seven@20:
+    false
+two_six@20:
+    false
+two_five@20:
+    false
+one_seven_big@20:
+    false
+one_eight@20:
+    false
+one_seven@20:
+    false
+one_six@20:
+    false
+one_five@20:
+    false
+one_four@20:
+    false
+one_three@20:
+    false
+one_two@20:
+    false
+one_one@20:
+    false
+flow@20:
+    true
+omegaCrank@20:
+    [8.952142995919952994654522626660764217376708984375, 8.952142995919952994654522626660764217376708984375] -- point interval
+omegaWheel@20:
+    [27.9754468622498535523845930583775043487548828125, 27.9754468622498535523845930583775043487548828125] -- point interval
+bigJump@20:
+    [1, 1] -- point interval
+t@19:
+    [0, 0] -- point interval
+two_eight_big@20:
+    false
+two_seven_big@20:
+    false
+one_four_big@20:
+    false
+one_five_big@20:
+    false
+omegaCrank@22:
+    [9.5116519331649502788650352158583700656890869140625, 9.5116519331649502788650352158583700656890869140625] -- point interval
+omegaWheel@22:
+    [27.9754468622498535523845930583775043487548828125, 27.9754468622498535523845930583775043487548828125] -- point interval
+one_six_big@21:
+    false
+two_five_big@21:
+    false
+two_four@21:
+    false
+two_six_big@21:
+    true
+two_nine@21:
+    false
+two_eight@21:
+    false
+two_ten@21:
+    false
+two_seven@21:
+    false
+two_six@21:
+    false
+two_five@21:
+    false
+one_seven_big@21:
+    false
+one_eight@21:
+    false
+one_seven@21:
+    false
+one_six@21:
+    false
+one_five@21:
+    false
+one_four@21:
+    false
+one_three@21:
+    false
+one_two@21:
+    false
+one_one@21:
+    false
+flow@21:
+    false
+omegaCrank@21:
+    [8.952142995919952994654522626660764217376708984375, 8.952142995919952994654522626660764217376708984375] -- point interval
+omegaWheel@21:
+    [27.9754468622498535523845930583775043487548828125, 27.9754468622498535523845930583775043487548828125] -- point interval
+bigJump@21:
+    [1, 1] -- point interval
+t@20:
+    [5.45622224275281853146562984964685623679738445124254297979859984479844570159912109375e-14, 5.45622224275281853146562984964685623679738445124254297979859984479844570159912109375e-14] -- point interval
+two_eight_big@21:
+    false
+two_seven_big@21:
+    false
+one_four_big@21:
+    false
+one_five_big@21:
+    false
+bigJump@22:
+    [1, 1] -- point interval
+t@21:
+    [0, 0] -- point interval
+two_eight_big@22:
+    false
+two_seven_big@22:
+    false
+one_six_big@22:
+    false
+two_five_big@22:
+    true
+one_four_big@22:
+    false
+one_five_big@22:
+    false
+two_four@25:
+    false
+two_six_big@25:
+    true
+two_nine@25:
+    false
+two_eight@25:
+    false
+two_ten@25:
+    false
+two_seven@25:
+    false
+two_six@25:
+    false
+two_five@25:
+    false
+one_six_big@23:
+    false
+two_five_big@23:
+    true
+two_four@23:
+    false
+two_six_big@23:
+    false
+two_nine@23:
+    false
+two_eight@23:
+    false
+two_ten@23:
+    false
+two_seven@23:
+    false
+two_six@23:
+    false
+two_five@23:
+    false
+one_seven_big@23:
+    false
+one_eight@23:
+    false
+one_seven@23:
+    false
+one_six@23:
+    false
+one_five@23:
+    false
+one_four@23:
+    false
+one_three@23:
+    false
+one_two@23:
+    false
+one_one@23:
+    false
+flow@23:
+    false
+omegaCrank@23:
+    [9.5116519331649502788650352158583700656890869140625, 9.5116519331649502788650352158583700656890869140625] -- point interval
+omegaWheel@23:
+    [27.9754468622498535523845930583775043487548828125, 27.9754468622498535523845930583775043487548828125] -- point interval
+bigJump@23:
+    [0, 0] -- point interval
+t@22:
+    [5.45622224275281853146562984964685623679738445124254297979859984479844570159912109375e-14, 5.45622224275281853146562984964685623679738445124254297979859984479844570159912109375e-14] -- point interval
+two_eight_big@23:
+    false
+two_seven_big@23:
+    false
+one_four_big@23:
+    false
+one_five_big@23:
+    false
+one_seven_big@25:
+    false
+one_eight@25:
+    false
+one_seven@25:
+    false
+one_six@25:
+    false
+one_five@25:
+    false
+one_four@25:
+    false
+one_three@25:
+    false
+one_two@25:
+    false
+one_one@25:
+    false
+flow@25:
+    false
+omegaCrank@25:
+    [8.952142995919952994654522626660764217376708984375, 8.952142995919952994654522626660764217376708984375] -- point interval
+omegaWheel@25:
+    [27.9754468622498535523845930583775043487548828125, 27.9754468622498535523845930583775043487548828125] -- point interval
+bigJump@25:
+    [0, 0] -- point interval
+t@24:
+    [5.45622224275281853146562984964685623679738445124254297979859984479844570159912109375e-14, 5.45622224275281853146562984964685623679738445124254297979859984479844570159912109375e-14] -- point interval
+two_eight_big@25:
+    false
+two_seven_big@25:
+    false
+one_six_big@25:
+    false
+two_five_big@25:
+    false
+one_four_big@25:
+    false
+one_five_big@25:
+    false
+one_six_big@24:
+    false
+two_five_big@24:
+    false
+two_four@24:
+    false
+two_six_big@24:
+    true
+two_nine@24:
+    false
+two_eight@24:
+    false
+two_ten@24:
+    false
+two_seven@24:
+    false
+two_six@24:
+    false
+two_five@24:
+    false
+one_seven_big@24:
+    false
+one_eight@24:
+    false
+one_seven@24:
+    false
+one_six@24:
+    false
+one_five@24:
+    false
+one_four@24:
+    false
+one_three@24:
+    false
+one_two@24:
+    false
+one_one@24:
+    false
+flow@24:
+    true
+omegaCrank@24:
+    [8.952142995919952994654522626660764217376708984375, 8.952142995919952994654522626660764217376708984375] -- point interval
+omegaWheel@24:
+    [27.9754468622498535523845930583775043487548828125, 27.9754468622498535523845930583775043487548828125] -- point interval
+bigJump@24:
+    [0, 0] -- point interval
+t@23:
+    [0, 0] -- point interval
+two_eight_big@24:
+    false
+two_seven_big@24:
+    false
+one_four_big@24:
+    false
+one_five_big@24:
+    false
+one_six_big@26:
+    true
+two_five_big@26:
+    false
+two_four@26:
+    false
+two_six_big@26:
+    false
+two_nine@26:
+    false
+two_eight@26:
+    false
+two_ten@26:
+    false
+two_seven@26:
+    false
+two_six@26:
+    false
+two_five@26:
+    false
+one_seven_big@26:
+    false
+one_eight@26:
+    false
+one_seven@26:
+    false
+one_six@26:
+    false
+one_five@26:
+    false
+one_four@26:
+    false
+one_three@26:
+    false
+one_two@26:
+    false
+one_one@26:
+    false
+flow@26:
+    true
+omegaCrank@26:
+    [13.164965538906159281395957805216312408447265625, 13.164965538906159281395957805216312408447265625] -- point interval
+omegaWheel@26:
+    [27.9754468622498535523845930583775043487548828125, 27.9754468622498535523845930583775043487548828125] -- point interval
+bigJump@26:
+    [0, 0] -- point interval
+t@25:
+    [0, 0] -- point interval
+two_eight_big@26:
+    false
+two_seven_big@26:
+    false
+one_four_big@26:
+    false
+one_five_big@26:
+    false
+one_six_big@27:
+    true
+two_five_big@27:
+    false
+two_four@27:
+    false
+two_six_big@27:
+    false
+two_nine@27:
+    false
+two_eight@27:
+    false
+two_ten@27:
+    false
+two_seven@27:
+    false
+two_six@27:
+    false
+two_five@27:
+    false
+one_seven_big@27:
+    false
+one_eight@27:
+    false
+one_seven@27:
+    false
+one_six@27:
+    false
+one_five@27:
+    false
+one_four@27:
+    false
+one_three@27:
+    false
+one_two@27:
+    false
+one_one@27:
+    false
+flow@27:
+    false
+omegaCrank@27:
+    [13.164965538906159281395957805216312408447265625, 13.164965538906159281395957805216312408447265625] -- point interval
+omegaWheel@27:
+    [27.9754468622498535523845930583775043487548828125, 27.9754468622498535523845930583775043487548828125] -- point interval
+bigJump@27:
+    [0, 0] -- point interval
+t@26:
+    [5.45622224275281853146562984964685623679738445124254297979859984479844570159912109375e-14, 5.45622224275281853146562984964685623679738445124254297979859984479844570159912109375e-14] -- point interval
+two_eight_big@27:
+    false
+two_seven_big@27:
+    false
+one_four_big@27:
+    false
+one_five_big@27:
+    false
+one_six_big@28:
+    false
+two_five_big@28:
+    false
+two_four@28:
+    false
+two_six_big@28:
+    false
+two_nine@28:
+    false
+two_eight@28:
+    false
+two_ten@28:
+    false
+two_seven@28:
+    false
+two_six@28:
+    false
+two_five@28:
+    false
+one_seven_big@28:
+    true
+one_eight@28:
+    false
+one_seven@28:
+    false
+one_six@28:
+    false
+one_five@28:
+    false
+one_four@28:
+    false
+one_three@28:
+    false
+one_two@28:
+    false
+one_one@28:
+    false
+flow@28:
+    true
+omegaCrank@28:
+    [12.3422076466873900102427796809934079647064208984375, 12.3422076466873900102427796809934079647064208984375] -- point interval
+omegaWheel@28:
+    [27.9754468622498535523845930583775043487548828125, 27.9754468622498535523845930583775043487548828125] -- point interval
+bigJump@28:
+    [0, 0] -- point interval
+t@27:
+    [0, 0] -- point interval
+two_eight_big@28:
+    false
+two_seven_big@28:
+    false
+one_four_big@28:
+    false
+one_five_big@28:
+    false
+CANDIDATE SOLUTION [given intervals may or may not contain a solution]
+opening 'LHA.hys' for reading
+parsing (user time 0.005462 seconds)
+rewriting (user time 0.008047 seconds)
+cnf generation (user time 0.005561 seconds)
+starting to solve
+depth 0 is UNSATISFIABLE (user time 0.000168 seconds)
+depth 1 is UNSATISFIABLE (user time 0.003436 seconds)
+depth 2 is UNSATISFIABLE (user time 0.011282 seconds)
+depth 3 is UNSATISFIABLE (user time 0.011073 seconds)
+depth 4 is UNSATISFIABLE (user time 0.016305 seconds)
+depth 5 is UNSATISFIABLE (user time 0.008137 seconds)
+depth 6 is UNSATISFIABLE (user time 0.010161 seconds)
+depth 7 is UNSATISFIABLE (user time 0.008433 seconds)
+depth 8 is UNSATISFIABLE (user time 0.020005 seconds)
+depth 9 is UNSATISFIABLE (user time 0.008229 seconds)
+depth 10 is UNSATISFIABLE (user time 0.012404 seconds)
+depth 11 is UNSATISFIABLE (user time 0.009794 seconds)
+depth 12 is UNSATISFIABLE (user time 0.010149 seconds)
+depth 13 is UNSATISFIABLE (user time 0.009157 seconds)
+depth 14 is UNSATISFIABLE (user time 0.012063 seconds)
+depth 15 is UNSATISFIABLE (user time 0.031695 seconds)
+depth 16 is UNSATISFIABLE (user time 0.007725 seconds)
+depth 17 is UNSATISFIABLE (user time 0.006921 seconds)
+depth 18 is UNSATISFIABLE (user time 0.013663 seconds)
+depth 19 is UNSATISFIABLE (user time 0.021712 seconds)
+depth 20 is UNSATISFIABLE (user time 0.043629 seconds)
+depth 21 is UNSATISFIABLE (user time 0.045944 seconds)
+depth 22 is UNSATISFIABLE (user time 0.045648 seconds)
+depth 23 is UNSATISFIABLE (user time 0.042864 seconds)
+depth 24 is UNSATISFIABLE (user time 0.077979 seconds)
+depth 25 is UNSATISFIABLE (user time 0.080684 seconds)
+depth 26 is CANDIDATE SOLUTION [given intervals may or may not contain a solution] (user time 1.093174 seconds)
+omegaWheel@0:
+    [0, 0] -- point interval
+omegaCrank@0:
+    [0, 0] -- point interval
+bigJump@0:
+    [0, 0] -- point interval
+one_one@0:
+    true
+one_two@0:
+    false
+one_three@0:
+    false
+one_four@0:
+    false
+one_five@0:
+    false
+one_six@0:
+    false
+one_seven@0:
+    false
+one_eight@0:
+    false
+one_seven_big@0:
+    false
+one_six_big@0:
+    false
+one_five_big@0:
+    false
+one_four_big@0:
+    false
+two_four@0:
+    false
+two_five@0:
+    false
+two_six@0:
+    false
+two_seven@0:
+    false
+two_eight@0:
+    false
+two_nine@0:
+    false
+two_ten@0:
+    false
+two_five_big@0:
+    false
+two_six_big@0:
+    false
+two_seven_big@0:
+    false
+two_eight_big@0:
+    false
+flow@0:
+    true
+one_six_big@1:
+    false
+two_five_big@1:
+    false
+two_four@1:
+    false
+two_six_big@1:
+    false
+two_nine@1:
+    false
+two_eight@1:
+    false
+two_ten@1:
+    false
+two_seven@1:
+    false
+two_six@1:
+    false
+two_five@1:
+    false
+one_seven_big@1:
+    false
+one_eight@1:
+    false
+one_seven@1:
+    false
+one_six@1:
+    false
+one_five@1:
+    false
+one_four@1:
+    false
+one_three@1:
+    false
+one_two@1:
+    false
+one_one@1:
+    true
+flow@1:
+    false
+two_eight_big@1:
+    false
+omegaCrank@1:
+    [11.519169999999999021156327216885983943939208984375, 11.519169999999999021156327216885983943939208984375] -- point interval
+omegaWheel@1:
+    [15.666158930490009737468426465056836605072021484375, 15.666158930490009737468426465056836605072021484375] -- point interval
+bigJump@1:
+    [0, 0] -- point interval
+t@0:
+    [25.33461820650041573799171601422131061553955078125, 25.33461820650041573799171601422131061553955078125] -- point interval
+two_seven_big@1:
+    false
+one_four_big@1:
+    false
+one_five_big@1:
+    false
+one_six_big@2:
+    false
+two_five_big@2:
+    false
+two_four@2:
+    false
+two_six_big@2:
+    false
+two_nine@2:
+    false
+two_eight@2:
+    false
+two_ten@2:
+    false
+two_seven@2:
+    false
+two_six@2:
+    false
+two_five@2:
+    false
+one_seven_big@2:
+    false
+one_eight@2:
+    false
+one_seven@2:
+    false
+one_six@2:
+    false
+one_five@2:
+    false
+one_four@2:
+    false
+one_three@2:
+    false
+one_two@2:
+    true
+one_one@2:
+    false
+flow@2:
+    true
+omegaCrank@2:
+    [10.5976865317085771067695532110519707202911376953125, 10.5976865317085771067695532110519707202911376953125] -- point interval
+omegaWheel@2:
+    [15.666158930490009737468426465056836605072021484375, 15.666158930490009737468426465056836605072021484375] -- point interval
+bigJump@2:
+    [0, 0] -- point interval
+t@1:
+    [0, 0] -- point interval
+two_eight_big@2:
+    false
+two_seven_big@2:
+    false
+one_four_big@2:
+    false
+one_five_big@2:
+    false
+one_six_big@3:
+    false
+two_five_big@3:
+    false
+two_four@3:
+    false
+two_six_big@3:
+    false
+two_nine@3:
+    false
+two_eight@3:
+    false
+two_ten@3:
+    false
+two_seven@3:
+    false
+two_six@3:
+    false
+two_five@3:
+    false
+one_seven_big@3:
+    false
+one_eight@3:
+    false
+one_seven@3:
+    false
+one_six@3:
+    false
+one_five@3:
+    false
+one_four@3:
+    false
+one_three@3:
+    false
+one_two@3:
+    true
+one_one@3:
+    false
+flow@3:
+    false
+omegaCrank@3:
+    [11.519169999999999021156327216885983943939208984375, 11.519169999999999021156327216885983943939208984375] -- point interval
+omegaWheel@3:
+    [17.028353068133100123304757289588451385498046875, 17.028353068133100123304757289588451385498046875] -- point interval
+bigJump@3:
+    [0, 0] -- point interval
+t@2:
+    [2.48657680417549098450535893789492547512054443359375, 2.48657680417549098450535893789492547512054443359375] -- point interval
+two_eight_big@3:
+    false
+two_seven_big@3:
+    false
+one_four_big@3:
+    false
+one_five_big@3:
+    false
+one_six_big@4:
+    false
+two_five_big@4:
+    false
+two_four@4:
+    false
+two_six_big@4:
+    false
+two_nine@4:
+    false
+two_eight@4:
+    false
+two_ten@4:
+    false
+two_seven@4:
+    false
+two_six@4:
+    false
+two_five@4:
+    false
+one_seven_big@4:
+    false
+one_eight@4:
+    false
+one_seven@4:
+    false
+one_six@4:
+    false
+one_five@4:
+    false
+one_four@4:
+    false
+one_three@4:
+    true
+one_two@4:
+    false
+one_one@4:
+    false
+flow@4:
+    true
+omegaCrank@4:
+    [10.51756227253240894015107187442481517791748046875, 10.51756227253240894015107187442481517791748046875] -- point interval
+omegaWheel@4:
+    [17.028353068133100123304757289588451385498046875, 17.028353068133100123304757289588451385498046875] -- point interval
+bigJump@4:
+    [0, 0] -- point interval
+t@3:
+    [0, 0] -- point interval
+two_eight_big@4:
+    false
+two_seven_big@4:
+    false
+one_four_big@4:
+    false
+one_five_big@4:
+    false
+one_six_big@5:
+    false
+two_five_big@5:
+    false
+two_four@5:
+    false
+two_six_big@5:
+    false
+two_nine@5:
+    false
+two_eight@5:
+    false
+two_ten@5:
+    false
+two_seven@5:
+    false
+two_six@5:
+    false
+two_five@5:
+    false
+one_seven_big@5:
+    false
+one_eight@5:
+    false
+one_seven@5:
+    false
+one_six@5:
+    false
+one_five@5:
+    false
+one_four@5:
+    false
+one_three@5:
+    true
+one_two@5:
+    false
+one_one@5:
+    false
+flow@5:
+    false
+omegaCrank@5:
+    [11.519169999999999021156327216885983943939208984375, 11.519169999999999021156327216885983943939208984375] -- point interval
+omegaWheel@5:
+    [18.64999595240022500775012304075062274932861328125, 18.64999595240022500775012304075062274932861328125] -- point interval
+bigJump@5:
+    [0, 0] -- point interval
+t@4:
+    [3.374294649452366456898744218051433563232421875, 3.374294649452366456898744218051433563232421875] -- point interval
+two_eight_big@5:
+    false
+two_seven_big@5:
+    false
+one_four_big@5:
+    false
+one_five_big@5:
+    false
+one_six_big@6:
+    false
+two_five_big@6:
+    false
+two_four@6:
+    false
+two_six_big@6:
+    false
+two_nine@6:
+    false
+two_eight@6:
+    false
+two_ten@6:
+    false
+two_seven@6:
+    false
+two_six@6:
+    false
+two_five@6:
+    false
+one_seven_big@6:
+    false
+one_eight@6:
+    false
+one_seven@6:
+    false
+one_six@6:
+    false
+one_five@6:
+    false
+one_four@6:
+    true
+one_three@6:
+    false
+one_two@6:
+    false
+one_one@6:
+    false
+flow@6:
+    true
+omegaCrank@6:
+    [10.42199073812029297414483153261244297027587890625, 10.42199073812029297414483153261244297027587890625] -- point interval
+omegaWheel@6:
+    [18.64999595240022500775012304075062274932861328125, 18.64999595240022500775012304075062274932861328125] -- point interval
+bigJump@6:
+    [0, 0] -- point interval
+t@5:
+    [0, 0] -- point interval
+two_eight_big@6:
+    false
+two_seven_big@6:
+    false
+one_four_big@6:
+    false
+one_five_big@6:
+    false
+one_six_big@7:
+    false
+two_five_big@7:
+    false
+two_four@7:
+    false
+two_six_big@7:
+    false
+two_nine@7:
+    false
+two_eight@7:
+    false
+two_ten@7:
+    false
+two_seven@7:
+    false
+two_six@7:
+    false
+two_five@7:
+    false
+one_seven_big@7:
+    false
+one_eight@7:
+    false
+one_seven@7:
+    false
+one_six@7:
+    false
+one_five@7:
+    false
+one_four@7:
+    true
+one_three@7:
+    false
+one_two@7:
+    false
+one_one@7:
+    false
+flow@7:
+    false
+omegaCrank@7:
+    [11.519169999999999021156327216885983943939208984375, 11.519169999999999021156327216885983943939208984375] -- point interval
+omegaWheel@7:
+    [20.61338176872695981955985189415514469146728515625, 20.61338176872695981955985189415514469146728515625] -- point interval
+bigJump@7:
+    [0, 0] -- point interval
+t@6:
+    [4.752925333137710595110547728836536407470703125, 4.752925333137710595110547728836536407470703125] -- point interval
+two_eight_big@7:
+    false
+two_seven_big@7:
+    false
+one_four_big@7:
+    false
+one_five_big@7:
+    false
+one_six_big@8:
+    false
+two_five_big@8:
+    false
+two_four@8:
+    false
+two_six_big@8:
+    false
+two_nine@8:
+    false
+two_eight@8:
+    false
+two_ten@8:
+    false
+two_seven@8:
+    false
+two_six@8:
+    false
+two_five@8:
+    false
+one_seven_big@8:
+    false
+one_eight@8:
+    false
+one_seven@8:
+    false
+one_six@8:
+    false
+one_five@8:
+    true
+one_four@8:
+    false
+one_three@8:
+    false
+one_two@8:
+    false
+one_one@8:
+    false
+flow@8:
+    true
+omegaCrank@8:
+    [10.306690884363479909779925947077572345733642578125, 10.306690884363479909779925947077572345733642578125] -- point interval
+omegaWheel@8:
+    [20.61338176872695981955985189415514469146728515625, 20.61338176872695981955985189415514469146728515625] -- point interval
+bigJump@8:
+    [0, 0] -- point interval
+t@7:
+    [0, 0] -- point interval
+two_eight_big@8:
+    false
+two_seven_big@8:
+    false
+one_four_big@8:
+    false
+one_five_big@8:
+    false
+one_six_big@9:
+    false
+two_five_big@9:
+    false
+two_four@9:
+    false
+two_six_big@9:
+    false
+two_nine@9:
+    false
+two_eight@9:
+    false
+two_ten@9:
+    false
+two_seven@9:
+    false
+two_six@9:
+    false
+two_five@9:
+    false
+one_seven_big@9:
+    false
+one_eight@9:
+    false
+one_seven@9:
+    false
+one_six@9:
+    false
+one_five@9:
+    true
+one_four@9:
+    false
+one_three@9:
+    false
+one_two@9:
+    false
+one_one@9:
+    false
+flow@9:
+    false
+omegaCrank@9:
+    [11.519169999999999021156327216885983943939208984375, 11.519169999999999021156327216885983943939208984375] -- point interval
+omegaWheel@9:
+    [23.03833999999999804231265443377196788787841796875, 23.03833999999999804231265443377196788787841796875] -- point interval
+bigJump@9:
+    [0, 0] -- point interval
+t@8:
+    [7.0411579427569233047279340098612010478973388671875, 7.0411579427569233047279340098612010478973388671875] -- point interval
+two_eight_big@9:
+    false
+two_seven_big@9:
+    false
+one_four_big@9:
+    false
+one_five_big@9:
+    false
+one_six_big@10:
+    false
+two_five_big@10:
+    false
+two_four@10:
+    false
+two_six_big@10:
+    false
+two_nine@10:
+    false
+two_eight@10:
+    false
+two_ten@10:
+    false
+two_seven@10:
+    false
+two_six@10:
+    false
+two_five@10:
+    false
+one_seven_big@10:
+    false
+one_eight@10:
+    false
+one_seven@10:
+    false
+one_six@10:
+    true
+one_five@10:
+    false
+one_four@10:
+    false
+one_three@10:
+    false
+one_two@10:
+    false
+one_one@10:
+    false
+flow@10:
+    true
+omegaCrank@10:
+    [10.841612420600000632475712336599826812744140625, 10.841612420600000632475712336599826812744140625] -- point interval
+omegaWheel@10:
+    [23.03833999999999804231265443377196788787841796875, 23.03833999999999804231265443377196788787841796875] -- point interval
+bigJump@10:
+    [0, 0] -- point interval
+t@9:
+    [0, 0] -- point interval
+two_eight_big@10:
+    false
+two_seven_big@10:
+    false
+one_four_big@10:
+    false
+one_five_big@10:
+    false
+one_six_big@11:
+    false
+two_five_big@11:
+    false
+two_four@11:
+    false
+two_six_big@11:
+    false
+two_nine@11:
+    false
+two_eight@11:
+    false
+two_ten@11:
+    false
+two_seven@11:
+    false
+two_six@11:
+    false
+two_five@11:
+    false
+one_seven_big@11:
+    false
+one_eight@11:
+    false
+one_seven@11:
+    false
+one_six@11:
+    true
+one_five@11:
+    false
+one_four@11:
+    false
+one_three@11:
+    false
+one_two@11:
+    false
+one_one@11:
+    false
+flow@11:
+    false
+omegaCrank@11:
+    [11.519169999999999021156327216885983943939208984375, 11.519169999999999021156327216885983943939208984375] -- point interval
+omegaWheel@11:
+    [24.47814445695828311500008567236363887786865234375, 24.47814445695828311500008567236363887786865234375] -- point interval
+bigJump@11:
+    [0, 0] -- point interval
+t@10:
+    [4.6418276272463234732867931597866117954254150390625, 4.6418276272463234732867931597866117954254150390625] -- point interval
+two_eight_big@11:
+    false
+two_seven_big@11:
+    false
+one_four_big@11:
+    false
+one_five_big@11:
+    false
+one_six_big@12:
+    false
+two_five_big@12:
+    false
+two_four@12:
+    false
+two_six_big@12:
+    false
+two_nine@12:
+    false
+two_eight@12:
+    false
+two_ten@12:
+    false
+two_seven@12:
+    false
+two_six@12:
+    false
+two_five@12:
+    false
+one_seven_big@12:
+    false
+one_eight@12:
+    false
+one_seven@12:
+    true
+one_six@12:
+    false
+one_five@12:
+    false
+one_four@12:
+    false
+one_three@12:
+    false
+one_two@12:
+    false
+one_one@12:
+    false
+flow@12:
+    true
+omegaCrank@12:
+    [10.799267771520856484812611597590148448944091796875, 10.799267771520856484812611597590148448944091796875] -- point interval
+omegaWheel@12:
+    [24.47814445695828311500008567236363887786865234375, 24.47814445695828311500008567236363887786865234375] -- point interval
+bigJump@12:
+    [0, 0] -- point interval
+t@11:
+    [0, 0] -- point interval
+two_eight_big@12:
+    false
+two_seven_big@12:
+    false
+one_four_big@12:
+    false
+one_five_big@12:
+    false
+one_six_big@13:
+    false
+two_five_big@13:
+    false
+two_four@13:
+    false
+two_six_big@13:
+    false
+two_nine@13:
+    false
+two_eight@13:
+    false
+two_ten@13:
+    false
+two_seven@13:
+    false
+two_six@13:
+    false
+two_five@13:
+    false
+one_seven_big@13:
+    false
+one_eight@13:
+    false
+one_seven@13:
+    true
+one_six@13:
+    false
+one_five@13:
+    false
+one_four@13:
+    false
+one_three@13:
+    false
+one_two@13:
+    false
+one_one@13:
+    false
+flow@13:
+    false
+omegaCrank@13:
+    [11.519169999999999021156327216885983943939208984375, 11.519169999999999021156327216885983943939208984375] -- point interval
+omegaWheel@13:
+    [26.109909787388364321714107063598930835723876953125, 26.109909787388364321714107063598930835723876953125] -- point interval
+bigJump@13:
+    [0, 0] -- point interval
+t@12:
+    [5.90082171501164420845952918170951306819915771484375, 5.90082171501164420845952918170951306819915771484375] -- point interval
+two_eight_big@13:
+    false
+two_seven_big@13:
+    false
+one_four_big@13:
+    false
+one_five_big@13:
+    false
+one_six_big@14:
+    false
+two_five_big@14:
+    false
+two_four@14:
+    false
+two_six_big@14:
+    false
+two_nine@14:
+    false
+two_eight@14:
+    false
+two_ten@14:
+    false
+two_seven@14:
+    false
+two_six@14:
+    false
+two_five@14:
+    false
+one_seven_big@14:
+    false
+one_eight@14:
+    true
+one_seven@14:
+    false
+one_six@14:
+    false
+one_five@14:
+    false
+one_four@14:
+    false
+one_three@14:
+    false
+one_two@14:
+    false
+one_one@14:
+    false
+flow@14:
+    true
+omegaCrank@14:
+    [10.7510164540550334777435637079179286956787109375, 10.7510164540550334777435637079179286956787109375] -- point interval
+omegaWheel@14:
+    [26.109909787388364321714107063598930835723876953125, 26.109909787388364321714107063598930835723876953125] -- point interval
+bigJump@14:
+    [0, 0] -- point interval
+t@13:
+    [0, 0] -- point interval
+two_eight_big@14:
+    false
+two_seven_big@14:
+    false
+one_four_big@14:
+    false
+one_five_big@14:
+    false
+one_six_big@15:
+    false
+two_five_big@15:
+    false
+two_four@15:
+    false
+two_six_big@15:
+    false
+two_nine@15:
+    false
+two_eight@15:
+    false
+two_ten@15:
+    false
+two_seven@15:
+    false
+two_six@15:
+    false
+two_five@15:
+    false
+one_seven_big@15:
+    false
+one_eight@15:
+    true
+one_seven@15:
+    false
+one_six@15:
+    false
+one_five@15:
+    false
+one_four@15:
+    false
+one_three@15:
+    false
+one_two@15:
+    false
+one_one@15:
+    false
+flow@15:
+    false
+omegaCrank@15:
+    [11.519169999999999021156327216885983943939208984375, 11.519169999999999021156327216885983943939208984375] -- point interval
+omegaWheel@15:
+    [27.9754468622498535523845930583775043487548828125, 27.9754468622498535523845930583775043487548828125] -- point interval
+bigJump@15:
+    [0, 0] -- point interval
+t@14:
+    [7.70819425878874131541351744090206921100616455078125, 7.70819425878874131541351744090206921100616455078125] -- point interval
+two_eight_big@15:
+    false
+two_seven_big@15:
+    false
+one_four_big@15:
+    false
+one_five_big@15:
+    false
+one_six_big@16:
+    false
+two_five_big@16:
+    false
+two_four@16:
+    false
+two_six_big@16:
+    false
+two_nine@16:
+    false
+two_eight@16:
+    false
+two_ten@16:
+    false
+two_seven@16:
+    false
+two_six@16:
+    false
+two_five@16:
+    false
+one_seven_big@16:
+    true
+one_eight@16:
+    false
+one_seven@16:
+    false
+one_six@16:
+    false
+one_five@16:
+    false
+one_four@16:
+    false
+one_three@16:
+    false
+one_two@16:
+    false
+one_one@16:
+    false
+flow@16:
+    true
+omegaCrank@16:
+    [12.3422076466873900102427796809934079647064208984375, 12.3422076466873900102427796809934079647064208984375] -- point interval
+omegaWheel@16:
+    [27.9754468622498535523845930583775043487548828125, 27.9754468622498535523845930583775043487548828125] -- point interval
+bigJump@16:
+    [1, 1] -- point interval
+t@15:
+    [0, 0] -- point interval
+two_eight_big@16:
+    false
+two_seven_big@16:
+    false
+one_four_big@16:
+    false
+one_five_big@16:
+    false
+one_six_big@17:
+    false
+two_four@17:
+    false
+two_six_big@17:
+    false
+two_nine@17:
+    false
+two_eight@17:
+    false
+two_ten@17:
+    false
+two_seven@17:
+    false
+two_six@17:
+    false
+two_five@17:
+    false
+one_seven_big@17:
+    true
+one_eight@17:
+    false
+one_seven@17:
+    false
+one_six@17:
+    false
+one_five@17:
+    false
+one_four@17:
+    false
+one_three@17:
+    false
+one_two@17:
+    false
+one_one@17:
+    false
+two_five_big@17:
+    false
+flow@17:
+    false
+omegaCrank@17:
+    [12.3422076466873900102427796809934079647064208984375, 12.3422076466873900102427796809934079647064208984375] -- point interval
+omegaWheel@17:
+    [27.9754468622498535523845930583775043487548828125, 27.9754468622498535523845930583775043487548828125] -- point interval
+bigJump@17:
+    [1, 1] -- point interval
+t@16:
+    [1.1970727180147539913754317879705473654482206224969331742613576352596282958984375e-12, 1.1970727180147539913754317879705473654482206224969331742613576352596282958984375e-12] -- point interval
+two_eight_big@17:
+    false
+two_seven_big@17:
+    false
+one_four_big@17:
+    false
+one_five_big@17:
+    false
+one_six_big@18:
+    true
+two_five_big@18:
+    false
+two_four@18:
+    false
+two_six_big@18:
+    false
+two_nine@18:
+    false
+two_eight@18:
+    false
+two_ten@18:
+    false
+two_seven@18:
+    false
+two_six@18:
+    false
+two_five@18:
+    false
+one_seven_big@18:
+    false
+one_eight@18:
+    false
+one_seven@18:
+    false
+one_six@18:
+    false
+one_five@18:
+    false
+one_four@18:
+    false
+one_three@18:
+    false
+one_two@18:
+    false
+one_one@18:
+    false
+flow@18:
+    true
+omegaCrank@18:
+    [13.164965538906159281395957805216312408447265625, 13.164965538906159281395957805216312408447265625] -- point interval
+omegaWheel@18:
+    [27.9754468622498535523845930583775043487548828125, 27.9754468622498535523845930583775043487548828125] -- point interval
+bigJump@18:
+    [1, 1] -- point interval
+t@17:
+    [0, 0] -- point interval
+two_eight_big@18:
+    false
+two_seven_big@18:
+    false
+one_four_big@18:
+    false
+one_five_big@18:
+    false
+two_four@19:
+    false
+two_six_big@19:
+    false
+two_nine@19:
+    false
+two_eight@19:
+    false
+two_ten@19:
+    false
+two_seven@19:
+    false
+two_six@19:
+    false
+two_five@19:
+    false
+one_seven_big@19:
+    false
+one_eight@19:
+    false
+one_seven@19:
+    false
+one_six@19:
+    false
+one_five@19:
+    false
+one_four@19:
+    false
+one_three@19:
+    false
+one_two@19:
+    false
+one_one@19:
+    false
+flow@19:
+    false
+omegaCrank@19:
+    [13.164965538906159281395957805216312408447265625, 13.164965538906159281395957805216312408447265625] -- point interval
+omegaWheel@19:
+    [27.9754468622498535523845930583775043487548828125, 27.9754468622498535523845930583775043487548828125] -- point interval
+bigJump@19:
+    [1, 1] -- point interval
+t@18:
+    [5.45622224275281853146562984964685623679738445124254297979859984479844570159912109375e-14, 5.45622224275281853146562984964685623679738445124254297979859984479844570159912109375e-14] -- point interval
+two_eight_big@19:
+    false
+two_seven_big@19:
+    false
+one_four_big@19:
+    false
+one_five_big@19:
+    false
+one_six_big@19:
+    true
+two_five_big@19:
+    false
+one_six_big@20:
+    false
+two_five_big@20:
+    false
+two_four@20:
+    false
+two_six_big@20:
+    true
+two_nine@20:
+    false
+two_eight@20:
+    false
+two_ten@20:
+    false
+two_seven@20:
+    false
+two_six@20:
+    false
+two_five@20:
+    false
+one_seven_big@20:
+    false
+one_eight@20:
+    false
+one_seven@20:
+    false
+one_six@20:
+    false
+one_five@20:
+    false
+one_four@20:
+    false
+one_three@20:
+    false
+one_two@20:
+    false
+one_one@20:
+    false
+flow@20:
+    true
+omegaCrank@20:
+    [8.952142995919952994654522626660764217376708984375, 8.952142995919952994654522626660764217376708984375] -- point interval
+omegaWheel@20:
+    [27.9754468622498535523845930583775043487548828125, 27.9754468622498535523845930583775043487548828125] -- point interval
+bigJump@20:
+    [1, 1] -- point interval
+t@19:
+    [0, 0] -- point interval
+two_eight_big@20:
+    false
+two_seven_big@20:
+    false
+one_four_big@20:
+    false
+one_five_big@20:
+    false
+one_six_big@21:
+    false
+two_nine@21:
+    false
+two_eight@21:
+    false
+two_ten@21:
+    false
+two_seven@21:
+    false
+two_six@21:
+    false
+two_five@21:
+    false
+one_seven_big@21:
+    false
+one_eight@21:
+    false
+one_seven@21:
+    false
+one_six@21:
+    false
+one_five@21:
+    false
+one_four@21:
+    false
+one_three@21:
+    false
+one_two@21:
+    false
+one_one@21:
+    false
+flow@21:
+    false
+omegaCrank@21:
+    [8.952142995919952994654522626660764217376708984375, 8.952142995919952994654522626660764217376708984375] -- point interval
+omegaWheel@21:
+    [27.9754468622498535523845930583775043487548828125, 27.9754468622498535523845930583775043487548828125] -- point interval
+bigJump@21:
+    [1, 1] -- point interval
+t@20:
+    [1.1970727180147539913754317879705473654482206224969331742613576352596282958984375e-12, 1.1970727180147539913754317879705473654482206224969331742613576352596282958984375e-12] -- point interval
+two_eight_big@21:
+    false
+two_seven_big@21:
+    false
+two_five_big@21:
+    false
+one_four_big@21:
+    false
+one_five_big@21:
+    false
+two_four@22:
+    false
+two_six_big@22:
+    false
+two_nine@22:
+    false
+two_eight@22:
+    false
+two_ten@22:
+    false
+two_seven@22:
+    false
+two_six@22:
+    false
+two_five@22:
+    false
+one_seven_big@22:
+    false
+one_eight@22:
+    false
+one_seven@22:
+    false
+one_six@22:
+    false
+one_five@22:
+    false
+one_four@22:
+    false
+one_three@22:
+    false
+one_two@22:
+    false
+one_one@22:
+    false
+flow@22:
+    true
+omegaCrank@22:
+    [9.5116519331649502788650352158583700656890869140625, 9.5116519331649502788650352158583700656890869140625] -- point interval
+omegaWheel@22:
+    [27.9754468622498535523845930583775043487548828125, 27.9754468622498535523845930583775043487548828125] -- point interval
+bigJump@22:
+    [1, 1] -- point interval
+t@21:
+    [0, 0] -- point interval
+two_eight_big@22:
+    false
+two_seven_big@22:
+    false
+two_four@21:
+    false
+one_four_big@22:
+    false
+two_six_big@21:
+    true
+one_five_big@22:
+    false
+two_five_big@23:
+    true
+two_four@23:
+    false
+two_six_big@23:
+    false
+two_nine@23:
+    false
+two_eight@23:
+    false
+two_ten@23:
+    false
+two_seven@23:
+    false
+two_six@23:
+    false
+two_five@23:
+    false
+one_seven_big@23:
+    false
+one_eight@23:
+    false
+one_seven@23:
+    false
+one_six@23:
+    false
+one_five@23:
+    false
+one_four@23:
+    false
+one_three@23:
+    false
+one_two@23:
+    false
+one_one@23:
+    false
+flow@23:
+    false
+omegaCrank@23:
+    [9.5116519331649502788650352158583700656890869140625, 9.5116519331649502788650352158583700656890869140625] -- point interval
+omegaWheel@23:
+    [27.9754468622498535523845930583775043487548828125, 27.9754468622498535523845930583775043487548828125] -- point interval
+bigJump@23:
+    [1, 1] -- point interval
+t@22:
+    [5.45622224275281853146562984964685623679738445124254297979859984479844570159912109375e-14, 5.45622224275281853146562984964685623679738445124254297979859984479844570159912109375e-14] -- point interval
+two_eight_big@23:
+    false
+two_seven_big@23:
+    false
+one_six_big@22:
+    false
+two_five_big@22:
+    true
+one_four_big@23:
+    false
+one_five_big@23:
+    false
+two_four@24:
+    true
+two_six_big@24:
+    false
+two_nine@24:
+    false
+two_eight@24:
+    false
+two_ten@24:
+    false
+two_seven@24:
+    false
+two_six@24:
+    false
+two_five@24:
+    false
+one_seven_big@24:
+    false
+one_eight@24:
+    false
+one_seven@24:
+    false
+one_six@24:
+    false
+one_five@24:
+    false
+one_four@24:
+    false
+one_three@24:
+    false
+one_two@24:
+    false
+one_one@24:
+    false
+flow@24:
+    true
+omegaCrank@24:
+    [10.630669807654943070929220994003117084503173828125, 10.630669807654943070929220994003117084503173828125] -- point interval
+omegaWheel@24:
+    [27.9754468622498535523845930583775043487548828125, 27.9754468622498535523845930583775043487548828125] -- point interval
+bigJump@24:
+    [1, 1] -- point interval
+t@23:
+    [0, 0] -- point interval
+two_seven_big@24:
+    false
+one_four_big@24:
+    false
+one_five_big@24:
+    false
+two_eight_big@24:
+    false
+one_six_big@24:
+    false
+one_six_big@23:
+    false
+two_five_big@24:
+    false
+two_six_big@25:
+    false
+two_nine@25:
+    false
+two_eight@25:
+    false
+two_ten@25:
+    false
+two_seven@25:
+    false
+two_six@25:
+    false
+two_five@25:
+    false
+one_seven_big@25:
+    false
+one_eight@25:
+    false
+one_seven@25:
+    false
+one_six@25:
+    false
+one_five@25:
+    false
+one_four@25:
+    false
+one_three@25:
+    false
+one_two@25:
+    false
+one_one@25:
+    false
+flow@25:
+    false
+omegaCrank@25:
+    [9.42477999999999838109943084418773651123046875, 9.42477999999999838109943084418773651123046875] -- point interval
+omegaWheel@25:
+    [24.802052631578941799261883716098964214324951171875, 24.802052631578941799261883716098964214324951171875] -- point interval
+bigJump@25:
+    [1, 1] -- point interval
+t@24:
+    [372.90566846762129671333241276443004608154296875, 372.90566846762129671333241276443004608154296875] -- point interval
+two_eight_big@25:
+    false
+two_seven_big@25:
+    false
+one_four_big@25:
+    false
+one_five_big@25:
+    false
+one_six_big@25:
+    false
+two_four@26:
+    false
+two_six_big@26:
+    false
+two_nine@26:
+    false
+two_eight@26:
+    false
+two_ten@26:
+    false
+two_seven@26:
+    false
+two_six@26:
+    false
+two_five@26:
+    false
+one_seven_big@26:
+    false
+one_eight@26:
+    false
+one_seven@26:
+    false
+one_six@26:
+    false
+one_five@26:
+    false
+one_four@26:
+    false
+one_three@26:
+    false
+one_two@26:
+    false
+one_one@26:
+    false
+flow@26:
+    true
+omegaCrank@26:
+    [8.43269789473684028280331403948366641998291015625, 8.43269789473684028280331403948366641998291015625] -- point interval
+omegaWheel@26:
+    [24.802052631578941799261883716098964214324951171875, 24.802052631578941799261883716098964214324951171875] -- point interval
+bigJump@26:
+    [0, 0] -- point interval
+t@25:
+    [0, 0] -- point interval
+two_eight_big@26:
+    false
+two_seven_big@26:
+    false
+two_five_big@25:
+    false
+one_four_big@26:
+    false
+one_five_big@26:
+    false
+two_four@25:
+    true
+one_six_big@26:
+    false
+two_five_big@26:
+    true
+CANDIDATE SOLUTION [given intervals may or may not contain a solution]
+opening 'LHA.hys' for reading
+parsing (user time 0.006694 seconds)
+rewriting (user time 0.011103 seconds)
+cnf generation (user time 0.003556 seconds)
+starting to solve
+depth 0 is UNSATISFIABLE (user time 0.000154 seconds)
+depth 1 is UNSATISFIABLE (user time 0.005289 seconds)
+depth 2 is UNSATISFIABLE (user time 0.005044 seconds)
+SAFE [target is never reachable]
+opening 'LHA.hys' for reading
+parsing (user time 0.004388 seconds)
+rewriting (user time 0.008666 seconds)
+cnf generation (user time 0.004357 seconds)
+starting to solve
+depth 0 is UNSATISFIABLE (user time 0.000347 seconds)
+depth 1 is UNSATISFIABLE (user time 0.004666 seconds)
+depth 2 is UNSATISFIABLE (user time 0.004943 seconds)
+SAFE [target is never reachable]

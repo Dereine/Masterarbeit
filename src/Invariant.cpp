@@ -19,6 +19,18 @@ Invariant::~Invariant() {
 	// TODO Auto-generated destructor stub
 }
 
+string Invariant::toStringSpaceExXML() {
+	string returnString = "      <invariant> ";
+	LinearPredicate linPred;
+	for (size_t i = 0; i < _linPreds.size(); i++) {
+		linPred = _linPreds[i];
+		returnString += linPred.toStringSpaceExXML() +
+				(i < _linPreds.size() - 1 ? " &amp;\n                  ": "\n      " );
+	}
+	returnString += "</invariant>\n";
+	return returnString;
+}
+
 //std::vector<LinearPredicate> Invariant::getLinPreds() {
 //	return _linPreds;
 //}

@@ -23,7 +23,7 @@ Location::~Location() {
 	// TODO Auto-generated destructor stub
 }
 
-int Location::getId() {
+unsigned int Location::getId() {
 	return _id;
 }
 

@@ -32,13 +32,17 @@ public:
 
 	// Returns the linear predicate in human readable form.
 	const std::string toString(bool prime) const;
+	const std::string toStringSpaceExXML(bool prime) const;
 	const std::string relationToString(Relation relation) const;
-
+	const std::string relationToStringSpaceExXML() const;
+	bool isFlow() const;
+	void setFlow(bool flow);
 
 private:
 	std::vector<LinearTerm> _linTerms;
 	Relation 				_relation;
 	Constant 				_constant;
+	bool 					_flow;
 };
 
 #endif /* LINEARPREDICATE_H_ */

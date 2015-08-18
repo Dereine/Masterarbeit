@@ -30,6 +30,7 @@
 class LinearHybridAutomaton {
 public:
 	LinearHybridAutomaton();
+	LinearHybridAutomaton(string name);
 	virtual ~LinearHybridAutomaton();
 
 	void setLocations(std::vector<Location> locations);
@@ -62,6 +63,10 @@ public:
 	void toHysFile(LinearPredicate target);
 	void toHysFile(string target);
 
+	void toSpaceExXML(const string& target);
+	void xmlWriteParams(string& params);
+	void xmlWriteLocations(string& locations);
+
 	string toString(double value);
 	string toString(unsigned int value);
 
@@ -70,9 +75,12 @@ private:
 	std::vector<Edge>		_edges;
 	std::vector<Variable>	_variables;
 	std::vector<Constant>	_constants;
+	string _name;
 
 	FILE * _hysFile;
 	bool _hysFileActive;
+
+	FILE * _spaceExXMLFile;
 
 
 	/*

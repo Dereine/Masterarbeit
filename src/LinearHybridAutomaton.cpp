@@ -14,7 +14,10 @@ using namespace std;
 
 LinearHybridAutomaton::LinearHybridAutomaton() {
 	// TODO Auto-generated constructor stub
+}
 
+LinearHybridAutomaton::LinearHybridAutomaton(string name) {
+	_name = name;
 }
 
 LinearHybridAutomaton::~LinearHybridAutomaton() {
@@ -604,8 +607,10 @@ struct isat3_node* LinearHybridAutomaton::flows(string &hysString) {
 				+ " -> ";
 		hysString += "\t" + locationName + " and " + locationName + "'"
 				+ " -> ";
-		constraint += "(t > 0.00000) and ";
+		constraint += "(t > 0.00000) and\n\t\t\t";
 		hysString += "(t > 0.00000) and\n\t\t\t";
+//		constraint += "(t > 0.40000) and ";
+//		hysString += "(t > 0.40000) and\n\t\t\t";
 		// Upper and lower bounds.
 		for (size_t k = 0; k < location.getBounds().size(); k++) {
 			bound = location.getBounds()[k];
@@ -618,9 +623,9 @@ struct isat3_node* LinearHybridAutomaton::flows(string &hysString) {
 //					+ variableName + "' <= " + variableName + " + "
 //					+ upper.getValueString() + " * " + DELTASTRING + " and ";
 			constraint += variableName + "' >= " + variableName + " + "
-					+ lower.getValueString() + " * " + "t" + " and "
+					+ lower.getValueString() + " * " + "t" + " and\n\t\t\t"
 					+ variableName + "' <= " + variableName + " + "
-					+ upper.getValueString() + " * " + "t" + " and ";
+					+ upper.getValueString() + " * " + "t" + " and\n\t\t\t";
 			hysString += variableName + "' >= " + variableName + " + "
 					+ lower.getValueString() + " * " + "t" + " and\n\t\t\t"
 					+ variableName + "' <= " + variableName + " + "
@@ -899,6 +904,7 @@ string LinearHybridAutomaton::setUpInitial() {
 	initCondition += "flow;\n";
 	hysString += "\tflow;\n";
 #endif
+	cout << "Initial condition:" << endl;
 	cout << initCondition;
 	cout << "---------------------------" << endl;
 	_init = isat3_node_create_from_string(_isatInstance, initCondition.c_str());
@@ -1069,6 +1075,64 @@ void LinearHybridAutomaton::toHysFile(string target) {
 	fprintf(_hysFile, "\nTARGET\n");
 	fprintf(_hysFile, setTarget(target).c_str());
 	fclose(_hysFile);
+}
+
+void LinearHybridAutomaton::toSpaceExXML(const string& target) {
+	_spaceExXMLFile = fopen("LHA.xml", "w");
+	string xmlString = "<\?xml version=\"1.0\" encoding=\"iso-8859-1\"\?> <sspaceex xmlns=\"http://www-verimag.imag.fr/xml-namespaces/sspaceex\" version=\"0.2\" math=\"SpaceEx\">""\n";
+	fprintf(_spaceExXMLFile, xmlString.c_str());
+	xmlString =  "<component id=\"" + _name + "bicycle\">";
+	fprintf(_spaceExXMLFile, xmlString.c_str());
+	xmlString = "";
+	xmlWriteParams(xmlString);
+	fprintf(_spaceExXMLFile, xmlString.c_str());
+	xmlString = "";
+	xmlWriteLocations(xmlString);
+	fprintf(_spaceExXMLFile, xmlString.c_str());
+	xmlString = "  </component> \n </sspaceex>";
+	fprintf(_spaceExXMLFile, xmlString.c_str());
+	fclose(_spaceExXMLFile);
+
+}
+
+void LinearHybridAutomaton::xmlWriteParams(string& params) {
+	Variable variable;
+	for (size_t i = 0; i < _variables.size(); i++) {
+		variable = _variables[i];
+		params += "  <param name=\"" + variable.getName() + "\" " +
+				"type=\"real\" local=\"false\" d1=\"1\" d2=\"1\" dynamics=\"any\" />\n";
+	}
+	Constant constant;
+	for (size_t i = 0; i < _constants.size(); i++) {
+		constant = _constants[i];
+		params += "  <param name=\"" + constant.getName() + "\" " +
+				"type=\"real\" local=\"false\" d1=\"1\" d2=\"1\" dynamics=\"const\" />\n";
+	}
+	Edge edge;
+	for (size_t i = 0; i < _edges.size(); i++) {
+		edge = _edges[i];
+		params += "  <param name=\"" + edge.getName() + "\" " +
+				"type=\"label\" local=\"false\"/>\n";
+	}
+}
+
+void LinearHybridAutomaton::xmlWriteLocations(string& locations) {
+	Location location;
+	Invariant invariant;
+	locations += "\n";
+	unsigned int x = 200;
+	unsigned int y = 200;
+	for (size_t i = 0; i < _locations.size(); i++) {
+		location = _locations[i];
+		invariant = location.getInvariant();
+		locations += "  <location id =\"" + toString(location.getId()) + "\"" +
+				"name=\"" + location.getName() + "\"" +
+				"x=\"" + toString(x += 450) + "\"" +
+				"y=\"" + toString(y) + "\"" +
+				"width=\"" + toString((unsigned int)400) + "\"" +
+				"height=\"" + toString((unsigned int)400) + "\">\n";
+		locations += invariant.toStringSpaceExXML();
+	}
 }
 
 void LinearHybridAutomaton::writeToFile() {

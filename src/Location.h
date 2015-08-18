@@ -21,7 +21,7 @@ public:
 			std::vector<Bound> bounds, bool initial);
 	virtual ~Location();
 
-	int getId();
+	unsigned int getId();
 	void setId(int id);
 
 	Constant getMinSlope();
@@ -42,8 +42,10 @@ public:
 	bool isInitial() const;
 	void setInitial(bool initial);
 
+	std::string flowToSpaceExXML();
+
 private:
-	int 				_id;
+	unsigned int		_id;
 	std::string 		_name;
 	Invariant 			_invariant;
 	std::vector<Bound> 	_bounds;

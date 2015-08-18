@@ -12,17 +12,20 @@
 //#include "LinearPredicate.h"
 #include "LinearPredicateConjunct.h"
 
+using namespace std;
+
 class Invariant : public LinearPredicateConjunct{
 public:
 	Invariant();
-	Invariant(std::vector <LinearPredicate> linPreds);
+	Invariant(vector <LinearPredicate> linPreds);
 	virtual ~Invariant();
 
 //	std::vector<LinearPredicate> getLinPreds();
 //	void setLinPreds(std::vector<LinearPredicate> linearPredicate);
 //	void addLinPred(LinearPredicate linPred);
 //
-//	std::string toStringISat(bool prime);
+	string toStringSpaceExXML();
+
 //
 //private:
 //	std::vector <LinearPredicate> _linPreds;

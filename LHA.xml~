@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="iso-8859-1"?> <sspaceex xmlns="http://www-verimag.imag.fr/xml-namespaces/sspaceex" version="0.2" math="SpaceEx">
+<component id="bicylebicycle">  <param name="omegaWheel" type="real" local="false" d1="1" d2="1" dynamics="any" />
+  <param name="omegaCrank" type="real" local="false" d1="1" d2="1" dynamics="any" />
+  <param name="t" type="real" local="false" d1="1" d2="1" dynamics="any" />
+  <param name="tSum" type="real" local="false" d1="1" d2="1" dynamics="any" />
+  <param name="bigJump" type="real" local="false" d1="1" d2="1" dynamics="any" />
+  <param name="one" type="real" local="false" d1="1" d2="1" dynamics="const" />
+  <param name="zero" type="real" local="false" d1="1" d2="1" dynamics="const" />
+  <param name="twenty" type="real" local="false" d1="1" d2="1" dynamics="const" />
+  <param name="twenty" type="real" local="false" d1="1" d2="1" dynamics="const" />
+  <param name="targetPlus" type="real" local="false" d1="1" d2="1" dynamics="const" />
+  <param name="targetMinus" type="real" local="false" d1="1" d2="1" dynamics="const" />
+  <param name="targetPlusGuard" type="real" local="false" d1="1" d2="1" dynamics="const" />
+  <param name="targetPlusGuard" type="real" local="false" d1="1" d2="1" dynamics="const" />
+  <param name="cFric" type="real" local="false" d1="1" d2="1" dynamics="const" />
+  <param name="cDrive11" type="real" local="false" d1="1" d2="1" dynamics="const" />
+  <param name="cDrive11Up" type="real" local="false" d1="1" d2="1" dynamics="const" />
+  <param name="cDrive11Low" type="real" local="false" d1="1" d2="1" dynamics="const" />
+  <param name="cDrive12" type="real" local="false" d1="1" d2="1" dynamics="const" />
+  <param name="cDrive12Up" type="real" local="false" d1="1" d2="1" dynamics="const" />
+  <param name="cDrive12Low" type="real" local="false" d1="1" d2="1" dynamics="const" />
+  <param name="cDrive13" type="real" local="false" d1="1" d2="1" dynamics="const" />
+  <param name="cDrive13Up" type="real" local="false" d1="1" d2="1" dynamics="const" />
+  <param name="cDrive13Low" type="real" local="false" d1="1" d2="1" dynamics="const" />
+  <param name="cDrive14" type="real" local="false" d1="1" d2="1" dynamics="const" />
+  <param name="cDrive14Up" type="real" local="false" d1="1" d2="1" dynamics="const" />
+  <param name="cDrive14Low" type="real" local="false" d1="1" d2="1" dynamics="const" />
+  <param name="cDrive15" type="real" local="false" d1="1" d2="1" dynamics="const" />
+  <param name="cDrive15Up" type="real" local="false" d1="1" d2="1" dynamics="const" />
+  <param name="cDrive15Low" type="real" local="false" d1="1" d2="1" dynamics="const" />
+  <param name="cDrive16" type="real" local="false" d1="1" d2="1" dynamics="const" />
+  <param name="cDrive16Up" type="real" local="false" d1="1" d2="1" dynamics="const" />
+  <param name="cDrive16Low" type="real" local="false" d1="1" d2="1" dynamics="const" />
+  <param name="cDrive17" type="real" local="false" d1="1" d2="1" dynamics="const" />
+  <param name="cDrive17Up" type="real" local="false" d1="1" d2="1" dynamics="const" />
+  <param name="cDrive17Low" type="real" local="false" d1="1" d2="1" dynamics="const" />
+  <param name="cDrive18" type="real" local="false" d1="1" d2="1" dynamics="const" />
+  <param name="cDrive18Up" type="real" local="false" d1="1" d2="1" dynamics="const" />
+  <param name="cDrive18Low" type="real" local="false" d1="1" d2="1" dynamics="const" />
+  <param name="cDrive24" type="real" local="false" d1="1" d2="1" dynamics="const" />
+  <param name="cDrive24Up" type="real" local="false" d1="1" d2="1" dynamics="const" />
+  <param name="cDrive24Low" type="real" local="false" d1="1" d2="1" dynamics="const" />
+  <param name="cDrive25" type="real" local="false" d1="1" d2="1" dynamics="const" />
+  <param name="cDrive25Up" type="real" local="false" d1="1" d2="1" dynamics="const" />
+  <param name="cDrive25Low" type="real" local="false" d1="1" d2="1" dynamics="const" />
+  <param name="cDrive26" type="real" local="false" d1="1" d2="1" dynamics="const" />
+  <param name="cDrive26Up" type="real" local="false" d1="1" d2="1" dynamics="const" />
+  <param name="cDrive26Low" type="real" local="false" d1="1" d2="1" dynamics="const" />
+  <param name="cDrive27" type="real" local="false" d1="1" d2="1" dynamics="const" />
+  <param name="cDrive27Up" type="real" local="false" d1="1" d2="1" dynamics="const" />
+  <param name="cDrive27Low" type="real" local="false" d1="1" d2="1" dynamics="const" />
+  <param name="cDrive28" type="real" local="false" d1="1" d2="1" dynamics="const" />
+  <param name="cDrive28Up" type="real" local="false" d1="1" d2="1" dynamics="const" />
+  <param name="cDrive28Low" type="real" local="false" d1="1" d2="1" dynamics="const" />
+  <param name="cDrive29" type="real" local="false" d1="1" d2="1" dynamics="const" />
+  <param name="cDrive29Up" type="real" local="false" d1="1" d2="1" dynamics="const" />
+  <param name="cDrive29Low" type="real" local="false" d1="1" d2="1" dynamics="const" />
+  <param name="cDrive210" type="real" local="false" d1="1" d2="1" dynamics="const" />
+  <param name="cDrive210Up" type="real" local="false" d1="1" d2="1" dynamics="const" />
+  <param name="cDrive210Low" type="real" local="false" d1="1" d2="1" dynamics="const" />
+  <param name="ratio_one_one" type="real" local="false" d1="1" d2="1" dynamics="const" />
+  <param name="ratio_one_two" type="real" local="false" d1="1" d2="1" dynamics="const" />
+  <param name="ratio_one_three" type="real" local="false" d1="1" d2="1" dynamics="const" />
+  <param name="ratio_one_four" type="real" local="false" d1="1" d2="1" dynamics="const" />
+  <param name="ratio_one_five" type="real" local="false" d1="1" d2="1" dynamics="const" />
+  <param name="ratio_one_six" type="real" local="false" d1="1" d2="1" dynamics="const" />
+  <param name="ratio_one_seven" type="real" local="false" d1="1" d2="1" dynamics="const" />
+  <param name="ratio_one_eight" type="real" local="false" d1="1" d2="1" dynamics="const" />
+  <param name="ratio_two_four" type="real" local="false" d1="1" d2="1" dynamics="const" />
+  <param name="ratio_two_five" type="real" local="false" d1="1" d2="1" dynamics="const" />
+  <param name="ratio_two_six" type="real" local="false" d1="1" d2="1" dynamics="const" />
+  <param name="ratio_two_seven" type="real" local="false" d1="1" d2="1" dynamics="const" />
+  <param name="ratio_two_eight" type="real" local="false" d1="1" d2="1" dynamics="const" />
+  <param name="ratio_two_nine" type="real" local="false" d1="1" d2="1" dynamics="const" />
+  <param name="ratio_two_ten" type="real" local="false" d1="1" d2="1" dynamics="const" />
+  <param name="one_one_one_two" type="label" local="false"/>
+  <param name="one_two_one_three" type="label" local="false"/>
+  <param name="one_two_one_one" type="label" local="false"/>
+  <param name="one_three_one_four" type="label" local="false"/>
+  <param name="one_three_one_two" type="label" local="false"/>
+  <param name="one_four_one_five" type="label" local="false"/>
+  <param name="one_four_one_three" type="label" local="false"/>
+  <param name="one_five_one_six" type="label" local="false"/>
+  <param name="one_five_one_four" type="label" local="false"/>
+  <param name="one_six_one_seven" type="label" local="false"/>
+  <param name="one_six_one_five" type="label" local="false"/>
+  <param name="one_seven_one_eight" type="label" local="false"/>
+  <param name="one_seven_one_six" type="label" local="false"/>
+  <param name="one_eight_one_seven" type="label" local="false"/>
+  <param name="one_eight_one_seven_big" type="label" local="false"/>
+  <param name="one_seven_one_six_big" type="label" local="false"/>
+  <param name="one_six_two_six_big" type="label" local="false"/>
+  <param name="two_six_two_five_big" type="label" local="false"/>
+  <param name="two_five_two_four_big" type="label" local="false"/>
+  <param name="two_four_two_five" type="label" local="false"/>
+  <param name="two_five_two_four" type="label" local="false"/>
+  <param name="two_five_two_six" type="label" local="false"/>
+  <param name="two_six_two_five" type="label" local="false"/>
+  <param name="two_six_two_seven" type="label" local="false"/>
+  <param name="two_seven_two_six" type="label" local="false"/>
+  <param name="two_seven_two_eight" type="label" local="false"/>
+  <param name="two_eight_two_seven" type="label" local="false"/>
+  <param name="two_eight_two_nine" type="label" local="false"/>
+  <param name="two_nine_two_eight" type="label" local="false"/>
+  <param name="two_nine_two_ten" type="label" local="false"/>
+  <param name="two_ten_two_nine" type="label" local="false"/>
+  <param name="two_four_two_five_big" type="label" local="false"/>
+  <param name="two_five_two_six_big" type="label" local="false"/>
+  <param name="two_six_one_six_big" type="label" local="false"/>
+  <param name="one_six_one_seven_big" type="label" local="false"/>
+  <param name="one_seven_one_eight_big" type="label" local="false"/>
+
+<location id ="11"name="one_one"x="650"y="200"width="400"height="400">
+<location id ="12"name="one_two"x="1100"y="200"width="400"height="400">
+<location id ="13"name="one_three"x="1550"y="200"width="400"height="400">
+<location id ="14"name="one_four"x="2000"y="200"width="400"height="400">
+<location id ="15"name="one_five"x="2450"y="200"width="400"height="400">
+<location id ="16"name="one_six"x="2900"y="200"width="400"height="400">
+<location id ="17"name="one_seven"x="3350"y="200"width="400"height="400">
+<location id ="18"name="one_eight"x="3800"y="200"width="400"height="400">
+<location id ="172"name="one_seven_big"x="4250"y="200"width="400"height="400">
+<location id ="162"name="one_six_big"x="4700"y="200"width="400"height="400">
+<location id ="152"name="one_five_big"x="5150"y="200"width="400"height="400">
+<location id ="142"name="one_four_big"x="5600"y="200"width="400"height="400">
+<location id ="24"name="two_four"x="6050"y="200"width="400"height="400">
+<location id ="25"name="two_five"x="6500"y="200"width="400"height="400">
+<location id ="26"name="two_six"x="6950"y="200"width="400"height="400">
+<location id ="27"name="two_seven"x="7400"y="200"width="400"height="400">
+<location id ="28"name="two_eight"x="7850"y="200"width="400"height="400">
+<location id ="29"name="two_nine"x="8300"y="200"width="400"height="400">
+<location id ="210"name="two_ten"x="8750"y="200"width="400"height="400">
+<location id ="252"name="two_five_big"x="9200"y="200"width="400"height="400">
+<location id ="662"name="two_six_big"x="9650"y="200"width="400"height="400">
+<location id ="272"name="two_seven_big"x="10100"y="200"width="400"height="400">
+<location id ="282"name="two_eight_big"x="10550"y="200"width="400"height="400">

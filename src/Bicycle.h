@@ -13,7 +13,7 @@
 
 #define FPEDAL		(double)200
 #define FPEDALLOW	(double)100
-#define FPEDALHIGH	(double)210
+#define FPEDALHIGH	(double)200
 #define RPEDAL		(double)0.15
 #define MU			(double)0.015
 #define RWHEEL		(double)0.622
