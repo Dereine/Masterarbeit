@@ -19,16 +19,24 @@ Invariant::~Invariant() {
 	// TODO Auto-generated destructor stub
 }
 
-string Invariant::toStringSpaceExXML() {
-	string returnString = "      <invariant> ";
+void Invariant::toStringSpaceExXML(string& invariantString) {
+	invariantString += "      <invariant> ";
+	bool firstElement = true;
 	LinearPredicate linPred;
 	for (size_t i = 0; i < _linPreds.size(); i++) {
 		linPred = _linPreds[i];
-		returnString += linPred.toStringSpaceExXML() +
-				(i < _linPreds.size() - 1 ? " &amp;\n                  ": "\n      " );
+		if (!linPred.isFlow()) {
+			if (firstElement) {
+				invariantString += linPred.toStringSpaceExXML(false, false) + "\n";
+				firstElement = false;
+			}
+			else {
+				invariantString +=  "&amp;" +
+				linPred.toStringSpaceExXML(false, false) + "\n";
+			}
+		}
 	}
-	returnString += "</invariant>\n";
-	return returnString;
+	invariantString += "      </invariant>\n";
 }
 
 //std::vector<LinearPredicate> Invariant::getLinPreds() {

@@ -62,3 +62,27 @@ bool Location::isInitial() const {
 void Location::setInitial(bool initial) {
 	_initial = initial;
 }
+
+void Location::flowToSpaceExXML(string& flowString) {
+	flowString += "      <flow>";
+	Bound bound;
+	for (size_t i = 0; i < _bounds.size(); i++) {
+		bound = _bounds[i];
+		if (i > 0)
+			flowString += "&amp;";
+		//else
+			//flowString += "&amp; "
+		flowString += bound.getVariable().getName() + "' &gt;= "  +
+				bound.getConstantLow().getValueString() + "\n&amp;" +
+				bound.getVariable().getName() + "' &lt;= "  +
+				bound.getConstantUp().getValueString() + "\n";
+	}
+	LinearPredicate linPred;
+	for (size_t i = 0; i < _invariant.getLinPreds().size(); i++) {
+		linPred = _invariant.getLinPreds()[i];
+		if (linPred.isFlow())
+			flowString += "&amp;" +
+			linPred.toStringSpaceExXML(true, false) + "\n";
+	}
+	flowString += "      </flow>\n";
+}

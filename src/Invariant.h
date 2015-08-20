@@ -19,13 +19,12 @@ public:
 	Invariant();
 	Invariant(vector <LinearPredicate> linPreds);
 	virtual ~Invariant();
+	void toStringSpaceExXML(string& invariantString);
 
 //	std::vector<LinearPredicate> getLinPreds();
 //	void setLinPreds(std::vector<LinearPredicate> linearPredicate);
 //	void addLinPred(LinearPredicate linPred);
 //
-	string toStringSpaceExXML();
-
 //
 //private:
 //	std::vector <LinearPredicate> _linPreds;

@@ -20,6 +20,7 @@ LinearPredicate::LinearPredicate(const std::vector<LinearTerm>& linTerms,
 	_linTerms = linTerms;
 	_relation = relation;
 	_constant = constant;
+	_flow = false;
 }
 
 LinearPredicate::~LinearPredicate() {
@@ -71,7 +72,7 @@ const std::string LinearPredicate::toString(bool prime) const {
 	return returnString;
 }
 
-const std::string LinearPredicate::toStringSpaceExXML(bool prime) const {
+const std::string LinearPredicate::toStringSpaceExXML(bool prime, bool assignment) const {
 	std::string returnString = "(";
 	LinearTerm term;
 	term = _linTerms[0];
@@ -81,17 +82,38 @@ const std::string LinearPredicate::toStringSpaceExXML(bool prime) const {
 	} else {
 		returnString += term.getVariable().getName();
 	}
-	for (int i = 1; i < _linTerms.size(); i++) {
-		term = _linTerms[i];
-		if (term.getConstant().getValue() != 1.0f) {
-			returnString += " + " + term.getConstant().getValueString() + " * " +
-					term.getVariable().getName();
-		} else {
-			returnString += " + " + term.getVariable().getName();
+	if (!assignment) {
+		if (prime)
+			returnString += "'";
+		for (int i = 1; i < _linTerms.size(); i++) {
+			term = _linTerms[i];
+			if (term.getConstant().getValue() != 1.0f) {
+				returnString += " + " + term.getConstant().getValueString() + " * " +
+						term.getVariable().getName();
+			} else {
+				returnString += " + " + term.getVariable().getName();
+			}
+			if (prime)
+				returnString += "'";
 		}
+		returnString += " " + this->relationToStringSpaceExXML() + " " + _constant.getValueString() + ")";
+	} else {
+		returnString += " := ";
+		for (int i = 1; i < _linTerms.size(); i++) {
+			term = _linTerms[i];
+			double constantValue = term.getConstant().getValue();
+			if (constantValue != 1.0f) {
+				returnString += "-1 * " +
+						term.getConstant().getValueString() + " * " +
+						term.getVariable().getName();
+			} else {
+				returnString += " - " + term.getVariable().getName();
+			}
+			if (prime)
+				returnString += "'";
+		}
+		returnString += (_linTerms.size() > 1 ? " + " : "") + _constant.getValueString() + ")";
 	}
-
-	returnString += " " + this->relationToStringSpaceExXML() + " " + _constant.getValueString() + ")";
 	return returnString;
 }
 

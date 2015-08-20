@@ -42,7 +42,7 @@ public:
 	bool isInitial() const;
 	void setInitial(bool initial);
 
-	std::string flowToSpaceExXML();
+	void flowToSpaceExXML(string& flowString);
 
 private:
 	unsigned int		_id;

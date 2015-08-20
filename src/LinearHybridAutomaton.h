@@ -66,6 +66,7 @@ public:
 	void toSpaceExXML(const string& target);
 	void xmlWriteParams(string& params);
 	void xmlWriteLocations(string& locations);
+	void xmlWriteEdges(string& edges);
 
 	string toString(double value);
 	string toString(unsigned int value);

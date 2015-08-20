@@ -32,7 +32,7 @@ public:
 
 	// Returns the linear predicate in human readable form.
 	const std::string toString(bool prime) const;
-	const std::string toStringSpaceExXML(bool prime) const;
+	const std::string toStringSpaceExXML(bool prime, bool assignment) const;
 	const std::string relationToString(Relation relation) const;
 	const std::string relationToStringSpaceExXML() const;
 	bool isFlow() const;

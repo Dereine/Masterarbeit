@@ -1079,9 +1079,9 @@ void LinearHybridAutomaton::toHysFile(string target) {
 
 void LinearHybridAutomaton::toSpaceExXML(const string& target) {
 	_spaceExXMLFile = fopen("LHA.xml", "w");
-	string xmlString = "<\?xml version=\"1.0\" encoding=\"iso-8859-1\"\?> <sspaceex xmlns=\"http://www-verimag.imag.fr/xml-namespaces/sspaceex\" version=\"0.2\" math=\"SpaceEx\">""\n";
+	string xmlString = "<\?xml version=\"1.0\" encoding=\"iso-8859-1\"\?>\n  <sspaceex xmlns=\"http://www-verimag.imag.fr/xml-namespaces/sspaceex\" version=\"0.2\" math=\"SpaceEx\">""\n";
 	fprintf(_spaceExXMLFile, xmlString.c_str());
-	xmlString =  "<component id=\"" + _name + "bicycle\">";
+	xmlString =  "<component id=\"" + _name + "\">\n";
 	fprintf(_spaceExXMLFile, xmlString.c_str());
 	xmlString = "";
 	xmlWriteParams(xmlString);
@@ -1089,10 +1089,12 @@ void LinearHybridAutomaton::toSpaceExXML(const string& target) {
 	xmlString = "";
 	xmlWriteLocations(xmlString);
 	fprintf(_spaceExXMLFile, xmlString.c_str());
+	xmlString = "";
+	xmlWriteEdges(xmlString);
+	fprintf(_spaceExXMLFile, xmlString.c_str());
 	xmlString = "  </component> \n </sspaceex>";
 	fprintf(_spaceExXMLFile, xmlString.c_str());
 	fclose(_spaceExXMLFile);
-
 }
 
 void LinearHybridAutomaton::xmlWriteParams(string& params) {
@@ -1126,12 +1128,32 @@ void LinearHybridAutomaton::xmlWriteLocations(string& locations) {
 		location = _locations[i];
 		invariant = location.getInvariant();
 		locations += "  <location id =\"" + toString(location.getId()) + "\"" +
-				"name=\"" + location.getName() + "\"" +
-				"x=\"" + toString(x += 450) + "\"" +
-				"y=\"" + toString(y) + "\"" +
-				"width=\"" + toString((unsigned int)400) + "\"" +
-				"height=\"" + toString((unsigned int)400) + "\">\n";
-		locations += invariant.toStringSpaceExXML();
+				" name=\"" + location.getName() + "\"" +
+				" x=\"" + toString(x) + "\"" +
+				" y=\"" + toString(y) + "\"" +
+				" width=\"" + toString((unsigned int)100) + "\"" +
+				" height=\"" + toString((unsigned int)100) + "\">\n";
+		invariant.toStringSpaceExXML(locations);
+		location.flowToSpaceExXML(locations);
+		locations += "  </location>\n";
+		x += 150;
+	}
+}
+
+void LinearHybridAutomaton::xmlWriteEdges(string& edges) {
+	Edge edge;
+	Guard guard;
+	Assignment assignment;
+	for (size_t i = 0; i < _edges.size(); i++) {
+		edge = _edges[i];
+		edges += "    <transition source=\"" +
+				toString(edge.getSource().getId()) + "\" target=\"" +
+				toString(edge.getDestination().getId()) + "\">\n";
+		edges += "      <label>" + edge.getName() + "</label>\n";
+		edge.getGuard().toStringSpaceExXML(edges);
+		edges += "\n";
+		edge.getAssignment().toStringSpaceExXML(edges, _variables);
+		edges += "    </transition>\n";
 	}
 }
 

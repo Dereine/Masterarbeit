@@ -36,7 +36,34 @@ void Assignment::addAssignedVariable(Variable assignedVariable) {
 	_assignedVariables[assignedVariable.getName()] = (assignedVariable);
 }
 
-bool Assignment::isAssignedVariable(string variableName) {
+bool Assignment::isAssignedVariable(const string& variableName) {
 	map<string, Variable>::iterator it = _assignedVariables.find(variableName);
 	return (it != _assignedVariables.end());
+}
+
+void Assignment::toStringSpaceExXML(string& assignmentString, const std::vector<Variable>& variables) {
+	assignmentString += "      <assignment> ";
+	bool firstElement = true;
+	LinearPredicate linPred;
+	Variable variable;
+	for (size_t k = 0; k < variables.size(); k++) {
+		variable = variables[k];
+		if (!isAssignedVariable(variable.getName())) {
+			if (firstElement) {
+				assignmentString += variable.getName() + ":=" +
+				variable.getName() + "\n";
+				firstElement = false;
+			}
+			else
+				assignmentString += "&amp;" + variable.getName() + ":=" +
+				variable.getName() + "\n";
+		}
+	}
+	firstElement = true;
+	for (size_t i = 0; i < _linPreds.size(); i++) {
+		linPred = _linPreds[i];
+		assignmentString +=  "&amp;" +
+				linPred.toStringSpaceExXML(false, true) + "\n";
+	}
+	assignmentString += "      </assignment>\n";
 }
