@@ -1024,6 +1024,7 @@ string LinearHybridAutomaton::printBMCResultIsat(
 void LinearHybridAutomaton::toHysFile(LinearPredicate target) {
 	_hysFile = fopen("LHA.hys", "w");
 	_hysFileActive = true;
+	setUpConstants();
 	fprintf(_hysFile, "DECL\n");
 	fprintf(_hysFile, setUpVariables().c_str());
 	fprintf(_hysFile, setUpLocationVariables().c_str());
@@ -1052,6 +1053,7 @@ void LinearHybridAutomaton::toHysFile(LinearPredicate target) {
 void LinearHybridAutomaton::toHysFile(string target) {
 	_hysFile = fopen("LHA.hys", "w");
 	_hysFileActive = true;
+	setUpConstants();
 	fprintf(_hysFile, "DECL\n");
 	fprintf(_hysFile, setUpVariables().c_str());
 	fprintf(_hysFile, setUpLocationVariables().c_str());

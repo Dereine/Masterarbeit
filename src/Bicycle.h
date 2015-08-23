@@ -11,17 +11,19 @@
 #include "math.h"
 #include <cstdlib>
 
+using namespace std;
+
 #define FPEDAL		(double)200
 #define FPEDALLOW	(double)100
 #define FPEDALHIGH	(double)200
-#define RPEDAL		(double)0.15
-#define MU			(double)0.015
-#define RWHEEL		(double)0.622
+#define RPEDAL		(double)0.09
+#define MU			(double)0.008
+#define RWHEEL		(double)0.305
 #define M			(double)70
 #define G			(double)9.81
 #define CINV		(double)0.8
 #define C1			(FPEDAL * ((RPEDAL) / (pow(RWHEEL, 2) * M)))
-#define C1_1		((RPEDAL) / (pow(RWHEEL, 2) * M))
+#define C1_1		(RPEDAL) / (pow(RWHEEL, 2) * M)
 #define C2			(MU * G) / RWHEEL
 
 #define TARGET 		(double)100
@@ -49,5 +51,13 @@
 #define TEETHR10 	(double) 12
 
 enum ShiftSequence {FOUR_ONE, THREE_TWO, TWO_ONE_TWO};
+struct Scenario {ShiftSequence shiftSequence;
+				 bool 	modelTimeBehavior;
+				 double fPedMin;
+				 double fPedMax;
+				 double targetRPM;
+				 double deviation;
+				 double error;
+				 string target;};
 
 #endif /* BICYCLE_H_ */

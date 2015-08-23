@@ -14,63 +14,125 @@
 #include "LinearHybridAutomaton.h"
 using namespace std;
 
-//#define USERINPUT
+#define USERINPUT
+
+void scenarioSelection(ShiftSequence& shiftSequence,
+		bool& modelTimeBehavior, double& fPedMin, double& fPedMax,
+		double& targetRPM, double& deviation, double& error, string& target) {
+	Scenario scenario1{FOUR_ONE, true, 70, 70, 100, 10, 50, "two_ten;"},
+			 scenario2{FOUR_ONE, true, 150, 200, 100, 10, 50, "omegaCrank > upperLimit;"};
+
+
+	std::vector<Scenario> Scenarios;
+	Scenarios.push_back(scenario1);
+	Scenarios.push_back(scenario2);
+
+	int input;
+	cout << "Please select a scenario" << endl;
+	for (size_t i = 1; i < Scenarios.size() + 1; i++) {
+		cout << i << ": " << endl;
+		cout << "fPedMin: " << Scenarios[i - 1].fPedMin << endl;
+		cout << "fPedMax: " << Scenarios[i - 1].fPedMax << endl;
+		cout << "Target: " << Scenarios[i - 1].targetRPM << endl;
+		cout << "Deviation: " << Scenarios[i - 1].deviation << endl;
+		cout << "Error: " << Scenarios[i - 1].error << endl;
+		cout << "Shift-Sequence: " << (Scenarios[i - 1].shiftSequence ==
+				FOUR_ONE ? "FOUR-ONE" : "TWO_ONE_TWO") << endl;
+		cout << "Time Behavior: " << (Scenarios[i - 1].modelTimeBehavior ?
+				"Active" : "Not active") << endl;
+		cout << "Target: " << Scenarios[i - 1].target << endl;
+		cout << "----------------------------------------------------" << endl;
+	}
+	cin >> input;
+	Scenario chosenScenario = Scenarios[input - 1];
+	shiftSequence = chosenScenario.shiftSequence;
+	modelTimeBehavior = chosenScenario.modelTimeBehavior;
+	fPedMin = chosenScenario.fPedMin;
+	fPedMax = chosenScenario.fPedMax;
+	targetRPM = chosenScenario.targetRPM;
+	deviation = chosenScenario.deviation;
+	error = chosenScenario.error;
+	target = chosenScenario.target;
+}
 
 int main() {
+	double targetUpper;
+	double targetLower;
+	double upperLimit;
+	double lowerLimit;
 	double targetRPM;
 	double deviation;
 	double error;
-	unsigned int switchTimeModel = 1;
+	bool switchTimeModel = true;
 	double fPedMax;
 	double fPedMin;
 	ShiftSequence shiftSequence;
-	shiftSequence = TWO_ONE_TWO;
 	int shiftSequenceInt;
 	string targetString;
-	bool spaceEx = 1;
+	bool spaceEx = false;
+	int input;
 #ifdef USERINPUT
-	cout << "Please enter a max F_ped" << endl;
-	cin >> fPedMax;
-	cout << "Please enter a min F_ped" << endl;
-	cin >> fPedMin;
-	cout << "Please enter target in RPM:" << endl;
-	cin >> targetRPM;
-	cout << "Please enter deviation in RPM:" << endl;
-	cin >> deviation;
-	cout << "Please enter maximal allowed error in [%]:" << endl;
-	cin >> error;
-	cout << "Please enter a shift sequence for the big jumps (0: FOUR_ONE, 1 : TWO_ONE_TWO):" << endl;
-	cin >> shiftSequenceInt;
-	if (shiftSequenceInt == 0)
-		shiftSequence = FOUR_ONE;
-	else if (shiftSequenceInt == 1) {
-		shiftSequence = TWO_ONE_TWO;
+	cout << "Select scenario? (1/0):";
+	cin >> input;
+	if (input) {
+		scenarioSelection(shiftSequence, switchTimeModel, fPedMin, fPedMax,
+				targetRPM, deviation, error, targetString);
+	} else {
+		cout << "Please enter a max F_ped" << endl;
+		cin >> fPedMax;
+		cout << "Please enter a min F_ped" << endl;
+		cin >> fPedMin;
+		cout << "Please enter target in RPM:" << endl;
+		cin >> targetRPM;
+		cout << "Please enter deviation in RPM:" << endl;
+		cin >> deviation;
+		cout << "Please enter maximal allowed error in [%]:" << endl;
+		cin >> error;
+		cout << "Please enter a shift sequence for the big jumps (0: FOUR_ONE, 1 : TWO_ONE_TWO):" << endl;
+		cin >> shiftSequenceInt;
+		if (shiftSequenceInt == 0)
+			shiftSequence = FOUR_ONE;
+		else if (shiftSequenceInt == 1) {
+			shiftSequence = TWO_ONE_TWO;
+		}
+		cout << "Please enter Property to check." << endl;
+		cin >> targetString;
+		cout << "Consider time behavior? (0: Gear shift in 0-time, 1: Gear shift takes 600 ms)" << endl;
+		cin >>input;
+		input == 1 ? switchTimeModel == true : switchTimeModel == false;
 	}
-	cout << "Please enter Property to check." << endl;
-	cin >> targetString;
-	cout << "Consider time behavior? (0: Gear shift in 0-time, 1: Gear shift takes 600 ms)" << endl;
-	cin >> switchTimeModel;
-	double targetUpper = ((targetRPM + deviation) * 6.28f) / 60.0f;
-	double targetLower = ((targetRPM - deviation) * 6.28f) / 60.0f;
-	double upperLimit = targetUpper * (1 + (error / 100.0f));
-	double lowerLimit = targetUpper * (1 - (error / 100.0f));
+	targetUpper = ((targetRPM + deviation) * 6.28f) / 60.0f;
+	targetLower = ((targetRPM - deviation) * 6.28f) / 60.0f;
+	upperLimit = targetUpper * (1 + (error / 100.0f));
+	lowerLimit = targetUpper * (1 - (error / 100.0f));
 #endif
 
 #ifndef USERINPUT
-	double targetUpper = TARGETUPPEROMEGA;
-	double targetLower = TARGETLOWEROMEGA;
-	double upperLimit = UPPERLIMIT;
-	double lowerLimit = LOWERLIMIT;
+	targetUpper = TARGETUPPEROMEGA;
+	targetLower = TARGETLOWEROMEGA;
+	upperLimit = UPPERLIMIT;
+	lowerLimit = LOWERLIMIT;
 	fPedMax = FPEDALHIGH;
 	fPedMin = FPEDALLOW;
+	shiftSequence = TWO_ONE_TWO;
 #endif
+
 	LinearHybridAutomaton bicycle("bicyle");
+
+	/*
+	 * Create the strings for the target.
+	 */
+	if (targetString.compare("omegaCrank > upperLimit;") == 0)
+		targetString = "(omegaCrank > " + bicycle.toString(upperLimit) + ") and !one_one;";
+	else if (targetString.compare("omegaCrank < lowerLimit;") == 0)
+		targetString = "(omegaCrank < " + bicycle.toString(lowerLimit) + ") and !one_one;";
 
 	/*
 	 * ************************************************************************
 	 * Constants
 	 * ************************************************************************
 	 */
+
 	Constant timeDelta("deltaT", DELTANR);
 
 	Constant switchTimeThreshold("switchTime", 0.400f);
@@ -86,6 +148,11 @@ int main() {
 
 	Constant ten("ten", 10.0f);
 	bicycle.addConstant(ten);
+
+	Constant upperLimitConstant("upperLimit", upperLimit),
+			lowerLimitConstant("lowerLimit", lowerLimit);
+	bicycle.addConstant(upperLimitConstant);
+	bicycle.addConstant(lowerLimitConstant);
 
 	//Constant targetPlus("targetPlus", TARGET + DEVIATION);
 	Constant targetPlus("targetPlus", targetUpper);
@@ -331,7 +398,8 @@ int main() {
 	//linTermsTarget.push_back(oneTimesOmegaWheel);
 	//LinearPredicate target(linTermsTarget, LinearPredicate::GEQ, twenty);
 	//LinearPredicate target(linTermsTarget, LinearPredicate::GEQ, ten);
-	LinearPredicate target(linTermsTarget, LinearPredicate::GEQ, twenty);
+	//LinearPredicate target(linTermsTarget, LinearPredicate::GEQ, twenty);
+	LinearPredicate target(linTermsTarget, LinearPredicate::GEQ, upperLimitConstant);
 
 	LinearTerm ratio11TimesOmegaWheel(ratioOneOne, omegaWheel),
 			ratio12TimesOmegaWheel(ratioOneTwo, omegaWheel),
@@ -1260,6 +1328,9 @@ int main() {
 	Edge two_five_two_six_big(loc25BigJump, loc26BigJump, downBigJump, assign26BigDown, "two_five_two_six_big");
 	bicycle.addEdge(two_five_two_six_big);
 
+	/*
+	 * Set up the edges that are determined by the shift sequence.
+	 */
 	if (shiftSequence == FOUR_ONE) {
 		Edge two_six_two_seven_big(loc26BigJump, loc27BigJump, downBigJump, assign27BigDown, "two_six_two_seven_big");
 		bicycle.addEdge(two_six_two_seven_big);
@@ -1276,15 +1347,24 @@ int main() {
 		bicycle.addEdge(one_seven_one_eight_big);
 	}
 
-	bicycle.toSpaceExXML("(omegaCrank > " + bicycle.toString(upperLimit) + ") and !one_one;");
+	/*
+	 * Generate the SpaceEx XML-File.
+	 */
+	if (spaceEx)
+		bicycle.toSpaceExXML("(omegaCrank > " + bicycle.toString(upperLimit) + ") and !one_one;");
 
-	bicycle.setUpIsat3();
-	//bicycle.toHysFile(target);
-	//bicycle.toHysFile("two_nine;");
-	bicycle.toHysFile("(omegaCrank > " + bicycle.toString(upperLimit) + ") and !one_one;");
-	//bicycle.toHysFile(targetString);
-	system("./isat3 -I -v -v --start-depth 0 --max-depth 150 LHA.hys");
-	return 0;
+	/*
+	 * Generate the iSat3 .hys File and start the isat solver.
+	 */
+	if (!spaceEx) {
+		bicycle.setUpIsat3();
+		//bicycle.toHysFile(target);
+		//bicycle.toHysFile("two_nine;");
+		//bicycle.toHysFile("(omegaCrank > " + bicycle.toString(upperLimit) + ") and !one_one;");
+		bicycle.toHysFile(targetString);
+		system("./isat3 -I -v -v --start-depth 0 --max-depth 150 LHA.hys");
+		return 0;
+	}
 	bicycle.setUpVariables();
 	bicycle.toIsat3BMC();
 	bicycle.setUpInitial();
@@ -1292,9 +1372,4 @@ int main() {
 	bicycle.solveBMCIsat();
 	//bicycle.writeToFile();
 	bicycle.printBMCResultIsat(TIMEFRAMES);
-
-
-	//test();
-	cout << "!!!Hello World!!!" << endl; // prints !!!Hello World!!!
-	return 0;
 }
