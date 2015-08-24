@@ -20,7 +20,7 @@ void scenarioSelection(ShiftSequence& shiftSequence,
 		bool& modelTimeBehavior, double& fPedMin, double& fPedMax,
 		double& targetRPM, double& deviation, double& error, string& target) {
 	Scenario scenario1{FOUR_ONE, true, 70, 70, 100, 10, 50, "two_ten;"},
-			 scenario2{FOUR_ONE, true, 150, 200, 100, 10, 50, "omegaCrank > upperLimit;"};
+			 scenario2{FOUR_ONE, true, 30, 200, 100, 10, 50, "omegaCrank > upperLimit;"};
 
 
 	std::vector<Scenario> Scenarios;
@@ -69,7 +69,7 @@ int main() {
 	ShiftSequence shiftSequence;
 	int shiftSequenceInt;
 	string targetString;
-	bool spaceEx = false;
+	bool spaceEx = true;
 	int input;
 #ifdef USERINPUT
 	cout << "Select scenario? (1/0):";
@@ -117,7 +117,7 @@ int main() {
 	shiftSequence = TWO_ONE_TWO;
 #endif
 
-	LinearHybridAutomaton bicycle("bicyle");
+	LinearHybridAutomaton bicycle("bicycle");
 
 	/*
 	 * Create the strings for the target.
@@ -328,6 +328,9 @@ int main() {
 	Variable tSum(Variable::REAL, "tSum", 0, 500);
 	bicycle.addVariable(tSum);
 
+	Variable tSwitch(Variable::REAL, "tSwitch", 0, 5000);
+	bicycle.addVariable(tSwitch);
+
 	Variable bigJump(Variable::INTEGER, "bigJump", 0, 1, 0);
 	bicycle.addVariable(bigJump);
 
@@ -341,6 +344,17 @@ int main() {
 	//LinearTerm oneTimesTSum(one, tSum);
 	vector<LinearTerm> linTermsTimeThreshold;
 	linTermsTimeThreshold.push_back(oneTimesT);
+
+	LinearTerm oneTimesTSwitch(one, tSwitch);
+	vector<LinearTerm> linTermsTimeSwitchThreshold;
+	linTermsTimeSwitchThreshold.push_back(oneTimesTSwitch);
+
+	LinearPredicate tSwitchGeqThreshold(linTermsTimeSwitchThreshold,
+			LinearPredicate::GEQ, switchTimeThreshold);
+	LinearPredicate tSwitchLeqThreshold(linTermsTimeSwitchThreshold,
+			LinearPredicate::LEQ, switchTimeThreshold);
+	LinearPredicate tSwitchEqualZero(linTermsTimeSwitchThreshold,
+				LinearPredicate::EQUAL, zero);
 
 	LinearTerm oneTimesOmegaWheel(one, omegaWheel);
 	LinearTerm oneTimesOmegaCrank(one, omegaCrank);
@@ -573,15 +587,19 @@ int main() {
 
 	Invariant invBigJump17;
 	invBigJump17.addLinPred(linPredRatio17);
+	invBigJump17.addLinPred(tSwitchLeqThreshold);
 
 	Invariant invBigJump16;
 	invBigJump16.addLinPred(linPredRatio16);
+	invBigJump16.addLinPred(tSwitchLeqThreshold);
 
 	Invariant invBigJump15;
 	invBigJump15.addLinPred(linPredRatio15);
+	invBigJump15.addLinPred(tSwitchLeqThreshold);
 
 	Invariant invBigJump14;
 	invBigJump14.addLinPred(linPredRatio14);
+	invBigJump14.addLinPred(tSwitchLeqThreshold);
 
 	Invariant invUpAndDown24;
 	invUpAndDown24.addLinPred(upLinPredLeq);
@@ -620,15 +638,19 @@ int main() {
 
 	Invariant invBigJump25;
 	invBigJump25.addLinPred(linPredRatio25);
+	invBigJump25.addLinPred(tSwitchLeqThreshold);
 
 	Invariant invBigJump26;
 	invBigJump26.addLinPred(linPredRatio26);
+	invBigJump26.addLinPred(tSwitchLeqThreshold);
 
 	Invariant invBigJump27;
 	invBigJump27.addLinPred(linPredRatio27);
+	invBigJump27.addLinPred(tSwitchLeqThreshold);
 
 	Invariant invBigJump28;
 	invBigJump28.addLinPred(linPredRatio28);
+	invBigJump28.addLinPred(tSwitchLeqThreshold);
 
 	Invariant invDown;
 	invDown.addLinPred(downLinPredGeq);
@@ -641,29 +663,26 @@ int main() {
 
 	Guard upNoBigJump;
 	upNoBigJump.addLinPred(upLinPredGeq);
-//	if (switchTimeModel)
-//		upNoBigJump.addLinPred(tGreaterThreshold);
+	if (switchTimeModel && spaceEx)
+		upNoBigJump.addLinPred(tSwitchGeqThreshold);
 
 	Guard upNoBigJump2;
 	upNoBigJump2.addLinPred(upLinPredGeq2);
 
 	Guard upBigJump;
 	upBigJump.addLinPred(bigJumpEqualsOne);
-//	if (switchTimeModel)
-//		upBigJump.addLinPred(tGreaterThreshold);
+	if (switchTimeModel && spaceEx)
+		upBigJump.addLinPred(tSwitchGeqThreshold);
 
 	Guard downBigJump;
 	downBigJump.addLinPred(bigJumpEqualsZero);
-//	if (switchTimeModel)
-//		downBigJump.addLinPred(tGreaterThreshold);
+	if (switchTimeModel && spaceEx)
+		downBigJump.addLinPred(tSwitchGeqThreshold);
 
 	Guard downNoBigJump;
 	downNoBigJump.addLinPred(downLinPredLeq);
-//	if (switchTimeModel)
-//		downNoBigJump.addLinPred(tGreaterThreshold);
-
-//	Guard downBigJump;
-//	downBigJump.addLinPred(downLinPredGeq);
+	if (switchTimeModel && spaceEx)
+		downNoBigJump.addLinPred(tSwitchGeqThreshold);
 
 	Guard emptyGuard;
 
@@ -694,6 +713,9 @@ int main() {
 	if (switchTimeModel && !spaceEx) {
 		assign11.addLinPred(tGreaterThreshold);
 		assign11.addAssignedVariable(t);
+	} else if (switchTimeModel && spaceEx) {
+		assign11.addLinPred(tSwitchEqualZero);
+		assign11.addAssignedVariable(tSwitch);
 	}
 
 	Assignment assign12;
@@ -704,6 +726,9 @@ int main() {
 	if (switchTimeModel && !spaceEx) {
 		assign12.addLinPred(tGreaterThreshold);
 		assign12.addAssignedVariable(t);
+	} else if (switchTimeModel && spaceEx) {
+		assign12.addLinPred(tSwitchEqualZero);
+		assign12.addAssignedVariable(tSwitch);
 	}
 
 	Assignment assign13;
@@ -715,6 +740,9 @@ int main() {
 	if (switchTimeModel && !spaceEx) {
 		assign13.addLinPred(tGreaterThreshold);
 		assign13.addAssignedVariable(t);
+	} else if (switchTimeModel && spaceEx) {
+		assign13.addLinPred(tSwitchEqualZero);
+		assign13.addAssignedVariable(tSwitch);
 	}
 
 	Assignment assign14;
@@ -723,6 +751,9 @@ int main() {
 	if (switchTimeModel && !spaceEx) {
 		assign14.addLinPred(tGreaterThreshold);
 		assign14.addAssignedVariable(t);
+	} else if (switchTimeModel && spaceEx) {
+		assign14.addLinPred(tSwitchEqualZero);
+		assign14.addAssignedVariable(tSwitch);
 	}
 
 	Assignment assign15;
@@ -731,6 +762,9 @@ int main() {
 	if (switchTimeModel && !spaceEx) {
 		assign15.addLinPred(tGreaterThreshold);
 		assign15.addAssignedVariable(t);
+	} else if (switchTimeModel && spaceEx) {
+		assign15.addLinPred(tSwitchEqualZero);
+		assign15.addAssignedVariable(tSwitch);
 	}
 
 	Assignment assign16;
@@ -739,6 +773,9 @@ int main() {
 	if (switchTimeModel && !spaceEx) {
 		assign16.addLinPred(tGreaterThreshold);
 		assign16.addAssignedVariable(t);
+	} else if (switchTimeModel && spaceEx) {
+		assign16.addLinPred(tSwitchEqualZero);
+		assign16.addAssignedVariable(tSwitch);
 	}
 
 	Assignment assign17;
@@ -747,6 +784,9 @@ int main() {
 	if (switchTimeModel && !spaceEx) {
 		assign17.addLinPred(tGreaterThreshold);
 		assign17.addAssignedVariable(t);
+	} else if (switchTimeModel && spaceEx) {
+		assign17.addLinPred(tSwitchEqualZero);
+		assign17.addAssignedVariable(tSwitch);
 	}
 
 	Assignment assign18;
@@ -755,6 +795,9 @@ int main() {
 	if (switchTimeModel && !spaceEx) {
 		assign18.addLinPred(tGreaterThreshold);
 		assign18.addAssignedVariable(t);
+	} else if (switchTimeModel && spaceEx) {
+		assign18.addLinPred(tSwitchEqualZero);
+		assign18.addAssignedVariable(tSwitch);
 	}
 
 	Assignment assign17BigUp;
@@ -765,6 +808,9 @@ int main() {
 	if (switchTimeModel && !spaceEx) {
 		assign17BigUp.addLinPred(tEqualThreshold);
 		assign17BigUp.addAssignedVariable(t);
+	} else if (switchTimeModel && spaceEx) {
+		assign17BigUp.addLinPred(tSwitchEqualZero);
+		assign17BigUp.addAssignedVariable(tSwitch);
 	}
 
 	Assignment assign16BigUp;
@@ -775,6 +821,9 @@ int main() {
 	if (switchTimeModel && !spaceEx) {
 		assign16BigUp.addLinPred(tEqualThreshold);
 		assign16BigUp.addAssignedVariable(t);
+	} else if (switchTimeModel && spaceEx) {
+		assign16BigUp.addLinPred(tSwitchEqualZero);
+		assign16BigUp.addAssignedVariable(tSwitch);
 	}
 
 	Assignment assign15BigUp;
@@ -785,6 +834,9 @@ int main() {
 	if (switchTimeModel && !spaceEx) {
 		assign15BigUp.addLinPred(tEqualThreshold);
 		assign15BigUp.addAssignedVariable(t);
+	} else if (switchTimeModel && spaceEx) {
+		assign15BigUp.addLinPred(tSwitchEqualZero);
+		assign15BigUp.addAssignedVariable(tSwitch);
 	}
 
 	Assignment assign14BigUp;
@@ -795,6 +847,9 @@ int main() {
 	if (switchTimeModel && !spaceEx) {
 		assign14BigUp.addLinPred(tEqualThreshold);
 		assign14BigUp.addAssignedVariable(t);
+	} else if (switchTimeModel && spaceEx) {
+		assign14BigUp.addLinPred(tSwitchEqualZero);
+		assign14BigUp.addAssignedVariable(tSwitch);
 	}
 
 //	Assignment assign24BigUp;
@@ -815,6 +870,9 @@ int main() {
 	if (switchTimeModel && !spaceEx) {
 		assign25BigUp.addLinPred(tEqualThreshold);
 		assign25BigUp.addAssignedVariable(t);
+	} else if (switchTimeModel && spaceEx) {
+		assign25BigUp.addLinPred(tSwitchEqualZero);
+		assign25BigUp.addAssignedVariable(tSwitch);
 	}
 
 	Assignment assign26BigUp;
@@ -825,6 +883,9 @@ int main() {
 	if (switchTimeModel && !spaceEx) {
 		assign26BigUp.addLinPred(tEqualThreshold);
 		assign26BigUp.addAssignedVariable(t);
+	} else if (switchTimeModel && spaceEx) {
+		assign26BigUp.addLinPred(tSwitchEqualZero);
+		assign26BigUp.addAssignedVariable(tSwitch);
 	}
 
 	Assignment assign24;
@@ -833,6 +894,9 @@ int main() {
 	if (switchTimeModel && !spaceEx) {
 		assign24.addLinPred(tGreaterThreshold);
 		assign24.addAssignedVariable(t);
+	} else if (switchTimeModel && spaceEx) {
+		assign24.addLinPred(tSwitchEqualZero);
+		assign24.addAssignedVariable(tSwitch);
 	}
 
 	Assignment assign25;
@@ -841,6 +905,9 @@ int main() {
 	if (switchTimeModel && !spaceEx) {
 		assign25.addLinPred(tGreaterThreshold);
 		assign25.addAssignedVariable(t);
+	} else if (switchTimeModel && spaceEx) {
+		assign25.addLinPred(tSwitchEqualZero);
+		assign25.addAssignedVariable(tSwitch);
 	}
 
 	Assignment assign25BigDown;
@@ -851,6 +918,9 @@ int main() {
 	if (switchTimeModel && !spaceEx) {
 		assign25BigDown.addLinPred(tEqualThreshold);
 		assign25BigDown.addAssignedVariable(t);
+	} else if (switchTimeModel && spaceEx) {
+		assign25BigDown.addLinPred(tSwitchEqualZero);
+		assign25BigDown.addAssignedVariable(tSwitch);
 	}
 
 	Assignment assign26BigDown;
@@ -861,6 +931,9 @@ int main() {
 	if (switchTimeModel && !spaceEx) {
 		assign26BigDown.addLinPred(tEqualThreshold);
 		assign26BigDown.addAssignedVariable(t);
+	} else if (switchTimeModel && spaceEx) {
+		assign26BigDown.addLinPred(tSwitchEqualZero);
+		assign26BigDown.addAssignedVariable(tSwitch);
 	}
 
 	Assignment assign27BigDown;
@@ -871,6 +944,9 @@ int main() {
 	if (switchTimeModel && !spaceEx) {
 		assign27BigDown.addLinPred(tEqualThreshold);
 		assign27BigDown.addAssignedVariable(t);
+	} else if (switchTimeModel && spaceEx) {
+		assign27BigDown.addLinPred(tSwitchEqualZero);
+		assign27BigDown.addAssignedVariable(tSwitch);
 	}
 
 	Assignment assign28BigDown;
@@ -881,6 +957,9 @@ int main() {
 	if (switchTimeModel && !spaceEx) {
 		assign28BigDown.addLinPred(tEqualThreshold);
 		assign28BigDown.addAssignedVariable(t);
+	} else if (switchTimeModel && spaceEx) {
+		assign28BigDown.addLinPred(tSwitchEqualZero);
+		assign28BigDown.addAssignedVariable(tSwitch);
 	}
 
 //	Assignment assign18BigDown;
@@ -901,6 +980,9 @@ int main() {
 	if (switchTimeModel && !spaceEx) {
 		assign16BigDown.addLinPred(tEqualThreshold);
 		assign16BigDown.addAssignedVariable(t);
+	} else if (switchTimeModel && spaceEx) {
+		assign16BigDown.addLinPred(tSwitchEqualZero);
+		assign16BigDown.addAssignedVariable(tSwitch);
 	}
 
 	Assignment assign17BigDown;
@@ -911,6 +993,9 @@ int main() {
 	if (switchTimeModel && !spaceEx) {
 		assign17BigDown.addLinPred(tEqualThreshold);
 		assign17BigDown.addAssignedVariable(t);
+	} else if (switchTimeModel && spaceEx) {
+		assign17BigDown.addLinPred(tSwitchEqualZero);
+		assign17BigDown.addAssignedVariable(tSwitch);
 	}
 
 	Assignment assign26;
@@ -919,6 +1004,9 @@ int main() {
 	if (switchTimeModel && !spaceEx) {
 		assign26.addLinPred(tGreaterThreshold);
 		assign26.addAssignedVariable(t);
+	} else if (switchTimeModel && spaceEx) {
+		assign26.addLinPred(tSwitchEqualZero);
+		assign26.addAssignedVariable(tSwitch);
 	}
 
 	Assignment assign27;
@@ -927,6 +1015,9 @@ int main() {
 	if (switchTimeModel && !spaceEx) {
 		assign27.addLinPred(tGreaterThreshold);
 		assign27.addAssignedVariable(t);
+	} else if (switchTimeModel && spaceEx) {
+		assign27.addLinPred(tSwitchEqualZero);
+		assign27.addAssignedVariable(tSwitch);
 	}
 
 	Assignment assign28;
@@ -935,6 +1026,9 @@ int main() {
 	if (switchTimeModel && !spaceEx) {
 		assign28.addLinPred(tGreaterThreshold);
 		assign28.addAssignedVariable(t);
+	} else if (switchTimeModel && spaceEx) {
+		assign28.addLinPred(tSwitchEqualZero);
+		assign28.addAssignedVariable(tSwitch);
 	}
 
 	Assignment assign29;
@@ -943,6 +1037,9 @@ int main() {
 	if (switchTimeModel && !spaceEx) {
 		assign29.addLinPred(tGreaterThreshold);
 		assign29.addAssignedVariable(t);
+	} else if (switchTimeModel && spaceEx) {
+		assign29.addLinPred(tSwitchEqualZero);
+		assign29.addAssignedVariable(tSwitch);
 	}
 
 	Assignment assign210;
@@ -951,6 +1048,9 @@ int main() {
 	if (switchTimeModel && !spaceEx) {
 		assign210.addLinPred(tGreaterThreshold);
 		assign210.addAssignedVariable(t);
+	} else if (switchTimeModel && spaceEx) {
+		assign210.addLinPred(tSwitchEqualZero);
+		assign210.addAssignedVariable(tSwitch);
 	}
 
 	Assignment bigJumpZero;
@@ -964,6 +1064,8 @@ int main() {
 	 * ************************************************************************
 	 */
 	Bound timeDerivative(t, one, one);
+
+	Bound tSwitchDerivative(tSwitch, one, one);
 
 	//Bound l11Omega(omegaWheel, cDrive11, cDrive11);
 	Bound l11Omega(omegaWheel, cDrive11Up, cDrive11Low);
@@ -1008,8 +1110,11 @@ int main() {
 	vector <Bound> l11Bounds;
 	l11Bounds.push_back(l11Omega);
 	l11Bounds.push_back(bigJumpBound);
-	if (spaceEx)
+	if (spaceEx) {
 		l11Bounds.push_back(timeDerivative);
+		if (switchTimeModel)
+			l11Bounds.push_back(tSwitchDerivative);
+	}
 	//l11Bounds.push_back(timeBound);
 	Location loc11(11, "one_one", invUp11, l11Bounds, true);
 	bicycle.addLocation(loc11);
@@ -1018,56 +1123,77 @@ int main() {
 	l12Bounds.push_back(l12Omega);
 	//l12Bounds.push_back(timeBound);
 	l12Bounds.push_back(bigJumpBound);
-	if (spaceEx)
+	if (spaceEx) {
 		l12Bounds.push_back(timeDerivative);
+		if (switchTimeModel)
+			l12Bounds.push_back(tSwitchDerivative);
+	}
 	Location loc12(12, "one_two", invUpAndDown12, l12Bounds, false);
 	bicycle.addLocation(loc12);
 
 	vector <Bound> l13Bounds;
 	l13Bounds.push_back(l13Omega);
 	l13Bounds.push_back(bigJumpBound);
-	if (spaceEx)
+	if (spaceEx) {
 		l13Bounds.push_back(timeDerivative);
+		if (switchTimeModel)
+			l13Bounds.push_back(tSwitchDerivative);
+	}
 	Location loc13(13, "one_three", invUpAndDown13, l13Bounds, false);
 	bicycle.addLocation(loc13);
 
 	vector <Bound> l14Bounds;
 	l14Bounds.push_back(l14Omega);
 	l14Bounds.push_back(bigJumpBound);
-	if (spaceEx)
+	if (spaceEx) {
 		l14Bounds.push_back(timeDerivative);
+		if (switchTimeModel)
+			l14Bounds.push_back(tSwitchDerivative);
+	}
 	Location loc14(14, "one_four", invUpAndDown14, l14Bounds, false);
 	bicycle.addLocation(loc14);
 
 	vector <Bound> l15Bounds;
 	l15Bounds.push_back(l15Omega);
 	l15Bounds.push_back(bigJumpBound);
-	if (spaceEx)
+	if (spaceEx) {
 		l15Bounds.push_back(timeDerivative);
+		if (switchTimeModel)
+			l15Bounds.push_back(tSwitchDerivative);
+	}
 	Location loc15(15, "one_five", invUpAndDown15, l15Bounds, false);
 	bicycle.addLocation(loc15);
 
 	vector <Bound> l16Bounds;
 	l16Bounds.push_back(l16Omega);
 	l16Bounds.push_back(bigJumpBound);
-	if (spaceEx)
+	if (spaceEx) {
 		l16Bounds.push_back(timeDerivative);
+		if (switchTimeModel)
+			l16Bounds.push_back(tSwitchDerivative);
+	}
 	Location loc16(16, "one_six", invUpAndDown16, l16Bounds, false);
 	bicycle.addLocation(loc16);
 
 	vector <Bound> l17Bounds;
 	l17Bounds.push_back(l17Omega);
 	l17Bounds.push_back(bigJumpBound);
-	if (spaceEx)
+	if (spaceEx) {
 		l17Bounds.push_back(timeDerivative);
+		if (switchTimeModel)
+			l17Bounds.push_back(tSwitchDerivative);
+	}
 	Location loc17(17, "one_seven", invUpAndDown17, l17Bounds, false);
 	bicycle.addLocation(loc17);
 
 	vector <Bound> l18Bounds;
 	l18Bounds.push_back(l18Omega);
 	l18Bounds.push_back(bigJumpBound);
-	if (spaceEx)
+	if (spaceEx) {
 		l18Bounds.push_back(timeDerivative);
+		if (switchTimeModel)
+			l18Bounds.push_back(tSwitchDerivative);
+	}
 	Location loc18(18, "one_eight", invUpAndDown18, l18Bounds, false);
 	bicycle.addLocation(loc18);
 
@@ -1075,8 +1201,11 @@ int main() {
 	//l17BoundsBigJump.push_back(bigJumpBoundsOmega);
 	l17BoundsBigJump.push_back(l17Omega);
 	l17BoundsBigJump.push_back(bigJumpBound);
-	if (spaceEx)
+	if (spaceEx) {
 		l17BoundsBigJump.push_back(timeDerivative);
+		if (switchTimeModel)
+			l17BoundsBigJump.push_back(tSwitchDerivative);
+	}
 	Location loc17BigJump(172, "one_seven_big",
 			invBigJump17, l17BoundsBigJump, false);
 	bicycle.addLocation(loc17BigJump);
@@ -1085,8 +1214,11 @@ int main() {
 	//l16BoundsBigJump.push_back(bigJumpBoundsOmega);
 	l16BoundsBigJump.push_back(l16Omega);
 	l16BoundsBigJump.push_back(bigJumpBound);
-	if (spaceEx)
+	if (spaceEx) {
 		l16BoundsBigJump.push_back(timeDerivative);
+		if (switchTimeModel)
+			l16BoundsBigJump.push_back(tSwitchDerivative);
+	}
 	Location loc16BigJump(162, "one_six_big",
 			invBigJump16, l16BoundsBigJump, false);
 	bicycle.addLocation(loc16BigJump);
@@ -1095,9 +1227,11 @@ int main() {
 	//l15BoundsBigJump.push_back(bigJumpBoundsOmega);
 	l15BoundsBigJump.push_back(l15Omega);
 	l15BoundsBigJump.push_back(bigJumpBound);
-	if (spaceEx)
+	if (spaceEx) {
 		l15BoundsBigJump.push_back(timeDerivative);
-	Location loc15BigJump(152, "one_five_big",
+		if (switchTimeModel)
+			l15BoundsBigJump.push_back(tSwitchDerivative);
+	}	Location loc15BigJump(152, "one_five_big",
 			invBigJump15, l15BoundsBigJump, false);
 	bicycle.addLocation(loc15BigJump);
 
@@ -1105,8 +1239,11 @@ int main() {
 	//l14BoundsBigJump.push_back(bigJumpBoundsOmega);
 	l14BoundsBigJump.push_back(l14Omega);
 	l14BoundsBigJump.push_back(bigJumpBound);
-	if (spaceEx)
+	if (spaceEx) {
 		l14BoundsBigJump.push_back(timeDerivative);
+		if (switchTimeModel)
+			l14BoundsBigJump.push_back(tSwitchDerivative);
+	}
 	Location loc14BigJump(142, "one_four_big",
 			invBigJump14, l14BoundsBigJump, false);
 	bicycle.addLocation(loc14BigJump);
@@ -1114,56 +1251,77 @@ int main() {
 	vector <Bound> l24Bounds;
 	l24Bounds.push_back(l24Omega);
 	l24Bounds.push_back(bigJumpBound);
-	if (spaceEx)
+	if (spaceEx) {
 		l24Bounds.push_back(timeDerivative);
+		if (switchTimeModel)
+			l24Bounds.push_back(tSwitchDerivative);
+	}
 	Location loc24(24, "two_four", invUpAndDown24, l24Bounds, false);
 	bicycle.addLocation(loc24);
 
 	vector <Bound> l25Bounds;
 	l25Bounds.push_back(l25Omega);
 	l25Bounds.push_back(bigJumpBound);
-	if (spaceEx)
+	if (spaceEx) {
 		l25Bounds.push_back(timeDerivative);
+		if (switchTimeModel)
+			l25Bounds.push_back(tSwitchDerivative);
+	}
 	Location loc25(25, "two_five", invUpAndDown25, l25Bounds, false);
 	bicycle.addLocation(loc25);
 
 	vector <Bound> l26Bounds;
 	l26Bounds.push_back(l26Omega);
 	l26Bounds.push_back(bigJumpBound);
-	if (spaceEx)
+	if (spaceEx) {
 		l26Bounds.push_back(timeDerivative);
+		if (switchTimeModel)
+			l26Bounds.push_back(tSwitchDerivative);
+	}
 	Location loc26(26, "two_six", invUpAndDown26, l26Bounds, false);
 	bicycle.addLocation(loc26);
 
 	vector <Bound> l27Bounds;
 	l27Bounds.push_back(l27Omega);
 	l27Bounds.push_back(bigJumpBound);
-	if (spaceEx)
+	if (spaceEx) {
 		l27Bounds.push_back(timeDerivative);
+		if (switchTimeModel)
+			l27Bounds.push_back(tSwitchDerivative);
+	}
 	Location loc27(27, "two_seven", invUpAndDown27, l27Bounds, false);
 	bicycle.addLocation(loc27);
 
 	vector <Bound> l28Bounds;
 	l28Bounds.push_back(l28Omega);
 	l28Bounds.push_back(bigJumpBound);
-	if (spaceEx)
+	if (spaceEx) {
 		l28Bounds.push_back(timeDerivative);
+		if (switchTimeModel)
+			l28Bounds.push_back(tSwitchDerivative);
+	}
 	Location loc28(28, "two_eight", invUpAndDown28, l28Bounds, false);
 	bicycle.addLocation(loc28);
 
 	vector <Bound> l29Bounds;
 	l29Bounds.push_back(l29Omega);
 	l29Bounds.push_back(bigJumpBound);
-	if (spaceEx)
+	if (spaceEx) {
 		l29Bounds.push_back(timeDerivative);
+		if (switchTimeModel)
+			l29Bounds.push_back(tSwitchDerivative);
+	}
 	Location loc29(29, "two_nine", invUpAndDown29, l29Bounds, false);
 	bicycle.addLocation(loc29);
 
 	vector <Bound> l210Bounds;
 	l210Bounds.push_back(l210Omega);
 	l210Bounds.push_back(bigJumpBound);
-	if (spaceEx)
+	if (spaceEx) {
 		l210Bounds.push_back(timeDerivative);
+		if (switchTimeModel)
+			l210Bounds.push_back(tSwitchDerivative);
+	}
 	Location loc210(210, "two_ten", invUpAndDown210, l210Bounds, false);
 	bicycle.addLocation(loc210);
 
@@ -1171,8 +1329,11 @@ int main() {
 	//l25BoundsBigJump.push_back(bigJumpBoundsOmega);
 	l25BoundsBigJump.push_back(l25Omega);
 	l25Bounds.push_back(bigJumpBound);
-	if (spaceEx)
+	if (spaceEx) {
 		l25BoundsBigJump.push_back(timeDerivative);
+		if (switchTimeModel)
+			l25BoundsBigJump.push_back(tSwitchDerivative);
+	}
 	Location loc25BigJump(252, "two_five_big",
 			invBigJump25, l25BoundsBigJump, false);
 	bicycle.addLocation(loc25BigJump);
@@ -1181,8 +1342,11 @@ int main() {
 	//l26BoundsBigJump.push_back(bigJumpBoundsOmega);
 	l26BoundsBigJump.push_back(l26Omega);
 	l26BoundsBigJump.push_back(bigJumpBound);
-	if (spaceEx)
+	if (spaceEx) {
 		l26BoundsBigJump.push_back(timeDerivative);
+		if (switchTimeModel)
+			l26BoundsBigJump.push_back(tSwitchDerivative);
+	}
 	Location loc26BigJump(662, "two_six_big",
 			invBigJump26, l26BoundsBigJump, false);
 	bicycle.addLocation(loc26BigJump);
@@ -1191,8 +1355,11 @@ int main() {
 //	l27BoundsBigJump.push_back(bigJumpBoundsOmega);
 	l27BoundsBigJump.push_back(l27Omega);
 	l27BoundsBigJump.push_back(bigJumpBound);
-	if (spaceEx)
+	if (spaceEx) {
 		l27BoundsBigJump.push_back(timeDerivative);
+		if (switchTimeModel)
+			l27BoundsBigJump.push_back(tSwitchDerivative);
+	}
 	Location loc27BigJump(272, "two_seven_big",
 			invBigJump27, l27BoundsBigJump, false);
 	bicycle.addLocation(loc27BigJump);
@@ -1201,8 +1368,11 @@ int main() {
 //	l28BoundsBigJump.push_back(bigJumpBoundsOmega);
 	l28BoundsBigJump.push_back(l28Omega);
 	l28BoundsBigJump.push_back(bigJumpBound);
-	if (spaceEx)
+	if (spaceEx) {
 		l28BoundsBigJump.push_back(timeDerivative);
+		if (switchTimeModel)
+			l28BoundsBigJump.push_back(tSwitchDerivative);
+	}
 	Location loc28BigJump(282, "two_eight_big",
 			invBigJump28, l28BoundsBigJump, false);
 	bicycle.addLocation(loc28BigJump);
@@ -1350,8 +1520,10 @@ int main() {
 	/*
 	 * Generate the SpaceEx XML-File.
 	 */
-	if (spaceEx)
+	if (spaceEx) {
 		bicycle.toSpaceExXML("(omegaCrank > " + bicycle.toString(upperLimit) + ") and !one_one;");
+		return 0;
+	}
 
 	/*
 	 * Generate the iSat3 .hys File and start the isat solver.
