@@ -33,6 +33,7 @@ public:
 	LinearHybridAutomaton(string name);
 	virtual ~LinearHybridAutomaton();
 
+
 	void setLocations(std::vector<Location> locations);
 	void addLocation(Location location);
 	std::vector<Location> getLocations();

@@ -19,8 +19,8 @@ using namespace std;
 void scenarioSelection(ShiftSequence& shiftSequence,
 		bool& modelTimeBehavior, double& fPedMin, double& fPedMax,
 		double& targetRPM, double& deviation, double& error, string& target) {
-	Scenario scenario1{FOUR_ONE, true, 70, 70, 100, 10, 50, "two_ten;"},
-			 scenario2{FOUR_ONE, true, 30, 200, 100, 10, 50, "omegaCrank > upperLimit;"};
+	Scenario scenario1{FOUR_ONE, true, 35, 200, 100, 10, 30, "omegaCrank > upperLimit;"},
+	scenario2{TWO_ONE_TWO, true, 150, 200, 100, 10, 30, "omegaCrank > upperLimit;"};
 
 
 	std::vector<Scenario> Scenarios;
@@ -63,13 +63,13 @@ int main() {
 	double targetRPM;
 	double deviation;
 	double error;
-	bool switchTimeModel = true;
+	bool switchTimeModel = false;
 	double fPedMax;
 	double fPedMin;
 	ShiftSequence shiftSequence;
 	int shiftSequenceInt;
 	string targetString;
-	bool spaceEx = true;
+	bool spaceEx = false;
 	int input;
 #ifdef USERINPUT
 	cout << "Select scenario? (1/0):";
@@ -122,10 +122,10 @@ int main() {
 	/*
 	 * Create the strings for the target.
 	 */
-	if (targetString.compare("omegaCrank > upperLimit;") == 0)
-		targetString = "(omegaCrank > " + bicycle.toString(upperLimit) + ") and !one_one;";
-	else if (targetString.compare("omegaCrank < lowerLimit;") == 0)
+	if (targetString.compare("omegaCrank < lowerLimit;") == 0)
 		targetString = "(omegaCrank < " + bicycle.toString(lowerLimit) + ") and !one_one;";
+	else if (targetString.compare("omegaCrank > upperLimit;") == 0)
+		targetString = "(omegaCrank > " + bicycle.toString(upperLimit) + ") and !one_one;";
 
 	/*
 	 * ************************************************************************
@@ -1231,7 +1231,8 @@ int main() {
 		l15BoundsBigJump.push_back(timeDerivative);
 		if (switchTimeModel)
 			l15BoundsBigJump.push_back(tSwitchDerivative);
-	}	Location loc15BigJump(152, "one_five_big",
+	}
+	Location loc15BigJump(152, "one_five_big",
 			invBigJump15, l15BoundsBigJump, false);
 	bicycle.addLocation(loc15BigJump);
 
