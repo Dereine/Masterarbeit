@@ -33,9 +33,9 @@ double Constant::getValue() {
 }
 
 const std::string Constant::getValueString() const {
-	char tmp[10];
+	char tmp[150];
 	std::string tmpString;
-	sprintf(tmp, "%1.5f", _value);
+	sprintf(tmp, "%1.100f", _value);
 	tmpString.assign(tmp);
 	return tmpString;
 }

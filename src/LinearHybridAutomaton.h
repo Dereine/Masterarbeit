@@ -69,7 +69,7 @@ public:
 	void xmlWriteLocations(string& locations);
 	void xmlWriteEdges(string& edges);
 
-	string toString(double value);
+	string toString(double value, unsigned int digits);
 	string toString(unsigned int value);
 
 private:

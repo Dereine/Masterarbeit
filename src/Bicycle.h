@@ -19,7 +19,7 @@ using namespace std;
 #define RPEDAL		(double)0.09
 #define MU			(double)0.008
 #define RWHEEL		(double)0.305
-#define M			(double)70
+#define M			(double)90
 #define G			(double)9.81
 #define CINV		(double)0.8
 #define C1			(FPEDAL * ((RPEDAL) / (pow(RWHEEL, 2) * M)))
@@ -58,6 +58,7 @@ struct Scenario {ShiftSequence shiftSequence;
 				 double targetRPM;
 				 double deviation;
 				 double error;
+				 double switchTime;
 				 string target;};
 
 #endif /* BICYCLE_H_ */

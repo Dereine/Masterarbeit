@@ -555,6 +555,7 @@ struct isat3_node* LinearHybridAutomaton::jumps(string &hysString) {
 	Location destination;
 	Guard guard;
 	Assignment assignment;
+	Invariant destInvariant;
 	Variable variable;
 	for (size_t i = 0; i < _edges.size(); i++) {
 		edge = _edges[i];
@@ -562,12 +563,30 @@ struct isat3_node* LinearHybridAutomaton::jumps(string &hysString) {
 		destination = edge.getDestination();
 		guard = edge.getGuard();
 		assignment = edge.getAssignment();
+		destInvariant = destination.getInvariant();
+		/*
+		 * Assignment and guard.
+		 */
+		/*
 		constraint += source.getName() + " and " + destination.getName()
 				+ "' -> " + guard.toStringISat(false) + " and "
 				+ assignment.toStringISat(true);
 		hysString += "\t" + source.getName() + " and " + destination.getName()
 				+ "' -> " + guard.toStringISat(false) + " and\n\t\t\t"
 				+ assignment.toStringISat(true) + + "\n\t\t\t";
+		*/
+		constraint += source.getName() + " and " + destination.getName()
+				+ "' -> " + guard.toStringISat(false) + " and "
+				+ assignment.toStringISat(true) + " and "
+				+ destInvariant.toStringISat(true);
+		hysString += "\t" + source.getName() + " and " + destination.getName()
+				+ "' -> " + guard.toStringISat(false) + " and\n\t\t\t"
+				+ assignment.toStringISat(true) + " and\n\t\t\t"
+				+ destInvariant.toStringISat(true) + "\n\t\t\t";
+
+		/*
+		 * Variables that are not assigned stay constant.
+		 */
 		for (size_t k = 0; k < _variables.size(); k++) {
 			variable = _variables[k];
 			if (!assignment.isAssignedVariable(variable.getName()) &&
@@ -578,6 +597,9 @@ struct isat3_node* LinearHybridAutomaton::jumps(string &hysString) {
 						variable.getName() + "\n\t\t\t";
 			}
 		}
+		/*
+		 * Jumps take no time.
+		 */
 		constraint += " and (t = 0.00000);\n";
 		hysString += " and (t = 0.00000);\n";
 	}
@@ -846,28 +868,8 @@ struct isat3_node* LinearHybridAutomaton::transitionAssignment() {
 	node = isat3_node_create_from_string(_isatInstance, constraint.c_str());
 	return node;
 }
-//struct isat3_node* LinearHybridAutomaton::notFlowVariablesStayConstant() {
-//	struct isat3_node* node;
-//	string constraint = "";
-//	string variableName;
-//	Variable variable;
-//	Edge edge;
-//	for (size_t i = 0; i < _edges.size(); i++) {
-//		edge = _edges[i];
-//		variable =
-//				edge.getAssignment().getLinPreds()[i].getLinTerms()[0].getVariable();
-//		if (!variable.isFlowVariable()) {
-//			variableName = variable.getName();
-//			constraint += "(" + edge.getName() + " = 0 -> (" + variableName
-//					+ "' = " + variableName + "));";
-//		}
-//	}
-//	cout << "Not - flow - variables stay constant in locations :" << endl;
-//	cout << constraint;
-//	cout << "----------------------------------------" << endl;
-//	node = isat3_node_create_from_string(_isatInstance, constraint.c_str());
-//	return node;
-//}
+
+
 
 string LinearHybridAutomaton::setUpInitial() {
 	string initCondition = "";
@@ -1197,9 +1199,10 @@ void LinearHybridAutomaton::writeToFile() {
 	}
 }
 
-string LinearHybridAutomaton::toString(double value) {
-	char tmp[100];
-	sprintf(tmp, "%1.5f", value);
+string LinearHybridAutomaton::toString(double value, unsigned int digits) {
+	char tmp[150];
+	string format = "%1." + toString(digits) + "f";
+	sprintf(tmp, format.c_str(), value);
 	string string;
 	string.assign(tmp);
 	return string;

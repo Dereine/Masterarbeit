@@ -18,14 +18,47 @@ using namespace std;
 
 void scenarioSelection(ShiftSequence& shiftSequence,
 		bool& modelTimeBehavior, double& fPedMin, double& fPedMax,
-		double& targetRPM, double& deviation, double& error, string& target) {
-	Scenario scenario1{FOUR_ONE, true, 35, 200, 100, 10, 30, "omegaCrank > upperLimit;"},
-	scenario2{TWO_ONE_TWO, true, 150, 200, 100, 10, 30, "omegaCrank > upperLimit;"};
+		double& targetRPM, double& deviation, double& error, string& target, double& switchTime) {
+	Scenario	scenario1{FOUR_ONE, false, 100, 100, 100, 10, 0, 0.600f, "two_ten;"},
+				scenario2{FOUR_ONE, false, 50, 50, 100, 10, 0, 0.600f, "two_ten;"},
+				scenario3{FOUR_ONE, false, 50, 100, 100, 10, 0, 0.600f, "two_ten;"},
+				scenario4{FOUR_ONE, false, 100, 100, 100, 10, 0, 0.600f, "omegaCrank > upperLimit "
+						"and !(one_seven_big or one_six_big or one_five_big or one_four_big or two_ten);"},
+				scenario5{FOUR_ONE, true, 100, 100, 100, 10, 0, 0.600f, "omegaCrank > upperLimit "
+						"and !(one_seven_big or one_six_big or one_five_big or one_four_big or two_ten);"},
+				scenario6{FOUR_ONE, false, 100, 100, 100, 10, 0, 0.600f, "omegaCrank < lowerLimit "
+						"and !(two_five_big or two_six_big or two_seven_big or two_eight_big or one_one);"},
+				scenario7{FOUR_ONE, false, 50, 100, 100, 10, 0, 0.600f, "omegaCrank < lowerLimit "
+						"and !(two_five_big or two_six_big or two_seven_big or two_eight_big or one_one);"},
+				scenario8{FOUR_ONE, true, 50, 100, 100, 10, 0, 0.600f, "omegaCrank < lowerLimit "
+						"and !(two_five_big or two_six_big or two_seven_big or two_eight_big or one_one);"},
+				scenario9{FOUR_ONE, true, 20, 100, 100, 10, 20, 0.600f, "omegaCrank < lowerLimit "
+						"and !(one_one);"},
+				scenario10{TWO_ONE_TWO, true, 20, 100, 100, 10, 10, 0.600f, "omegaCrank < lowerLimit "
+						"and !(one_one);"},
+				scenario11{FOUR_ONE, true, 100, 100, 100, 10, 20, 0.600f, "omegaCrank > upperLimit "
+						"and !(two_ten);"},
+				scenario12{TWO_ONE_TWO, true, 100, 100, 100, 10, 20, 0.600f, "omegaCrank > upperLimit "
+						"and !(two_ten);"};
+	//scenario2{TWO_ONE_TWO, true, 150, 200, 100, 10, 30, "omegaCrank > upperLimit;"};
+	//scenario3{FOUR_ONE, false, 150, 200, 100, 10, 30, "omegaCrank > upperLimit;"};
 
 
 	std::vector<Scenario> Scenarios;
 	Scenarios.push_back(scenario1);
 	Scenarios.push_back(scenario2);
+	Scenarios.push_back(scenario3);
+	Scenarios.push_back(scenario4);
+	Scenarios.push_back(scenario5);
+	Scenarios.push_back(scenario6);
+	Scenarios.push_back(scenario7);
+	Scenarios.push_back(scenario8);
+	Scenarios.push_back(scenario9);
+	Scenarios.push_back(scenario10);
+	Scenarios.push_back(scenario11);
+	Scenarios.push_back(scenario12);
+
+
 
 	int input;
 	cout << "Please select a scenario" << endl;
@@ -53,6 +86,7 @@ void scenarioSelection(ShiftSequence& shiftSequence,
 	deviation = chosenScenario.deviation;
 	error = chosenScenario.error;
 	target = chosenScenario.target;
+	switchTime = chosenScenario.switchTime;
 }
 
 int main() {
@@ -66,6 +100,7 @@ int main() {
 	bool switchTimeModel = false;
 	double fPedMax;
 	double fPedMin;
+	double switchingTime = 0.600f;
 	ShiftSequence shiftSequence;
 	int shiftSequenceInt;
 	string targetString;
@@ -76,7 +111,7 @@ int main() {
 	cin >> input;
 	if (input) {
 		scenarioSelection(shiftSequence, switchTimeModel, fPedMin, fPedMax,
-				targetRPM, deviation, error, targetString);
+				targetRPM, deviation, error, targetString, switchingTime);
 	} else {
 		cout << "Please enter a max F_ped" << endl;
 		cin >> fPedMax;
@@ -104,7 +139,7 @@ int main() {
 	targetUpper = ((targetRPM + deviation) * 6.28f) / 60.0f;
 	targetLower = ((targetRPM - deviation) * 6.28f) / 60.0f;
 	upperLimit = targetUpper * (1 + (error / 100.0f));
-	lowerLimit = targetUpper * (1 - (error / 100.0f));
+	lowerLimit = targetLower * (1 - (error / 100.0f));
 #endif
 
 #ifndef USERINPUT
@@ -122,10 +157,15 @@ int main() {
 	/*
 	 * Create the strings for the target.
 	 */
-	if (targetString.compare("omegaCrank < lowerLimit;") == 0)
-		targetString = "(omegaCrank < " + bicycle.toString(lowerLimit) + ") and !one_one;";
-	else if (targetString.compare("omegaCrank > upperLimit;") == 0)
-		targetString = "(omegaCrank > " + bicycle.toString(upperLimit) + ") and !one_one;";
+	string replaceString;
+	if (targetString.find("lowerLimit") != string::npos) {
+		replaceString = "lowerLimit";
+		targetString.replace(targetString.find(replaceString), replaceString.length(), bicycle.toString(lowerLimit, 100));
+		//targetString = "(omegaCrank < " + bicycle.toString(lowerLimit) + ") and !one_one;";
+	} else if (targetString.find("upperLimit") != string::npos) {
+		replaceString = "upperLimit";
+		targetString.replace(targetString.find(replaceString), replaceString.length(), bicycle.toString(upperLimit, 100));
+	}
 
 	/*
 	 * ************************************************************************
@@ -135,7 +175,7 @@ int main() {
 
 	Constant timeDelta("deltaT", DELTANR);
 
-	Constant switchTimeThreshold("switchTime", 0.400f);
+	Constant switchTimeThreshold("switchTime", switchingTime);
 
 	Constant one("one", 1.0f);
 	bicycle.addConstant(one);
@@ -1535,7 +1575,13 @@ int main() {
 		//bicycle.toHysFile("two_nine;");
 		//bicycle.toHysFile("(omegaCrank > " + bicycle.toString(upperLimit) + ") and !one_one;");
 		bicycle.toHysFile(targetString);
-		system("./isat3 -I -v -v --start-depth 0 --max-depth 150 LHA.hys");
+		cout << "Generated .hys File OK? Please enter BMC-depth!";
+		unsigned int depth;
+		cin >> depth;
+		string systemcall = "./isat3 -I -v -v --start-depth 0 --max-depth " +
+				bicycle.toString(depth) + " LHA.hys";
+		//system("./isat3 -I -v -v --start-depth 0 --max-depth 150 LHA.hys");
+		system(systemcall.c_str());
 		return 0;
 	}
 	bicycle.setUpVariables();
