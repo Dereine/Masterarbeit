@@ -24,21 +24,23 @@ void scenarioSelection(ShiftSequence& shiftSequence,
 				scenario3{FOUR_ONE, false, 50, 100, 100, 10, 0, 0.600f, "two_ten;"},
 				scenario4{FOUR_ONE, false, 100, 100, 100, 10, 0, 0.600f, "omegaCrank > upperLimit "
 						"and !(one_seven_big or one_six_big or one_five_big or one_four_big or two_ten);"},
-				scenario5{FOUR_ONE, true, 100, 100, 100, 10, 0, 0.600f, "omegaCrank > upperLimit "
-						"and !(one_seven_big or one_six_big or one_five_big or one_four_big or two_ten);"},
-				scenario6{FOUR_ONE, false, 100, 100, 100, 10, 0, 0.600f, "omegaCrank < lowerLimit "
+				scenario5{FOUR_ONE, false, 100, 100, 100, 10, 0, 0.600f, "omegaCrank < lowerLimit "
 						"and !(two_five_big or two_six_big or two_seven_big or two_eight_big or one_one);"},
-				scenario7{FOUR_ONE, false, 50, 100, 100, 10, 0, 0.600f, "omegaCrank < lowerLimit "
+				/*scenario6{FOUR_ONE, false, 50, 100, 100, 10, 0, 0.600f, "omegaCrank < lowerLimit "
 						"and !(two_five_big or two_six_big or two_seven_big or two_eight_big or one_one);"},
-				scenario8{FOUR_ONE, true, 50, 100, 100, 10, 0, 0.600f, "omegaCrank < lowerLimit "
+				*/
+				scenario6{FOUR_ONE, true, 100, 100, 100, 10, 0, 2.500f, "two_ten;"},
+				scenario7{FOUR_ONE, true, 150, 150, 30, 10, 0, 0.600f, "two_ten;"},
+				/*scenario8{FOUR_ONE, true, 50, 100, 100, 10, 0, 0.600f, "omegaCrank < lowerLimit "
 						"and !(two_five_big or two_six_big or two_seven_big or two_eight_big or one_one);"},
-				scenario9{FOUR_ONE, true, 20, 100, 100, 10, 20, 0.600f, "omegaCrank < lowerLimit "
-						"and !(one_one);"},
-				scenario10{TWO_ONE_TWO, true, 20, 100, 100, 10, 10, 0.600f, "omegaCrank < lowerLimit "
-						"and !(one_one);"},
-				scenario11{FOUR_ONE, true, 100, 100, 100, 10, 20, 0.600f, "omegaCrank > upperLimit "
+				*/
+				scenario8{FOUR_ONE, true, 100, 100, 100, 10, 20, 0.600f, "omegaCrank > upperLimit "
 						"and !(two_ten);"},
-				scenario12{TWO_ONE_TWO, true, 100, 100, 100, 10, 20, 0.600f, "omegaCrank > upperLimit "
+				scenario9{TWO_ONE_TWO, true, 100, 100, 100, 10, 20, 0.600f, "omegaCrank > upperLimit "
+						"and !(one_one);"},
+				scenario10{FOUR_ONE, true, 100, 100, 100, 10, 20, 0.600f, "omegaCrank > upperLimit "
+						"and !(two_ten);"},
+				scenario11{TWO_ONE_TWO, true, 100, 100, 100, 10, 20, 0.600f, "omegaCrank > upperLimit "
 						"and !(two_ten);"};
 	//scenario2{TWO_ONE_TWO, true, 150, 200, 100, 10, 30, "omegaCrank > upperLimit;"};
 	//scenario3{FOUR_ONE, false, 150, 200, 100, 10, 30, "omegaCrank > upperLimit;"};
@@ -56,7 +58,6 @@ void scenarioSelection(ShiftSequence& shiftSequence,
 	Scenarios.push_back(scenario9);
 	Scenarios.push_back(scenario10);
 	Scenarios.push_back(scenario11);
-	Scenarios.push_back(scenario12);
 
 
 
@@ -104,9 +105,13 @@ int main() {
 	ShiftSequence shiftSequence;
 	int shiftSequenceInt;
 	string targetString;
-	bool spaceEx = false;
+	bool spaceEx = true;
 	int input;
 #ifdef USERINPUT
+	cout << "Bicycle Model-Generator V 1.0 by Johannes Scherle" << endl;
+	cout << "Generate iSat .hys-File (0) or SpaceEx .xml File (1)?" << endl;
+	cin >> input;
+	spaceEx = input ? true : false;
 	cout << "Select scenario? (1/0):";
 	cin >> input;
 	if (input) {
@@ -774,9 +779,6 @@ int main() {
 	Assignment assign13;
 	assign13.addLinPred(linPredRatio13);
 	assign13.addAssignedVariable(omegaCrank);
-	//assign13.addLinPred(tEqualsZero);
-	//assign13.addAssignedVariable(omegaCrank);
-	//assign13.addAssignedVariable(t);
 	if (switchTimeModel && !spaceEx) {
 		assign13.addLinPred(tGreaterThreshold);
 		assign13.addAssignedVariable(t);
@@ -892,16 +894,6 @@ int main() {
 		assign14BigUp.addAssignedVariable(tSwitch);
 	}
 
-//	Assignment assign24BigUp;
-//	assign24BigUp.addLinPred(linPredRatio24);
-//	assign24BigUp.addAssignedVariable(omegaCrank);
-//	assign24BigUp.addLinPred(bigJumpEqualsOne);
-//	assign24BigUp.addAssignedVariable(bigJump);
-//	if (switchTimeModel && !spaceEx) {
-//		assign24BigUp.addLinPred(tGreaterThreshold);
-//		assign24BigUp.addAssignedVariable(t);
-//	}
-
 	Assignment assign25BigUp;
 	assign25BigUp.addLinPred(linPredRatio25);
 	assign25BigUp.addAssignedVariable(omegaCrank);
@@ -1001,16 +993,6 @@ int main() {
 		assign28BigDown.addLinPred(tSwitchEqualZero);
 		assign28BigDown.addAssignedVariable(tSwitch);
 	}
-
-//	Assignment assign18BigDown;
-//	assign18BigDown.addLinPred(linPredRatio18);
-//	assign18BigDown.addAssignedVariable(omegaCrank);
-//	assign18BigDown.addLinPred(bigJumpEqualsZero);
-//	assign18BigDown.addAssignedVariable(bigJump);
-//	if (switchTimeModel && !spaceEx) {
-//		assign18BigDown.addLinPred(tGreaterThreshold);
-//		assign18BigDown.addAssignedVariable(t);
-//	}
 
 	Assignment assign16BigDown;
 	assign16BigDown.addLinPred(linPredRatio16);
@@ -1369,7 +1351,7 @@ int main() {
 	vector <Bound> l25BoundsBigJump;
 	//l25BoundsBigJump.push_back(bigJumpBoundsOmega);
 	l25BoundsBigJump.push_back(l25Omega);
-	l25Bounds.push_back(bigJumpBound);
+	l25BoundsBigJump.push_back(bigJumpBound);
 	if (spaceEx) {
 		l25BoundsBigJump.push_back(timeDerivative);
 		if (switchTimeModel)
