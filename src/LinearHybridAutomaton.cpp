@@ -240,13 +240,13 @@ struct isat3_node* LinearHybridAutomaton::flows(string &hysString) {
 			upper = bound.getConstantUp();
 			lower = bound.getConstantLow();
 			constraint += variableName + "' >= " + variableName + " + "
-					+ lower.getValueString() + " * " + "t" + " and\n\t\t\t"
+					+ lower.getValueString(CONSTANT_DIGITS) + " * " + "t" + " and\n\t\t\t"
 					+ variableName + "' <= " + variableName + " + "
-					+ upper.getValueString() + " * " + "t" + " and\n\t\t\t";
+					+ upper.getValueString(CONSTANT_DIGITS) + " * " + "t" + " and\n\t\t\t";
 			hysString += variableName + "' >= " + variableName + " + "
-					+ lower.getValueString() + " * " + "t" + " and\n\t\t\t"
+					+ lower.getValueString(CONSTANT_DIGITS) + " * " + "t" + " and\n\t\t\t"
 					+ variableName + "' <= " + variableName + " + "
-					+ upper.getValueString() + " * " + "t" + " and\n\t\t\t";
+					+ upper.getValueString(CONSTANT_DIGITS) + " * " + "t" + " and\n\t\t\t";
 		}
 		invariant = location.getInvariant();
 		linPreds = invariant.getLinPreds();

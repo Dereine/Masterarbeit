@@ -32,11 +32,15 @@ double Constant::getValue() {
 	return _value;
 }
 
-const std::string Constant::getValueString() const {
+const std::string Constant::getValueString(const unsigned int digits) const {
+	char tmp2[7];
+	sprintf(tmp2, "%u", digits);
+	string string;
+	string.assign(tmp2);
 	char tmp[150];
-	std::string tmpString;
-	//sprintf(tmp, "%1.100f", _value);
-	sprintf(tmp, "%1.5f", _value);
+	std::string tmpString = "%1." + string + "f";
+	sprintf(tmp, tmpString.c_str(), _value);
+	tmpString = "";
 	tmpString.assign(tmp);
 	return tmpString;
 }

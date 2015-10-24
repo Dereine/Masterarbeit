@@ -12,13 +12,6 @@ Bound::Bound() {
 
 }
 
-
-//Bound::Bound(Constant constant, Variable variable, LowOrUp lowerOrUpper) {
-//	_constant = constant;
-//	_variable = variable;
-//	_lowerOrUpper = lowerOrUpper;
-//}
-
 Bound::~Bound() {
 	// TODO Auto-generated destructor stub
 }

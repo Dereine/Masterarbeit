@@ -11,21 +11,25 @@
 #include <string>
 #include <cstdio>
 
+#define CONSTANT_DIGITS 100
+
+using namespace std;
+
 class Constant {
 public:
 	Constant();
-	Constant(std::string name, double value);
+	Constant(string name, double value);
 	virtual ~Constant();
 
-	std::string getName();
-	void setName(std::string name);
+	string getName();
+	void setName(string name);
 
 	double getValue();
-	const std::string getValueString() const;
+	const string getValueString(const unsigned int digits) const;
 	void setValue(double value);
 
 private:
-	std::string _name;
+	string _name;
 	double _value;
 };
 

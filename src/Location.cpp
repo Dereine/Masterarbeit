@@ -73,9 +73,9 @@ void Location::flowToSpaceExXML(string& flowString) {
 		//else
 			//flowString += "&amp; "
 		flowString += bound.getVariable().getName() + "' &gt;= "  +
-				bound.getConstantLow().getValueString() + "\n&amp;" +
+				bound.getConstantLow().getValueString(CONSTANT_DIGITS) + "\n&amp;" +
 				bound.getVariable().getName() + "' &lt;= "  +
-				bound.getConstantUp().getValueString() + "\n";
+				bound.getConstantUp().getValueString(CONSTANT_DIGITS) + "\n";
 	}
 	LinearPredicate linPred;
 	for (size_t i = 0; i < _invariant.getLinPreds().size(); i++) {

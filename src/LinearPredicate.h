@@ -13,16 +13,21 @@
 #include "Constant.h"
 #include <vector>
 
+using namespace std;
+
 class LinearPredicate {
 public:
 	enum Relation {LESS, GREATER, GEQ, LEQ, EQUAL};
 	LinearPredicate();
-	LinearPredicate(const std::vector<LinearTerm>& linTerms,
+	LinearPredicate(const vector<LinearTerm>& linTerms,
 			LinearPredicate::Relation relation, Constant constant);
 	virtual ~LinearPredicate();
 
-	const std::vector<LinearTerm>& getLinTerms() const;
-	void setLinTerms(const std::vector<LinearTerm>& linTerms);
+	/*
+	 * Setters and getters
+	 */
+	const vector<LinearTerm>& getLinTerms() const;
+	void setLinTerms(const vector<LinearTerm>& linTerms);
 
 	Relation getRelation() const;
 	void setRelation(Relation relation);
@@ -30,19 +35,23 @@ public:
 	const Constant& getConstant() const;
 	void setConstant(const Constant& constant);
 
-	// Returns the linear predicate in human readable form.
-	const std::string toString(bool prime) const;
-	const std::string toStringSpaceExXML(bool prime, bool assignment) const;
-	const std::string relationToString(Relation relation) const;
-	const std::string relationToStringSpaceExXML() const;
 	bool isFlow() const;
 	void setFlow(bool flow);
 
+	/*
+	 * Returns the linear predicate in String form.
+	 * One Version for iSat and one for SpaceEx.
+	 */
+	const string toString(bool prime) const;
+	const string toStringSpaceExXML(bool prime, bool assignment) const;
+	const string relationToString(Relation relation) const;
+	const string relationToStringSpaceExXML() const;
+
 private:
-	std::vector<LinearTerm> _linTerms;
-	Relation 				_relation;
-	Constant 				_constant;
-	bool 					_flow;
+	vector<LinearTerm> 	_linTerms;
+	Relation 			_relation;
+	Constant 			_constant;
+	bool 				_flow;
 };
 
 #endif /* LINEARPREDICATE_H_ */

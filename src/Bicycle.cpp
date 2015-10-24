@@ -2,8 +2,9 @@
 // Name        : Bicycle_New.cpp
 // Author      : Johannes Scherle
 // Version     :
-// Copyright   : Your copyright notice
-// Description : Hello World in C++, Ansi-style
+// Copyright   : Johannes Scherle, University of Freiburg,
+//				 johannes.scherle@gmail.com
+// Description : This is the main program of my master thesis, as described.
 //============================================================================
 
 #include <iostream>
@@ -26,14 +27,8 @@ void scenarioSelection(ShiftSequence& shiftSequence,
 						"and !(one_seven_big or one_six_big or one_five_big or one_four_big or two_ten);"},
 				scenario5{FOUR_ONE, false, 100, 100, 100, 10, 0, 0.600f, "omegaCrank < lowerLimit "
 						"and !(two_five_big or two_six_big or two_seven_big or two_eight_big or one_one);"},
-				/*scenario6{FOUR_ONE, false, 50, 100, 100, 10, 0, 0.600f, "omegaCrank < lowerLimit "
-						"and !(two_five_big or two_six_big or two_seven_big or two_eight_big or one_one);"},
-				*/
 				scenario6{FOUR_ONE, true, 100, 100, 100, 10, 0, 2.500f, "two_ten;"},
 				scenario7{FOUR_ONE, true, 150, 150, 30, 10, 0, 0.600f, "two_ten;"},
-				/*scenario8{FOUR_ONE, true, 50, 100, 100, 10, 0, 0.600f, "omegaCrank < lowerLimit "
-						"and !(two_five_big or two_six_big or two_seven_big or two_eight_big or one_one);"},
-				*/
 				scenario8{FOUR_ONE, true, 100, 100, 100, 10, 20, 0.600f, "omegaCrank > upperLimit "
 						"and !(two_ten);"},
 				scenario9{TWO_ONE_TWO, true, 100, 100, 100, 10, 20, 0.600f, "omegaCrank > upperLimit "
@@ -42,9 +37,6 @@ void scenarioSelection(ShiftSequence& shiftSequence,
 						"and !(two_ten);"},
 				scenario11{TWO_ONE_TWO, true, 100, 100, 100, 10, 20, 0.600f, "omegaCrank > upperLimit "
 						"and !(two_ten);"};
-	//scenario2{TWO_ONE_TWO, true, 150, 200, 100, 10, 30, "omegaCrank > upperLimit;"};
-	//scenario3{FOUR_ONE, false, 150, 200, 100, 10, 30, "omegaCrank > upperLimit;"};
-
 
 	std::vector<Scenario> Scenarios;
 	Scenarios.push_back(scenario1);
@@ -217,7 +209,8 @@ int main() {
 	bicycle.addConstant(cDrive11);
 	Constant cDrive11Up("cDrive11Up", fPedMax * C1_1 * (TEETHR1 / TEETHF1) - C2);
 	bicycle.addConstant(cDrive11Up);
-	Constant cDrive11Low("cDrive11Low", fPedMin * C1_1 * (TEETHR1 / TEETHF1) - C2);
+	double value = fPedMin * C1_1 * (TEETHR1 / TEETHF1) - C2;
+	Constant cDrive11Low("cDrive11Low", value < 0 ? 0 : value);
 	bicycle.addConstant(cDrive11Low);
 
 	Constant cDrive12("cDrive12", C1 * (TEETHR2 / TEETHF1) - C2);
