@@ -17,7 +17,7 @@ public:
 	Guard();
 	Guard(vector<LinearPredicate> linPreds);
 	virtual ~Guard();
-	void toStringSpaceExXML(string& guardString);
+	void toStringSpaceExXML(string& guardString) const;
 };
 
 #endif /* GUARD_H_ */

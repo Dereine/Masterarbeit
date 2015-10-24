@@ -39,14 +39,6 @@ void Bound::setConstantLow(const Constant& constant) {
 	_constantLow = constant;
 }
 
-//Bound::LowOrUp Bound::getLowerOrUpper() const {
-//	return _lowerOrUpper;
-//}
-//
-//void Bound::setLowerOrUpper(LowOrUp lowerOrUpper) {
-//	_lowerOrUpper = lowerOrUpper;
-//}
-
 const Variable Bound::getVariable() const {
 //Variable Bound::getVariable() const {
 	return _variable;

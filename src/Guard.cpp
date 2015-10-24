@@ -19,7 +19,7 @@ Guard::~Guard() {
 	// TODO Auto-generated destructor stub
 }
 
-void Guard::toStringSpaceExXML(string& guardString) {
+void Guard::toStringSpaceExXML(string& guardString) const {
 	guardString += "      <guard> ";
 	bool firstElement = true;
 	LinearPredicate linPred;

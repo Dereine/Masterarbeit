@@ -19,7 +19,7 @@ public:
 	virtual ~LinearPredicateConjunct();
 	const vector<LinearPredicate>& getLinPreds() const;
 	void setLinPreds(const vector<LinearPredicate>& linPreds);
-	void addLinPred(LinearPredicate linPred);
+	void addLinPred(const LinearPredicate& linPred);
 	string toStringISat(bool prime);
 
 protected:

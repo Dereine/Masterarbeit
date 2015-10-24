@@ -23,9 +23,10 @@
 #include <isat3.h>
 #include <isat3types.h>
 #include <string>
-//#include <sstream>
 #include <iostream>
 #include <cstdio>
+
+using namespace std;
 
 class LinearHybridAutomaton {
 public:
@@ -33,27 +34,30 @@ public:
 	LinearHybridAutomaton(string name);
 	virtual ~LinearHybridAutomaton();
 
+	/*
+	 * Getter and Setter methods.
+	 */
+	void setLocations(const vector<Location>& locations);
+	void addLocation(const Location& location);
+	vector<Location> getLocations();
 
-	void setLocations(std::vector<Location> locations);
-	void addLocation(Location location);
-	std::vector<Location> getLocations();
+	void setEdges(const vector<Edge>& locations);
+	void addEdge(const Edge& edge);
+	vector<Edge> getEdges();
 
-	void setEdges(std::vector<Edge> locations);
-	void addEdge(Edge edge);
-	std::vector<Edge> getEdges();
+	void setVariables(const vector<Variable>& variables);
+	vector<Variable> getVariables();
+	void addVariable(const Variable& variable);
 
-	void setVariables(std::vector<Variable> variables);
-	std::vector<Variable> getVariables();
-	void addVariable(Variable variable);
-
-	const std::vector<Constant>& getConstants() const;
-	void setConstants(const std::vector<Constant>& constants);
+	const vector<Constant>& getConstants() const;
+	void setConstants(const vector<Constant>& constants);
 	void addConstant(Constant constant);
 
-	void toIsat3BMC();
+	/*
+	 * iSat3 Methods
+	 */
 	void setUpIsat3();
-	string setUpVariables();
-	void setUpConstants();
+
 	string setUpInitial();
 	string setTarget(LinearPredicate target);
 	string setTarget(string target);
@@ -61,29 +65,30 @@ public:
 	void solveBMCIsat();
 	string printBMCResultIsat(unsigned int numberOfTimeframes);
 	void writeToFile();
-	void toHysFile(LinearPredicate target);
-	void toHysFile(string target);
+	void toHysFile(const LinearPredicate& target);
+	void toHysFile(const string& target);
 
+	/*
+	 * SpaceEx Methods
+	 */
 	void toSpaceExXML(const string& target);
 	void xmlWriteParams(string& params);
 	void xmlWriteLocations(string& locations);
 	void xmlWriteEdges(string& edges);
 
-	string toString(double value, unsigned int digits);
-	string toString(unsigned int value);
+	const string toString(const double value, const unsigned int digits);
+	const string toString(const unsigned int value);
 
 private:
-	std::vector<Location>	_locations;
-	std::vector<Edge>		_edges;
-	std::vector<Variable>	_variables;
-	std::vector<Constant>	_constants;
-	string _name;
+	vector<Location>	_locations;
+	vector<Edge>		_edges;
+	vector<Variable>	_variables;
+	vector<Constant>	_constants;
+	string 				_name;
 
-	FILE * _hysFile;
-	bool _hysFileActive;
-
-	FILE * _spaceExXMLFile;
-
+	FILE * 	_hysFile;
+	bool 	_hysFileActive;
+	FILE * 	_spaceExXMLFile;
 
 	/*
 	 * iSat3 Stuff
@@ -92,47 +97,30 @@ private:
 	i3_type_t _tframe;
 
 	struct isat3* 					_isatInstance;
-	std::vector<struct isat3_node*> _isatConstants;
-	std::vector<struct isat3_node*> _isatConstantsDefines;
-	std::vector<struct isat3_node*> _isatVariables;
-	std::map<string, struct isat3_node*> _variableNodeMap;
-	std::map<string, struct isat3_node*> _locatioNodeMap;
-	std::map<string, struct isat3_node*> _edgeNodeMap;
-	i3_type_t _result;
+	vector<struct isat3_node*>		_isatConstants;
+	vector<struct isat3_node*> 		_isatConstantsDefines;
+	vector<struct isat3_node*> 		_isatVariables;
+	map<string, struct isat3_node*> _variableNodeMap;
+	map<string, struct isat3_node*> _locatioNodeMap;
+	map<string, struct isat3_node*> _edgeNodeMap;
+	i3_type_t 						_result;
 
 	struct isat3_node* _init;
 	struct isat3_node* _bmcFormula;
 	struct isat3_node* _target;
 
 	/*
-	 * Fränzle encoding 1 paper
+     * iSat3 Methods
 	 */
-	struct isat3_node* exactlyOneState();
+	string setUpVariables();
+	void setUpConstants();
 	struct isat3_node* exactlyOneLocation(string &hysString);
-	struct isat3_node* exactlyOneTransition();
-	struct isat3_node* asMostOneTransition();
-	struct isat3_node* continuousStateComponents();
-	struct isat3_node* jumpsNoTime();
-	struct isat3_node* jumpsNoTime2();
-	struct isat3_node* assignmentAndNoTime();
-	struct isat3_node* invariantHoldsEntry();
-	struct isat3_node* invariantHoldsExit() ;
-	struct isat3_node* transitionStateChange();
-	struct isat3_node* transitionGuard();
-	struct isat3_node* transitionAssignment();
-	struct isat3_node* stayInLocation();
-	struct isat3_node* notFlowVariablesStayConstant();
-
-	/*
-	 * Fränzle encoding presentation
-	 */
 	struct isat3_node* jumps(string &hysString);
 	struct isat3_node* flows(string &hysString);
 	struct isat3_node* alternationAndSucessor(string &hysString);
 	string printIntervalOfVariableISat(string variableName,
 			unsigned int tframe);
 	string printTruthValueOfVariable(string variableName, unsigned int tframe);
-	void modifiedFraenzle();
 	string setUpLocationVariables();
 	string setUpEdgeVariables();
 };

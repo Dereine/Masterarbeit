@@ -13,43 +13,45 @@
 #include <string>
 #include <vector>
 
+using namespace std;
+
 class Location {
 
 public:
 	Location();
-	Location(int id, std::string name, Invariant invariant,
-			std::vector<Bound> bounds, bool initial);
+	Location(int id, string name, Invariant invariant,
+			vector<Bound> bounds, bool initial);
 	virtual ~Location();
 
-	unsigned int getId();
+	/*
+	 * Setters and getters
+	 */
+	const unsigned int getId() const;
 	void setId(int id);
 
-	Constant getMinSlope();
-	void setMinSlope(Constant minSlope);
-
-	Constant getMaxSlope();
-	void setMaxSlope(Constant maxSlope);
-
-	const std::string& getName() const;
-	void setName(const std::string& name);
+	const string& getName() const;
+	void setName(const string& name);
 
 	const Invariant& getInvariant() const;
 	void setInvariant(const Invariant& invariant);
 
-	const std::vector<Bound>& getBounds() const;
-	void setBounds(const std::vector<Bound>& bounds);
+	const vector<Bound>& getBounds() const;
+	void setBounds(const vector<Bound>& bounds);
 
 	bool isInitial() const;
 	void setInitial(bool initial);
 
+	/*
+	 * Creates a string of the flow for SpaceEx.
+	 */
 	void flowToSpaceExXML(string& flowString);
 
 private:
-	unsigned int		_id;
-	std::string 		_name;
-	Invariant 			_invariant;
-	std::vector<Bound> 	_bounds;
-	bool 				_initial;
+	unsigned int	_id;
+	string 			_name;
+	Invariant 		_invariant;
+	vector<Bound> 	_bounds;
+	bool 			_initial;
 	
 };
 

@@ -30,7 +30,7 @@ void LinearPredicateConjunct::setLinPreds(
 	_linPreds = linPreds;
 }
 
-void LinearPredicateConjunct::addLinPred(LinearPredicate linPred) {
+void LinearPredicateConjunct::addLinPred(const LinearPredicate& linPred) {
 	_linPreds.push_back(linPred);
 }
 

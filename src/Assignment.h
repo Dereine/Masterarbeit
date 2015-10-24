@@ -21,8 +21,9 @@ public:
 	const map<string, Variable>& getAssignedVariables() const;
 	void setAssignedVariables(const vector<Variable>& assignedVariables);
 	void addAssignedVariable(Variable assignedVariable);
-	bool isAssignedVariable(const string& variableName);
-	void toStringSpaceExXML(string& assignmentString, const std::vector<Variable>& variables);
+	bool isAssignedVariable(const string& variableName) const;
+	void toStringSpaceExXML(string& assignmentString,
+			const vector<Variable>& variables) const;
 
 private:
 	map<string, Variable> _assignedVariables;

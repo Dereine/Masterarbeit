@@ -36,12 +36,13 @@ void Assignment::addAssignedVariable(Variable assignedVariable) {
 	_assignedVariables[assignedVariable.getName()] = (assignedVariable);
 }
 
-bool Assignment::isAssignedVariable(const string& variableName) {
-	map<string, Variable>::iterator it = _assignedVariables.find(variableName);
+bool Assignment::isAssignedVariable(const string& variableName) const {
+	map<string, Variable>::const_iterator it = _assignedVariables.find(variableName);
 	return (it != _assignedVariables.end());
 }
 
-void Assignment::toStringSpaceExXML(string& assignmentString, const std::vector<Variable>& variables) {
+void Assignment::toStringSpaceExXML(string& assignmentString,
+		const std::vector<Variable>& variables) const {
 	assignmentString += "      <assignment> ";
 	bool firstElement = true;
 	LinearPredicate linPred;

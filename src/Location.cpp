@@ -10,8 +10,8 @@
 Location::Location() {
 }
 
-Location::Location(int id, std::string name, Invariant invariant,
-		std::vector<Bound> bounds, bool initial) {
+Location::Location(int id, string name, Invariant invariant,
+		vector<Bound> bounds, bool initial) {
 	_id = id;
 	_bounds = bounds;
 	_invariant = invariant;
@@ -23,7 +23,7 @@ Location::~Location() {
 	// TODO Auto-generated destructor stub
 }
 
-unsigned int Location::getId() {
+const unsigned int Location::getId() const {
 	return _id;
 }
 
@@ -31,11 +31,11 @@ void Location::setId(int id) {
 	this->_id = id;
 }
 
-const std::string& Location::getName() const {
+const string& Location::getName() const {
 	return _name;
 }
 
-void Location::setName(const std::string& name) {
+void Location::setName(const string& name) {
 	_name = name;
 }
 
@@ -47,11 +47,11 @@ void Location::setInvariant(const Invariant& invariant) {
 	_invariant = invariant;
 }
 
-const std::vector<Bound>& Location::getBounds() const {
+const vector<Bound>& Location::getBounds() const {
 	return _bounds;
 }
 
-void Location::setBounds(const std::vector<Bound>& bounds) {
+void Location::setBounds(const vector<Bound>& bounds) {
 	_bounds = bounds;
 }
 

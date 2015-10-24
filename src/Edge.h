@@ -19,33 +19,40 @@ using namespace std;
 class Edge {
 public:
 	Edge();
-	Edge(Location source, Location destination, Guard guard,
-			Assignment assignment, string name);
+	/*
+	 * Constructors
+	 */
+	Edge(const Location& source, const Location& destination, const Guard& guard,
+			const Assignment assignment, const string name);
 
-	Edge(Location source, Location destination, Guard guard,
-			string name);
+	Edge(const Location& source, const Location& destination, const Guard& guard,
+			const string name);
 
-	Edge(Location source, Location destination, Assignment assignment,
-			string name);
+	Edge(const Location& source, const Location& destination, const Assignment& assignment,
+			const string name);
 
-	Edge(Location source, Location destination, string name);
+	Edge(const Location& source, const Location& destination, const string& name);
 
 	virtual ~Edge();
 
-	void setSource(Location source);
-	Location getSource();
+	/*
+	 * Setters and getters
+	 */
+	void setSource(const Location& source);
+	const Location& getSource();
 
-	void setDestination(Location destination);
-	Location getDestination();
+	void setDestination(const Location& destination);
+	const Location& getDestination();
 
-	void setGuard(Guard guard);
-	Guard getGuard();
+	void setGuard(const Guard& guard);
+	const Guard& getGuard();
 
-	void setAssignment(Assignment assignment);
-	Assignment getAssignment();
+	void setAssignment(const Assignment& assignment);
+	const Assignment& getAssignment();
 
-	const string& getName() const;
 	void setName(const string& name);
+	const string& getName() const;
+
 	bool isHasAssignment() const;
 	void setHasAssignment(bool hasAssignment);
 	bool isHasGuard() const;

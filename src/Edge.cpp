@@ -8,12 +8,11 @@
 #include "Edge.h"
 
 Edge::Edge() {
-	// TODO Auto-generated constructor stub
 }
 
 
-Edge::Edge(Location source, Location destination, Guard guard,
-		Assignment assignment, string name) {
+Edge::Edge(const Location& source, const Location& destination, const Guard& guard,
+		const Assignment assignment, const string name) {
 	_source = source;
 	_destination = destination;
 	_guard = guard;
@@ -23,8 +22,8 @@ Edge::Edge(Location source, Location destination, Guard guard,
 	_hasGuard = true;
 }
 
-Edge::Edge(Location source, Location destination, Guard guard,
-		string name) {
+Edge::Edge(const Location& source, const Location& destination, const Guard& guard,
+		const string name) {
 	_source = source;
 	_destination = destination;
 	_guard = guard;
@@ -33,8 +32,8 @@ Edge::Edge(Location source, Location destination, Guard guard,
 	_hasGuard = true;
 }
 
-Edge::Edge(Location source, Location destination, Assignment assignment,
-		string name) {
+Edge::Edge(const Location& source, const Location& destination, const Assignment& assignment,
+		const string name) {
 	_source = source;
 	_destination = destination;
 	_assignment = assignment;
@@ -43,7 +42,7 @@ Edge::Edge(Location source, Location destination, Assignment assignment,
 	_hasGuard = false;
 }
 
-Edge::Edge(Location source, Location destination, string name) {
+Edge::Edge(const Location& source, const Location& destination, const string& name) {
 	_source = source;
 	_destination = destination;
 	_name = name;
@@ -57,31 +56,33 @@ Edge::~Edge() {
 	// TODO Auto-generated destructor stub
 }
 
-void Edge::setSource(Location source) {
+void Edge::setSource(const Location& source) {
 	_source = source;
 }
-Location Edge::getSource() {
+const Location& Edge::getSource() {
 	return _source;
 }
 
-void Edge::setDestination(Location destination) {
+void Edge::setDestination(const Location& destination) {
 	_destination = destination;
 }
-Location Edge::getDestination() {
+
+const Location& Edge::getDestination() {
 	return _destination;
 }
 
-void Edge::setGuard(Guard guard) {
+void Edge::setGuard(const Guard& guard) {
 	_guard = guard;
 }
-Guard Edge::getGuard() {
+
+const Guard& Edge::getGuard() {
 	return _guard;
 }
 
-void Edge::setAssignment(Assignment assignment) {
+void Edge::setAssignment(const Assignment& assignment) {
 	_assignment = assignment;
 }
-Assignment Edge::getAssignment() {
+const Assignment& Edge::getAssignment() {
 	return _assignment;
 }
 
